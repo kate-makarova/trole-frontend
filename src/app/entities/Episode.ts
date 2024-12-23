@@ -1,5 +1,6 @@
 import {Character} from './Character';
 import {Game} from './Game';
+import {Post} from './Post';
 
 export class Episode {
   id: number;
@@ -13,6 +14,7 @@ export class Episode {
   image: string | null;
   characters:Character[]
   gameId: number;
+  posts: Post[] = []
 
   constructor(id: number,
               title: string,
@@ -24,7 +26,8 @@ export class Episode {
               lastPostCharacterName: string,
               characters: Character[],
               gameId: number,
-              image: string | null = null) {
+              image: string | null = null,
+              posts: Post[] = []) {
     this.id = id;
     this.title = title;
     this.status = status;
@@ -36,5 +39,6 @@ export class Episode {
     this.image = image;
     this.characters = characters;
     this.gameId = gameId;
+    this.posts = posts;
   }
 }

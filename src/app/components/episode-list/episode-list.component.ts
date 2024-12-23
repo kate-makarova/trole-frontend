@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PaginationComponent} from '../../components/pagination/pagination.component';
+import {ActivatedRoute} from '@angular/router';
+import {PaginationComponent} from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-episode-list',
@@ -13,7 +13,7 @@ import {PaginationComponent} from '../../components/pagination/pagination.compon
   styleUrl: './episode-list.component.css'
 })
 export class EpisodeListComponent {
-  episodes: Episode[] = []
+  @Input() episodes!: Episode[];
 
   constructor(private episodeService: EpisodeService,
               private route: ActivatedRoute) {

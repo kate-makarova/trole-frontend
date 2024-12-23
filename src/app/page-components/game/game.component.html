@@ -1,0 +1,41 @@
+<div class="row column">
+  <h4 style="margin: 0;" class="text-center">{{game?.title}}</h4>
+</div>
+<hr>
+<div class="row column text-center">
+  <img src="{{game?.image}}" style="max-height: 400px" />
+</div>
+<hr>
+<div class="row column">
+  <div class="large-4 columns">
+    Plot
+    Characters
+    Articles
+  </div>
+  <div class="large-2 columns">
+    10 episodes
+    {{game?.totalPostCount}} posts
+  </div>
+  <div class="large-2 columns">
+    @for(fandom of game?.fandoms; track fandom) {
+      {{fandom.name}}&nbsp;
+    }
+  </div>
+  <div class="large-2 columns">
+    @for(genre of game?.genres; track genre) {
+      {{genre.name}}&nbsp;
+    }
+  </div>
+  <div class="large-2 columns">
+    @for(media of game?.media; track media) {
+      {{media.name}}&nbsp;
+    }
+  </div>
+</div>
+
+<br />
+<div class="row column">
+  <h4 style="margin: 0;" class="text-center">EPISODES</h4>
+</div>
+<hr>
+<app-episode-list [episodes]="this.episodes"></app-episode-list>

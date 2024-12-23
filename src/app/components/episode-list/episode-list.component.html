@@ -2,7 +2,7 @@
 <table>
   <thead>
   <tr>
-    <th style="width: 20%">Image</th>
+    <th style="width: 10%">Status</th>
     <th>Title</th>
     <th style="width: 20%">Characters</th>
     <th style="width: 20%">Last Post</th>
@@ -11,8 +11,8 @@
   <tbody>
     @for (episode of episodes; track episode) {
   <tr>
-    <td><img src="{{episode.image}}" /></td>
-    <td><h4>{{episode.status}} {{episode.title}}</h4></td>
+    <td>{{episode.status}}</td>
+    <td><h5> <a href="/episode/:id">{{episode.title}}</a></h5></td>
     <td>
       <ul>
       @for (character of episode.characters; track character) {

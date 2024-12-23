@@ -1,7 +1,8 @@
 import {Routes} from '@angular/router';
 import {UserHomeComponent} from './page-components/user-home/user-home.component';
 import {IndexComponent} from './page-components/index/index.component';
-import {EpisodeListComponent} from './page-components/episode-list/episode-list.component';
+import {EpisodeComponent} from './page-components/episode/episode.component';
+import {GameComponent} from './page-components/game/game.component';
 export const routes: Routes = [
   {
     path: '',
@@ -16,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'game/:id',
     title: 'Episodes',
-    component: EpisodeListComponent,
+    component: GameComponent,
+  },
+  {
+    path: 'episode/:id',
+    component: EpisodeComponent,
   },
 ];

@@ -1,0 +1,38 @@
+<div class="row column">
+  <h4 style="margin: 0;" class="text-center">{{episode?.title}}</h4>
+</div>
+
+<hr>
+<div class="row text-center">
+  <img src="{{episode?.image}}" style="max-height: 400px" />
+</div>
+<div class="row"  style="white-space: pre-line">
+  {{episode?.description}}
+</div>
+<br />
+
+    @for (post of episode?.posts; track post) {
+      <div class="row column">
+        <div class="media-object">
+          <div class="media-object-section">
+            <a href="#">
+              <div class="thumbnail">
+                <h5>{{ post.character.name }}</h5>
+                <img width="80px" src="{{post.character.image}}"/>
+              </div>
+            </a>
+          </div>
+          <div class="media-object-section" style="white-space: pre-line">
+            {{ post.content }}
+          </div>
+        </div>
+      </div>
+    }
+
+@if(episode?.is_my_episode) {
+  <div class="row">
+    <app-post-editor></app-post-editor>
+  </div>
+}
+
+
