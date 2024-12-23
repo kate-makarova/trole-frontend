@@ -1,0 +1,17 @@
+<div class="row">
+  @for ( message of messages; track $index) {
+    <div>{{ message }}</div>
+  }
+</div>
+
+<div class="row">
+  <div *ngIf="user$ | async as user">
+    {{user.username}}
+  </div>
+  <div>
+    <textarea [(ngModel)]="newMessage" placeholder="Enter your message"></textarea>
+    <button (click)="sendMessage()">Send</button>
+  </div>
+  <div>
+  </div>
+</div>
