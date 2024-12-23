@@ -1,4 +1,5 @@
 import {User} from './User';
+import {SessionService} from '../services/session/session.service';
 
 export class ChatRoom {
   id: number;

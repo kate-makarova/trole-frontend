@@ -1,11 +1,25 @@
 <div class="row">
   @for ( message of messages; track $index) {
-    <div>{{ message }}</div>
+    <div class="row column">
+      <div class="media-object">
+        <div class="media-object-section">
+          <a href="#">
+            <div class="thumbnail">
+              <h5>{{ message.user.username }}</h5>
+              <img width="80px" src="{{message.user.avatar}}"/>
+            </div>
+          </a>
+        </div>
+        <div class="media-object-section" style="white-space: pre-line">
+          {{ message.text }}
+        </div>
+      </div>
+    </div>
   }
 </div>
 
 <div class="row">
-  <div *ngIf="user$ | async as user">
+  <div>
     {{user.username}}
   </div>
   <div>
