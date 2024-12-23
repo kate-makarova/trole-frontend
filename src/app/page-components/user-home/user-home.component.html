@@ -9,50 +9,7 @@
 
     <article>
 
-      @for (game of games; track game) {
-      <div class="row">
-        <div class="large-3 columns">
-          <p><img src="{{game.image}}" alt="image for article" alt="article preview image"></p>
-        </div>
-        <div class="large-6 columns">
-          <h5><a href="/game/{{game.id}}">{{game.title}}</a><span class="badge success">R</span></h5>
-          <p>
-            <span><i class="fi-fandom">
-              @for (fandom of game.fandoms; track fandom) {
-                <a href="/fandom/{{fandom.id}}">{{fandom.name}}</a>
-              }
-              </i>&nbsp;&nbsp;</span>
-            <span><i class="fi-comments">
-               @for (genre of game.genres; track genre) {
-                 <a href="/fandom/{{genre.id}}">{{genre.name}}</a>
-               }
-            </i>&nbsp;&nbsp;</span>
-            <span><i class="fi-media">
-               @for (media of game.media; track media) {
-                 <a href="/fandom/{{media.id}}">{{media.name}}</a>
-               }
-            </i>&nbsp;&nbsp;</span>
-          </p>
-          <p>{{game.description}}</p>
-        </div>
-        <div class="large-3 columns">
-          <p>
-            Total posts: {{ game.totalPostCount }}<br />
-            Posts in last 7 days: {{game.weeklyPostCount}}<br />
-            Unread posts in my games: 3</p>
-          <div class="row">
-            @for (character of game.myCharacters; track character) {
-              <img class="avatar-image" src="{{character.image}}" style="height: 40px" />
-            }
-          </div>
-        </div>
-      </div>
-
-      <hr>
-      }
-
-
-
+      <app-game-list [games]="getMyGames()"></app-game-list>
 
       <div class="row show-all">Show all</div>
 
@@ -61,25 +18,25 @@
   </div>
 </div>
 
-<br>
+<!--<br>-->
 
-<hr>
-<div class="row column">
-  <h4 style="margin: 0;" class="text-center">FAVOURITES</h4>
-</div>
+<!--<hr>-->
+<!--<div class="row column">-->
+<!--  <h4 style="margin: 0;" class="text-center">FAVOURITES</h4>-->
+<!--</div>-->
 
-<hr>
+<!--<hr>-->
 
-<div class="row">
-  <div class="large-12 columns">
+<!--<div class="row">-->
+<!--  <div class="large-12 columns">-->
 
-    <article>
+<!--    <article>-->
 
-      <app-game-list [games]="getMyGames()"></app-game-list>
+<!--      <app-game-list [games]="getMyGames()"></app-game-list>-->
 
-     <div class="row show-all">Show all</div>
+<!--     <div class="row show-all">Show al</div>-->
 
-    </article>
+<!--    </article>-->
 
-  </div>
-</div>
+<!--  </div>-->
+<!--</div>-->

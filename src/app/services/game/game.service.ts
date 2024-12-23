@@ -8,7 +8,7 @@ export class GameService {
   private myGames: Game[];
   private favouriteGames: Game[];
 
-  constructor(myGames: Game[] = [], favouriteGames: Game[] = []) {
+  constructor() {
     this.myGames = [
       {
         "id": 1,
@@ -63,7 +63,7 @@ export class GameService {
         }]
       },
     ];
-    this.favouriteGames = favouriteGames;
+    this.favouriteGames = [];
   }
 
   getMyGames(): Game[] {

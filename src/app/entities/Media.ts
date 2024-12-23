@@ -1,4 +1,4 @@
-export class Fandom {
+export class Media {
   id: number;
   name: string;
 

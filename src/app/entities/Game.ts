@@ -3,14 +3,14 @@ import {Fandom} from './Fandom';
 import {Genre} from './Genre';
 import {Media} from './Media';
 
-export class Episode {
+export class Game {
   id: number;
   title: string;
   totalPostCount: number;
   weeklyPostCount: number;
   description: string;
   image: string | null;
-  characters:Character[]
+  myCharacters:Character[]
   fandoms: Fandom[]
   genres: Genre[]
   media: Media[]
@@ -20,7 +20,7 @@ export class Episode {
               description: string,
               totalPostCont: number,
               weeklyPostCount: number,
-              characters: Character[],
+              myCharacters: Character[],
               fandoms: Fandom[],
               genres: Genre[],
               media: Media[],
@@ -31,7 +31,7 @@ export class Episode {
     this.weeklyPostCount = weeklyPostCount;
     this.description = description;
     this.image = image;
-    this.characters = characters;
+    this.myCharacters = myCharacters;
     this.fandoms = fandoms;
     this.genres = genres;
     this.media = media;
