@@ -15,7 +15,7 @@ export class SessionService {
       characters: [{
         id: 1,
         name: "Rapahel",
-        image: "",
+        avatar: "",
         is_mine: true
       }]
     }

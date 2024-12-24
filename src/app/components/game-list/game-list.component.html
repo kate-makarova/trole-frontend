@@ -1,10 +1,10 @@
-@for (game of games; track game) {
+@for (game of (games | async); track game) {
 <div class="row">
   <div class="large-3 columns">
     <p><img src="{{game.image}}" alt="image for article" alt="article preview image"></p>
   </div>
   <div class="large-6 columns">
-    <h5><a href="/game/{{game.id}}">{{game.title}}</a><span class="badge success">R</span></h5>
+    <h5><a href="/game/{{game.id}}">{{game.name}}</a><span class="badge success">R</span></h5>
     <p>
             <span><i class="fi-fandom">
               @for (fandom of game.fandoms; track fandom) {
@@ -26,12 +26,11 @@
   </div>
   <div class="large-3 columns">
     <p>
-      Total posts: {{ game.totalPostCount }}<br />
-      Posts in last 7 days: {{game.weeklyPostCount}}<br />
-      Unread posts in my games: 3</p>
+      Total posts: {{ game.total_posts }}<br />
+<!--      Unread posts in my games: 3</p>-->
     <div class="row">
-      @for (character of game.myCharacters; track character) {
-        <img class="avatar-image" src="{{character.image}}" style="height: 40px" />
+      @for (character of game.my_characters; track character) {
+        <img class="avatar-image" src="{{character.avatar}}" style="height: 40px" />
       }
     </div>
   </div>

@@ -26,13 +26,13 @@ export class EpisodeService {
             "id": 1,
             "name": "Raphael",
             "is_mine": true,
-            "image": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
+            "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
           },
             {
               "id": 2,
               "name": "Antillia",
               "is_mine": false,
-              "image": "https://forumavatars.ru/img/avatars/0019/41/ed/2202-1730347597.png"
+              "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2202-1730347597.png"
             }],
           "posts": []
         },
@@ -55,13 +55,13 @@ export class EpisodeService {
             "id": 1,
             "name": "Raphael",
             "is_mine": true,
-            "image": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
+            "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
           },
             {
               "id": 2,
               "name": "Antillia",
               "is_mine": false,
-              "image": "https://forumavatars.ru/img/avatars/0019/41/ed/2202-1730347597.png"
+              "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2202-1730347597.png"
             }],
           "posts": [
             {
@@ -73,7 +73,7 @@ export class EpisodeService {
                 "id": 1,
                 "name": "Raphael",
                 "is_mine": true,
-                "image": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
+                "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
               },
               content: "Ask any devil who spent enough time in the mortal planes what is one thing that attracts them the most, and they will answer you without a trace of hesitation: cities. The bustling cities, full of people, full of desperate hopes and desperate struggles, awash with sin, brimming with misery. Ripe for a devil to harvest. Raphael always imagined that one day, when he would have his own house, he would keep there a portal to every big city of mortals, and thus he would never again have to worry about meeting his rather high quota, even less so about going hungry.\n" +
                 "Alas, for now, it was still a fantasy. Or rather a plan, because he had already set in motion a beautiful scheme, ready to bear fruit mere centuries from now. He was almost there. All he had to do now was wait and keep with his day-to-day life, which had been quite pleasant for the last thousand years.\n" +

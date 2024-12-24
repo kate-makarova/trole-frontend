@@ -5,33 +5,30 @@ import {Media} from './Media';
 
 export class Game {
   id: number;
-  title: string;
-  totalPostCount: number;
-  weeklyPostCount: number;
+  name: string;
+  total_posts: number;
   description: string;
   image: string | null;
-  myCharacters:Character[]
+  my_characters:Character[]
   fandoms: Fandom[]
   genres: Genre[]
   media: Media[]
 
   constructor(id: number,
-              title: string,
+              name: string,
               description: string,
               totalPostCont: number,
-              weeklyPostCount: number,
               myCharacters: Character[],
               fandoms: Fandom[],
               genres: Genre[],
               media: Media[],
               image: string | null = null) {
     this.id = id;
-    this.title = title;
-    this.totalPostCount = totalPostCont;
-    this.weeklyPostCount = weeklyPostCount;
+    this.name = name;
+    this.total_posts = totalPostCont;
     this.description = description;
     this.image = image;
-    this.myCharacters = myCharacters;
+    this.my_characters = myCharacters;
     this.fandoms = fandoms;
     this.genres = genres;
     this.media = media;

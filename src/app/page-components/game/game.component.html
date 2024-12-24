@@ -1,5 +1,5 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">{{game?.title}}</h4>
+  <h4 style="margin: 0;" class="text-center">{{game?.name}}</h4>
 </div>
 <hr>
 <div class="row column text-center">
@@ -14,7 +14,7 @@
   </div>
   <div class="large-2 columns">
     10 episodes
-    {{game?.totalPostCount}} posts
+    {{game?.total_posts}} posts
   </div>
   <div class="large-2 columns">
     @for(fandom of game?.fandoms; track fandom) {
