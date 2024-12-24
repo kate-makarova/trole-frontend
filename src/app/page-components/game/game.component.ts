@@ -5,17 +5,21 @@ import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
+import {Observable} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-game',
   imports: [
-    EpisodeListComponent
+    EpisodeListComponent,
+    AsyncPipe
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
 export class GameComponent {
-  game: Game|null = null;
+  // @ts-ignore
+  game: Observable<Game>;
   episodes: Episode[] = []
   gameId: number = 0
 

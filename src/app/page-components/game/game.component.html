@@ -1,9 +1,9 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">{{game?.name}}</h4>
+  <h4 style="margin: 0;" class="text-center">{{(game | async)?.name}}</h4>
 </div>
 <hr>
 <div class="row column text-center">
-  <img src="{{game?.image}}" style="max-height: 400px" />
+  <img src="{{(game | async)?.image}}" style="max-height: 400px" />
 </div>
 <hr>
 <div class="row column">
@@ -14,20 +14,20 @@
   </div>
   <div class="large-2 columns">
     10 episodes
-    {{game?.total_posts}} posts
+    {{(game | async)?.total_posts}} posts
   </div>
   <div class="large-2 columns">
-    @for(fandom of game?.fandoms; track fandom) {
+    @for(fandom of (game | async)?.fandoms; track fandom) {
       {{fandom.name}}&nbsp;
     }
   </div>
   <div class="large-2 columns">
-    @for(genre of game?.genres; track genre) {
+    @for(genre of (game | async)?.genres; track genre) {
       {{genre.name}}&nbsp;
     }
   </div>
   <div class="large-2 columns">
-    @for(media of game?.media; track media) {
+    @for(media of (game | async)?.media; track media) {
       {{media.name}}&nbsp;
     }
   </div>
