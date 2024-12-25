@@ -1,54 +1,34 @@
 import { Injectable } from '@angular/core';
 import {Episode} from '../../entities/Episode';
+import {APIService} from '../apiservice/apiservice.service';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {SessionService} from '../session/session.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EpisodeService {
+export class EpisodeService extends APIService {
 
-  constructor() { }
+  constructor(http: HttpClient, sessionService: SessionService, router: Router) {
+    super(http, sessionService, router);
+  }
 
-  getEpisodes(game_id: number, page: number): Episode[] {
-    let title = "Episode on page "+page;
-      return [
-        {
-          "id": 1,
-          "title": title,
-          "status": "active",
-          "is_my_episode": true,
-          "gameId": 1,
-          "totalPostCount": 47,
-          "lastPostDate": "2024-12-11 12:12:12",
-          "lastPostCharacterName": "Antilia",
-          "description": "If you have not been to Abriymoch, you have waisted your eternal life.",
-          "image": "https://i.imgur.com/ODvKkP3.jpg",
-          "characters": [{
-            "id": 1,
-            "name": "Raphael",
-            "is_mine": true,
-            "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2188-1730347409.png"
-          },
-            {
-              "id": 2,
-              "name": "Antillia",
-              "is_mine": false,
-              "avatar": "https://forumavatars.ru/img/avatars/0019/41/ed/2202-1730347597.png"
-            }],
-          "posts": []
-        },
-      ]
+  getEpisodes(game_id: number, page: number): Observable<Episode[]> {
+    return this.getData<Episode[]>('episode-list/'+game_id)
     }
 
     getEpisode(episode_id: number): Episode {
       return {
           "id": 1,
-          "title": "The City of Sin",
+          "name": "The City of Sin",
           "status": "active",
-          "is_my_episode": true,
-          "gameId": 1,
-          "totalPostCount": 47,
-          "lastPostDate": "2024-12-11 12:12:12",
-          "lastPostCharacterName": "Antilia",
+          "is_mine": true,
+          "game_id": 1,
+          "total_posts": 47,
+          "last_post_date": "2024-12-11 12:12:12",
+          "last_post_author": {id: 1, name: "Antilia"},
           "description": "If you have not been to Abriymoch, you have waisted your eternal life.",
           "image": "https://i.imgur.com/ODvKkP3.jpg",
           "characters": [{

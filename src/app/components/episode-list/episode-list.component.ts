@@ -3,17 +3,20 @@ import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
 import {PaginationComponent} from '../pagination/pagination.component';
+import {Observable} from 'rxjs';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-episode-list',
   imports: [
-    PaginationComponent
+    PaginationComponent,
+    AsyncPipe
   ],
   templateUrl: './episode-list.component.html',
   styleUrl: './episode-list.component.css'
 })
 export class EpisodeListComponent {
-  @Input() episodes!: Episode[];
+  @Input() episodes: Observable<Episode[]> | undefined;
 
   constructor(private episodeService: EpisodeService,
               private route: ActivatedRoute) {

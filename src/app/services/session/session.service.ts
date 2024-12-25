@@ -41,6 +41,25 @@ export class SessionService {
     })
   }
 
+  private getAPIRefreshToken(): Observable<any> {
+    return this.http.post<any>(environment.apiHost+'token/refresh', {
+      token: this.refreshToken
+    })
+  }
+
+  refresh(): Observable<boolean> {
+    return this.getAPIRefreshToken().pipe(
+      switchMap((response) => {
+        if(!response.access) {
+          return of(false);
+        } else {
+          this.accessToken = response.access;
+          this.refreshToken = response.refresh;
+          return of(true);
+        }
+      }))
+  }
+
   login(login: string, password: string): Observable<boolean> {
     return this.getAPIToken(login, password).pipe(
       switchMap((response) => {
@@ -70,24 +89,5 @@ export class SessionService {
         return of(false);
       })
     )
-
-
-    // return this.getAPIToken(login, password).pipe(map((t) => {
-    //     if(t && this.user === null) {
-    //       return this.getUserByUserName(login)
-    //     } else {
-    //       return false;
-    //     }
-    //   })).pipe(map((u) => {
-    //     if (u) {
-    //       localStorage.setItem("session", JSON.stringify({
-    //         "user": this.user,
-    //         "accessToken": this.accessToken
-    //       }))
-    //       return true;
-    //     } else {
-    //       return false;
-    //     }
-    // }))
   }
 }

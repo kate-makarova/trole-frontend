@@ -9,10 +9,10 @@
   </tr>
   </thead>
   <tbody>
-    @for (episode of episodes; track episode) {
+    @for (episode of (episodes | async); track episode) {
   <tr>
     <td>{{episode.status}}</td>
-    <td><h5> <a href="/episode/:id">{{episode.title}}</a></h5></td>
+    <td><h5> <a href="/episode/:id">{{episode.name}}</a></h5></td>
     <td>
       <ul>
       @for (character of episode.characters; track character) {
@@ -23,10 +23,10 @@
       }
       </ul>
     </td>
-    <td>{{episode.lastPostDate}} - {{episode.lastPostCharacterName}}</td>
+    <td>{{episode.last_post_date}} - {{episode.last_post_author?.name}}</td>
   </tr>
     }
   </tbody>
 </table>
-  <app-pagination (pageChanged)="onPageChange($event)"></app-pagination>
+<!--  <app-pagination (pageChanged)="onPageChange($event)"></app-pagination>-->
 </div>

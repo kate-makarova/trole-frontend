@@ -1,0 +1,19 @@
+<div class="row">
+  <form [formGroup]="form">
+    <fieldset>
+      <h3>New Game</h3>
+      <div class="form-field">
+        <label>Name:</label>
+        <input name="name" formControlName="name"  type="text">
+      </div>
+      <div class="form-field">
+        <label>Image:</label>
+        <input name="name" formControlName="image" type="text">
+      </div>
+    </fieldset>
+    <div class="form-buttons">
+      <button class="button button-primary"
+              (click)="create()">Create</button>
+    </div>
+  </form>
+</div>

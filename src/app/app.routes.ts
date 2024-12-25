@@ -5,6 +5,8 @@ import {EpisodeComponent} from './page-components/episode/episode.component';
 import {GameComponent} from './page-components/game/game.component';
 import {ChatComponent} from './page-components/chat/chat.component';
 import {LoginComponent} from './page-components/login/login.component';
+import {GameFormComponent} from './page-components/game-form/game-form.component';
+import {CharacterListComponent} from './page-components/character-list/character-list.component';
 export const routes: Routes = [
   {
     path: '',
@@ -25,6 +27,16 @@ export const routes: Routes = [
     path: 'game/:id',
     title: 'Episodes',
     component: GameComponent,
+  },
+  {
+    path: 'game-create',
+    title: 'Create Game',
+    component: GameFormComponent,
+  },
+  {
+    path: 'character-list/:id',
+    title: 'Character List',
+    component: CharacterListComponent,
   },
   {
     path: 'episode/:id',

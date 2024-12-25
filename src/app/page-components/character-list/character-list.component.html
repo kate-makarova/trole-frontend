@@ -1,0 +1,8 @@
+<div class="row">
+  <ul>
+@for (character of (characters | async); track character) {
+    <a href="/character/{{character.id}}">{{character.name}}</a>
+  @if (character.is_mine) { * }
+}
+  </ul>
+</div>
