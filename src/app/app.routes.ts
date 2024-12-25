@@ -4,6 +4,7 @@ import {IndexComponent} from './page-components/index/index.component';
 import {EpisodeComponent} from './page-components/episode/episode.component';
 import {GameComponent} from './page-components/game/game.component';
 import {ChatComponent} from './page-components/chat/chat.component';
+import {LoginComponent} from './page-components/login/login.component';
 export const routes: Routes = [
   {
     path: '',
@@ -14,6 +15,11 @@ export const routes: Routes = [
     path: 'home',
     title: 'Game Overview',
     component: UserHomeComponent,
+  },
+  {
+    path: 'login',
+    title: 'Login',
+    component: LoginComponent,
   },
   {
     path: 'game/:id',

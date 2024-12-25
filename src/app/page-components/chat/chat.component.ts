@@ -17,18 +17,21 @@ import {ChatMessage} from '../../entities/ChatMessage';
   styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnDestroy {
-  private messageSubscription: Subscription;
+  private messageSubscription: Subscription | undefined;
   messages: ChatMessage[] = [];
   newMessage: string = '';
-  user: User;
+  user: User | undefined;
 
   constructor(private sessionService: SessionService, private socketService: SocketService) {
-    this.user = this.sessionService.getUser();
-    this.messageSubscription = this.socketService
-      .on('message')
-      .subscribe((data: ChatMessage) => {
-        this.messages.push(data);
-      });
+    const user = this.sessionService.getUser()
+    if (user !== null) {
+      this.user = user;
+      this.messageSubscription = this.socketService
+        .on('message')
+        .subscribe((data: ChatMessage) => {
+          this.messages.push(data);
+        });
+    }
   }
 
   sendMessage() {
@@ -37,6 +40,8 @@ export class ChatComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.messageSubscription.unsubscribe();
+    if(this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
   }
 }

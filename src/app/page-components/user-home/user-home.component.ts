@@ -15,16 +15,11 @@ import {Observable} from 'rxjs';
 export class UserHomeComponent implements OnInit {
   // @ts-ignore
   myGames: Observable<Game[]> = [];
-  favouriteGames: Game[] = [];
 
   constructor(private gameService: GameService) {}
 
   getMyGames(): Observable<Game[]> {
     return this.myGames
-  }
-
-  getFavouriteGames(): Game[] {
-    return this.favouriteGames;
   }
   ngOnInit() {
     this.myGames = this.gameService.getMyGames()
