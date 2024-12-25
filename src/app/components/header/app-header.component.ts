@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {SessionService} from '../../services/session/session.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,13 @@ import {SessionService} from '../../services/session/session.service';
   styleUrl: './app-header.component.css'
 })
 export class AppHeaderComponent {
+  path: string = '';
 
-  constructor(public sessionService: SessionService) {
+  constructor(public sessionService: SessionService, private router: Router, private location: Location) {
+    this.path = this.location.path().split('/')[1];
+    this.router.events.subscribe(event => {
+        this.path = this.location.path().split('/')[1];
+    });
   }
 
 }

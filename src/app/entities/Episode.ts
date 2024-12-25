@@ -7,8 +7,8 @@ export class Episode {
   status: string;
   is_mine: boolean;
   total_posts: number;
-  last_post_date: string;
-  last_post_author: SimpleEntity;
+  last_post_date: string|null;
+  last_post_author: SimpleEntity|null;
   description: string;
   image: string | null;
   characters:Character[]
