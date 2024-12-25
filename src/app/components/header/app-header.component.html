@@ -6,11 +6,15 @@
     </div>
     <div class="top-bar-right">
       <ul class="menu">
+      @if (sessionService.getUser() !== null) {
         <li><a routerLink="/home">My Games</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Look for Game</a></li>
+<!--        <li><a href="#">Profile</a></li>-->
+<!--        <li><a href="#">Look for Game</a></li>-->
         <li><a href="#">Create Game</a></li>
-        <li><a href="#">Exit</a></li>
+        <li><a href="#">Log Out</a></li>
+      } @else {
+        <li><a routerLink="/login">Log In</a></li>
+        }
       </ul>
     </div>
   </div>
