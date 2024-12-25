@@ -1,6 +1,4 @@
 import {Character} from './Character';
-import {Game} from './Game';
-import {Post} from './Post';
 import {SimpleEntity} from './SimpleEntity';
 
 export class Episode {
@@ -15,7 +13,6 @@ export class Episode {
   image: string | null;
   characters:Character[]
   game_id: number;
-  posts: Post[] = []
 
   constructor(id: number,
               title: string,
@@ -27,8 +24,7 @@ export class Episode {
               lastPostCharacter: SimpleEntity,
               characters: Character[],
               gameId: number,
-              image: string | null = null,
-              posts: Post[] = []) {
+              image: string | null = null) {
     this.id = id;
     this.name = title;
     this.status = status;
@@ -40,6 +36,5 @@ export class Episode {
     this.image = image;
     this.characters = characters;
     this.game_id = gameId;
-    this.posts = posts;
   }
 }

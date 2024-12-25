@@ -12,7 +12,7 @@
     @for (episode of (episodes | async); track episode) {
   <tr>
     <td>{{episode.status}}</td>
-    <td><h5> <a href="/episode/:id">{{episode.name}}</a></h5></td>
+    <td><h5> <a href="/episode/{{episode.id}}">{{episode.name}}</a></h5></td>
     <td>
       <ul>
       @for (character of episode.characters; track character) {

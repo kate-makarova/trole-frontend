@@ -1,17 +1,25 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">{{episode?.title}}</h4>
+  <h4 style="margin: 0;" class="text-center">{{(episode | async)?.name}}</h4>
 </div>
 
 <hr>
 <div class="row text-center">
-  <img src="{{episode?.image}}" style="max-height: 400px" />
+  <img src="{{(episode | async)?.image}}" style="max-height: 400px" />
 </div>
 <div class="row"  style="white-space: pre-line">
-  {{episode?.description}}
+  {{(episode | async)?.description}}
+</div>
+<hr>
+<div class="row">
+  <ul>
+    @for (character of (episode | async)?.characters; track character) {
+      <li><a href="/character/{{character.id}}">{{character.name}}</a></li>
+    }
+  </ul>
 </div>
 <br />
 
-    @for (post of episode?.posts; track post) {
+    @for (post of (posts | async); track post) {
       <div class="row column">
         <div class="media-object">
           <div class="media-object-section">
@@ -29,7 +37,7 @@
       </div>
     }
 
-@if(episode?.is_my_episode) {
+@if((episode | async)?.is_mine) {
   <div class="row">
     <app-post-editor></app-post-editor>
   </div>
