@@ -41,7 +41,7 @@ export const routes: Routes = [
     component: CharacterListComponent,
   },
   {
-    path: 'episode-create',
+    path: 'episode-create/:id',
     title: 'Create Episode',
     component: EpisodeFormComponent,
   },

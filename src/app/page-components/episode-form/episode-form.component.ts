@@ -9,12 +9,13 @@ import {
   Validators
 } from '@angular/forms';
 import {SessionService} from '../../services/session/session.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {NgForOf} from '@angular/common';
 import {of} from 'rxjs';
 import {APIService} from '../../services/apiservice/apiservice.service';
 import {SimpleEntity} from '../../entities/SimpleEntity';
+import {EpisodeService} from '../../services/episode/episode.service';
 
 @Component({
   selector: 'app-episode-form',
@@ -37,9 +38,14 @@ export class EpisodeFormComponent {
     image: [''],
     description: [''],
     characters: this.formBuilder.array([this.formBuilder.control('')]),
+    game: 0
   });
 
-  constructor(private apiservice:APIService) {
+  constructor(private apiservice:APIService,
+              private episodeService: EpisodeService,
+              private router: Router,
+              private route: ActivatedRoute) {
+    this.episodeForm.patchValue({game: Number(this.route.snapshot.paramMap.get('id'))})
   }
 
   get characters() {
@@ -55,6 +61,7 @@ export class EpisodeFormComponent {
 
 
   selectCharacterEvent(item: any) {
+    console.log(this.episodeForm.value)
     this.dataCharacter = []
   }
 
@@ -71,6 +78,9 @@ export class EpisodeFormComponent {
 
   onSubmit() {
     console.log(this.episodeForm.value);
+    this.episodeService.create(this.episodeForm.value).subscribe(data => {
+      this.router.navigateByUrl('/episode/'+data);
+    })
   }
 
 }

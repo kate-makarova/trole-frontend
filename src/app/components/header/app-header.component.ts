@@ -13,11 +13,17 @@ import {Location} from '@angular/common';
 })
 export class AppHeaderComponent {
   path: string = '';
+  param: number = 0;
 
   constructor(public sessionService: SessionService, private router: Router, private location: Location) {
     this.path = this.location.path().split('/')[1];
     this.router.events.subscribe(event => {
         this.path = this.location.path().split('/')[1];
+        switch (this.path) {
+          case 'game':
+            this.param = Number(this.location.path().split('/')[2]);
+            break;
+        }
     });
   }
 
