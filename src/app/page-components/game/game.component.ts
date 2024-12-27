@@ -14,7 +14,6 @@ import {RouteLinkComponent} from "../../components/route-link/route-link.compone
     imports: [
         EpisodeListComponent,
         AsyncPipe,
-        RouterLink,
         RouteLinkComponent
     ],
   templateUrl: './game.component.html',

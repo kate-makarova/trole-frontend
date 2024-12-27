@@ -5,10 +5,11 @@ import {BehaviorSubject} from 'rxjs';
   providedIn: 'root'
 })
 export class BreadcrumbsService {
-  private breadcrumbs = new BehaviorSubject<{path: string, name: string}[]>(
+  private breadcrumbs = new BehaviorSubject<{path: string, name: string, order: number}[]>(
     [{
       path: '/',
-      name: 'Home'
+      name: 'Home',
+      order: 0
     }]
   );
   breadcrumbs$ = this.breadcrumbs.asObservable();
@@ -16,14 +17,16 @@ export class BreadcrumbsService {
   addBreadcrumb(path: string, name: string, order: number = -1) {
     let newBreadcrumbs = [];
     if (order > -1) {
-      newBreadcrumbs = [...this.breadcrumbs.value.slice(0, order-1), {
+      newBreadcrumbs = [...this.breadcrumbs.value.slice(0, order), {
         name: name,
-        path: path
+        path: path,
+        order: order
       }]
     } else {
       newBreadcrumbs = [...this.breadcrumbs.value, {
         name: name,
-        path: path
+        path: path,
+        order: order
       }]
     }
     this.breadcrumbs.next(newBreadcrumbs);

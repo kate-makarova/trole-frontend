@@ -6,7 +6,7 @@
   <div class="large-6 columns">
     <h5>
 <!--      <a href="/game/{{game.id}}" (click)="updateBreadcrumbs('/game/'+game.id, game.name)">{{game.name}}</a>-->
-      <app-route-link [path]="'/game/'+game.id" [name]="game.name"></app-route-link>
+      <app-route-link [path]="'/game/'+game.id" [name]="game.name" [order]="2"></app-route-link>
       <span class="badge success">R</span></h5>
     <p>
             <span><i class="fi-fandom">

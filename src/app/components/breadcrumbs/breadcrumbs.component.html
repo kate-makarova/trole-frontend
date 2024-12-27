@@ -1,3 +1,12 @@
-@for (breadcrumb of breadcrumbs; track breadcrumb) {
-  <a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a> >
-}
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    @for (breadcrumb of breadcrumbs; track breadcrumb; let  last = $last) {
+      <li>
+      @if(last) { <span class="show-for-sr">Current: </span>}
+        <app-route-link [path]="breadcrumb.path" [name]="breadcrumb.name" [order]="breadcrumb.order"></app-route-link>
+      </li>
+    }
+    <li>
+    </li>
+  </ul>
+</nav>

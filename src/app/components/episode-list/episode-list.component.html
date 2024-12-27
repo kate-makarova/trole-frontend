@@ -14,7 +14,7 @@
     <td>{{episode.status}}</td>
     <td><h5>
 <!--        <a href="/episode/{{episode.id}}">{{episode.name}}</a>-->
-        <app-route-link [path]="'/episode/{{episode.id}}'" [name]="'{{episode.name}}'" [order]="3"></app-route-link>
+        <app-route-link [path]="'/episode/'+episode.id" [name]="episode.name" [order]="3"></app-route-link>
     </h5></td>
     <td>
       <ul>
