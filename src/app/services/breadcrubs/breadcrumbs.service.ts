@@ -13,11 +13,19 @@ export class BreadcrumbsService {
   );
   breadcrumbs$ = this.breadcrumbs.asObservable();
 
-  addBreadcrumb(path: string, name: string) {
-    const newBreadcrumbs = [...this.breadcrumbs.value, {
-      name: name,
-      path: path
-    }]
+  addBreadcrumb(path: string, name: string, order: number = -1) {
+    let newBreadcrumbs = [];
+    if (order > -1) {
+      newBreadcrumbs = [...this.breadcrumbs.value.slice(0, order-1), {
+        name: name,
+        path: path
+      }]
+    } else {
+      newBreadcrumbs = [...this.breadcrumbs.value, {
+        name: name,
+        path: path
+      }]
+    }
     this.breadcrumbs.next(newBreadcrumbs);
   }
 }

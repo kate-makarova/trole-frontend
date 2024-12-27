@@ -13,11 +13,12 @@ import {RouterLink} from '@angular/router';
 export class RouteLinkComponent {
   @Input('path') path: string = '';
   @Input('name') name: string = '';
+  @Input('order') order: number = -1;
 
   constructor(private breadcrumbsService: BreadcrumbsService) {
   }
 
-  updateBreadcrumbs(path: string, name: string) {
-    this.breadcrumbsService.addBreadcrumb(path, name);
+  updateBreadcrumbs(path: string, name: string,  order: number = -1) {
+    this.breadcrumbsService.addBreadcrumb(path, name, order);
   }
 }

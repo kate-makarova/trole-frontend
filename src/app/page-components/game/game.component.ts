@@ -7,14 +7,16 @@ import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
 import {Observable} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
+import {RouteLinkComponent} from "../../components/route-link/route-link.component";
 
 @Component({
   selector: 'app-game',
-  imports: [
-    EpisodeListComponent,
-    AsyncPipe,
-    RouterLink
-  ],
+    imports: [
+        EpisodeListComponent,
+        AsyncPipe,
+        RouterLink,
+        RouteLinkComponent
+    ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
