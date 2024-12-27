@@ -1,7 +1,11 @@
 <div class="row">
   <form [formGroup]="episodeForm" (ngSubmit)="onSubmit()">
     <fieldset>
-      <h3>New Episode</h3>
+        @if(mode == 'edit') {
+            <h3>Edit Episode {{episodeName}}</h3>
+        } @else {
+            <h3>New Episode in {{gameName}}</h3>
+        }
       <div class="form-field">
         <label>Name:</label>
         <input name="name" formControlName="name"  type="text">
@@ -19,9 +23,6 @@
       <div class="form-field" formArrayName="characters">
         <h5>Characters:</h5>
           <div *ngFor="let character of characters.controls; let i=index">
-            <!-- The repeated alias template -->
-<!--            <label for="character-{{ i }}">Character:</label>-->
-<!--            <input id="character-{{ i }}" type="text" [formControlName]="i">-->
                       <ng-autocomplete
                         [formControlName]="i"
                         [data]="dataCharacter"
@@ -29,7 +30,6 @@
                         placeholder="Select character"
                         (selected)='selectCharacterEvent($event)'
                         (inputChanged)='onChangeCharacterSearch($event)'
-                        (inputFocused)='onCharacterFocused($event)'
                         [itemTemplate]="itemTemplate"
                         [notFoundTemplate]="notFoundTemplate">
                       </ng-autocomplete>

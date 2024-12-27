@@ -27,4 +27,8 @@ export class EpisodeService extends APIService {
   create(formData: any): Observable<number> {
     return this.postData('episode-create', formData);
   }
+
+  edit(id: number, formData: any): Observable<number> {
+    return this.postData('episode-edite/'+id, formData);
+  }
 }

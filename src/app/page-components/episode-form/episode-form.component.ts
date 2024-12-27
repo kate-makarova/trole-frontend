@@ -2,7 +2,6 @@ import {Component, inject, OnInit} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators
@@ -14,6 +13,7 @@ import {of} from 'rxjs';
 import {APIService} from '../../services/apiservice/apiservice.service';
 import {SimpleEntity} from '../../entities/SimpleEntity';
 import {EpisodeService} from '../../services/episode/episode.service';
+import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 
 @Component({
   selector: 'app-episode-form',
@@ -29,8 +29,11 @@ import {EpisodeService} from '../../services/episode/episode.service';
 export class EpisodeFormComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   protected readonly of = of;
-  protected readonly FormControl = FormControl;
   private path: string;
+  protected gameName: string;
+  mode: string = 'create';
+  episodeId: number = 0;
+  episodeName: string = '';
 
   episodeForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -44,9 +47,11 @@ export class EpisodeFormComponent implements OnInit {
               private episodeService: EpisodeService,
               private router: Router,
               private route: ActivatedRoute,
+              private breadcrumbsService:BreadcrumbsService,
               private location: Location) {
     this.episodeForm.patchValue({game: Number(this.route.snapshot.paramMap.get('id'))})
     this.path = this.location.path().split('/')[1];
+    this.gameName = this.breadcrumbsService.getItem(2).name;
   }
 
   get characters() {
@@ -61,8 +66,7 @@ export class EpisodeFormComponent implements OnInit {
   dataCharacter: SimpleEntity[] = [];
 
 
-  selectCharacterEvent(item: any) {
-    console.log(this.episodeForm.value)
+  selectCharacterEvent() {
     this.dataCharacter = []
   }
 
@@ -73,16 +77,19 @@ export class EpisodeFormComponent implements OnInit {
     })
   }
 
-  onCharacterFocused(e: any){
-    // do something when input is focused
-  }
+  // onCharacterFocused(e: any){
+  //   // do something when input is focused
+  // }
 
   ngOnInit() {
     if (this.path === 'episode-edit') {
-      this.episodeService.getEpisode(Number(this.route.snapshot.paramMap.get('id'))).subscribe(data => {
+      this.mode = 'edit';
+      this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
+      this.episodeService.getEpisode(this.episodeId).subscribe(data => {
         if(data == null) {
           return;
         }
+        this.episodeName = data.name;
         let chars = []
         for (let char of data.characters) {
           chars.push({id: char.id, name: char.name})
@@ -100,10 +107,15 @@ export class EpisodeFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.episodeForm.value);
-    this.episodeService.create(this.episodeForm.value).subscribe(data => {
-      console.log(data);
-      this.router.navigateByUrl('/episode/'+data);
-    })
+    if (this.mode === 'edit') {
+      this.episodeService.edit(this.episodeId, this.episodeForm.value).subscribe(data => {
+        this.router.navigateByUrl('/episode/' + data);
+      })
+    } else {
+      this.episodeService.create(this.episodeForm.value).subscribe(data => {
+        this.router.navigateByUrl('/episode/' + data);
+      })
+    }
   }
 
 }

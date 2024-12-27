@@ -28,4 +28,8 @@ export class BreadcrumbsService {
     }
     this.breadcrumbs.next(newBreadcrumbs);
   }
+
+  getItem(index: number) {
+    return this.breadcrumbs.value[index];
+  }
 }
