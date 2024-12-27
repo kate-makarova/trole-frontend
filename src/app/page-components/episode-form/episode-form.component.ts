@@ -79,6 +79,7 @@ export class EpisodeFormComponent {
   onSubmit() {
     console.log(this.episodeForm.value);
     this.episodeService.create(this.episodeForm.value).subscribe(data => {
+      console.log(data);
       this.router.navigateByUrl('/episode/'+data);
     })
   }

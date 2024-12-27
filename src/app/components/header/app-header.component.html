@@ -11,6 +11,7 @@
           <li><a routerLink="/game-create">Create Game</a></li>
         }
         @case('game') {
+          <li><a routerLink="/character-create/{{param}}">Create Character</a></li>
           <li><a routerLink="/episode-create/{{param}}">Create Episode</a></li>
         }
         @default {}

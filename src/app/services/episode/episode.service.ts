@@ -24,10 +24,6 @@ export class EpisodeService extends APIService {
       return this.getData<Episode>('episode/'+episode_id)
     }
 
-  override autocomplete(term: string): Observable<SimpleEntity[]> {
-    return super.autocomplete('Character', term);
-  }
-
   create(formData: any): Observable<number> {
     return this.postData('episode-create', formData);
   }

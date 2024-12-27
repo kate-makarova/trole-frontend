@@ -9,6 +9,7 @@ import {GameFormComponent} from './page-components/game-form/game-form.component
 import {CharacterListComponent} from './page-components/character-list/character-list.component';
 import {Episode} from './entities/Episode';
 import {EpisodeFormComponent} from './page-components/episode-form/episode-form.component';
+import {CharacterFormComponent} from './page-components/character-form/character-form.component';
 export const routes: Routes = [
   {
     path: '',
@@ -34,6 +35,11 @@ export const routes: Routes = [
     path: 'game-create',
     title: 'Create Game',
     component: GameFormComponent,
+  },
+  {
+    path: 'character-create/:id',
+    title: 'Create Character',
+    component: CharacterFormComponent,
   },
   {
     path: 'character-list/:id',

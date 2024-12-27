@@ -1,8 +1,9 @@
 <div class="row">
-  <ul>
+  <ul class="list">
 @for (character of (characters | async); track character) {
-    <a href="/character/{{character.id}}">{{character.name}}</a>
+    <li><a href="/character/{{character.id}}">{{character.name}}</a>
   @if (character.is_mine) { * }
+    </li>
 }
   </ul>
 </div>
