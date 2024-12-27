@@ -52,6 +52,11 @@ export const routes: Routes = [
     component: EpisodeFormComponent,
   },
   {
+    path: 'episode-edit/:id',
+    title: 'Edit Episode',
+    component: EpisodeFormComponent,
+  },
+  {
     path: 'episode/:id',
     component: EpisodeComponent,
   },

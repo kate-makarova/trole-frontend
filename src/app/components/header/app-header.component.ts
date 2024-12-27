@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {SessionService} from '../../services/session/session.service';
 import {Location} from '@angular/common';
+import {RouteLinkComponent} from '../route-link/route-link.component';
 
 @Component({
   selector: 'app-header',
   imports: [
-    RouterLink
+    RouterLink,
+    RouteLinkComponent
   ],
   templateUrl: './app-header.component.html',
   styleUrl: './app-header.component.css'

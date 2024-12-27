@@ -19,7 +19,10 @@
       </ul>
       <ul class="menu">
       @if (sessionService.getUser() !== null) {
-        <li><a routerLink="/home">My Games</a></li>
+        <li>
+<!--          <a routerLink="/home">My Games</a>-->
+          <app-route-link [path]="'/home'" [name]="'My Games'"></app-route-link>
+        </li>
 <!--        <li><a href="#">Profile</a></li>-->
 <!--        <li><a href="#">Look for Game</a></li>-->
         <li><a href="#">Log Out</a></li>
