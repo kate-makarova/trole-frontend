@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {SessionService} from '../session/session.service';
 import {Router} from '@angular/router';
+import {SimpleEntity} from '../../entities/SimpleEntity';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +23,12 @@ export class EpisodeService extends APIService {
     getEpisode(episode_id: number): Observable<Episode> {
       return this.getData<Episode>('episode/'+episode_id)
     }
+
+  override autocomplete(term: string): Observable<SimpleEntity[]> {
+    return super.autocomplete('Character', term);
+  }
+
+  create(formData: any): Observable<number> {
+    return this.postData('episode-create', formData);
+  }
 }

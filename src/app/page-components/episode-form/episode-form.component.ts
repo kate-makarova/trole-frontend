@@ -1,63 +1,76 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import {SessionService} from '../../services/session/session.service';
 import {Router} from '@angular/router';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import {NgForOf} from '@angular/common';
+import {of} from 'rxjs';
+import {APIService} from '../../services/apiservice/apiservice.service';
+import {SimpleEntity} from '../../entities/SimpleEntity';
 
 @Component({
   selector: 'app-episode-form',
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    NgForOf
   ],
   templateUrl: './episode-form.component.html',
   styleUrl: './episode-form.component.css'
 })
 export class EpisodeFormComponent {
-  form:FormGroup;
+  private formBuilder = inject(FormBuilder);
+  protected readonly of = of;
+  protected readonly FormControl = FormControl;
 
-  constructor(private fb:FormBuilder,
-              private sessionService: SessionService,
-              private router: Router) {
+  episodeForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    image: [''],
+    description: [''],
+    characters: this.formBuilder.array([this.formBuilder.control('')]),
+  });
 
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      image: ['', Validators.required],
-      description: ['', Validators.required],
-      fandom: ['', Validators.required]
-    });
+  constructor(private apiservice:APIService) {
   }
 
-  create() {}
-
-  keyword = 'name';
-  data = [
-    {
-      id: 1,
-      name: 'D&D'
-    },
-    {
-      id: 2,
-      name: "Baldur's Gate III"
-    },
-    {
-      id: 3,
-      name: 'Dragon Age'
-    }
-  ];
-
-
-  selectEvent(item: any) {
-    // do something with selected item
+  get characters() {
+    return this.episodeForm.get('characters') as FormArray;
   }
 
-  onChangeSearch(val: string) {
-    // fetch remote data from here
-    // And reassign the 'data' which is binded to 'data' property.
+  addCharacter() {
+    this.characters.push(this.formBuilder.control(''));
   }
 
-  onFocused(e: any){
+  keywordCharacter = 'name';
+  dataCharacter: SimpleEntity[] = [];
+
+
+  selectCharacterEvent(item: any) {
+    this.dataCharacter = []
+  }
+
+  onChangeCharacterSearch(val: string) {
+    if (val.length < 3) return;
+    this.apiservice.autocomplete('Character', val).subscribe(data => {
+      this.dataCharacter = data;
+    })
+  }
+
+  onCharacterFocused(e: any){
     // do something when input is focused
   }
+
+  onSubmit() {
+    console.log(this.episodeForm.value);
+  }
+
 }
