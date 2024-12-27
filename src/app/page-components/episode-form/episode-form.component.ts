@@ -85,7 +85,7 @@ export class EpisodeFormComponent implements OnInit {
     if (this.path === 'episode-edit') {
       this.mode = 'edit';
       this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
-      this.episodeService.getEpisode(this.episodeId).subscribe(data => {
+      this.episodeService.get(this.episodeId).subscribe(data => {
         if(data == null) {
           return;
         }
@@ -108,7 +108,7 @@ export class EpisodeFormComponent implements OnInit {
   onSubmit() {
     console.log(this.episodeForm.value);
     if (this.mode === 'edit') {
-      this.episodeService.edit(this.episodeId, this.episodeForm.value).subscribe(data => {
+      this.episodeService.update(this.episodeId, this.episodeForm.value).subscribe(data => {
         this.router.navigateByUrl('/episode/' + data);
       })
     } else {

@@ -32,7 +32,7 @@ export class GameComponent {
   }
 
   fetchData(page: number): void {
-    this.episodes = this.episodeService.getEpisodes(this.gameId, page);
+    this.episodes = this.episodeService.getList(this.gameId, page);
   }
 
   onPageChange(page: number): void {

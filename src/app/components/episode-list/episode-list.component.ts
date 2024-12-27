@@ -25,7 +25,7 @@ export class EpisodeListComponent {
 
   fetchData(page: number): void {
       const gameId = Number(this.route.snapshot.paramMap.get('id'));
-      this.episodes = this.episodeService.getEpisodes(gameId, page);
+      this.episodes = this.episodeService.getList(gameId, page);
   }
 
   onPageChange(page: number): void {
