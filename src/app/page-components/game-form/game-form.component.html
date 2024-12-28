@@ -1,5 +1,5 @@
 <div class="row">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <fieldset>
       <h3>New Game</h3>
       <div class="form-field">
@@ -10,10 +10,39 @@
         <label>Image:</label>
         <input name="name" formControlName="image" type="text">
       </div>
+    <div class="form-field">
+      <label for="description">Description: </label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+
+
+    <div class="form-field" formArrayName="fandoms">
+      <h5>Fandoms:</h5>
+      <div *ngFor="let fandom of fandoms.controls; let i=index">
+        <ng-autocomplete
+          [formControlName]="i"
+          [data]="dataFandom"
+          [searchKeyword]="keywordFandom"
+          placeholder="Select fandom"
+          (selected)='selectFandomEvent()'
+          (inputChanged)='onChangeFandomSearch($event)'
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">
+        </ng-autocomplete>
+      </div>
+      <button type="button" (click)="addFandom()">+ Add fandom</button>
+
+    </div>
     </fieldset>
+    <ng-template #itemTemplate let-item>
+      <a [innerHTML]="item.name"></a>
+    </ng-template>
+
+    <ng-template #notFoundTemplate let-notFound>
+      <div [innerHTML]="notFound"></div>
+    </ng-template>
     <div class="form-buttons">
-      <button class="button button-primary"
-              (click)="create()">Create</button>
+      <button class="button button-primary" type="submit" [disabled]="!form.valid">Submit</button>
     </div>
   </form>
 </div>

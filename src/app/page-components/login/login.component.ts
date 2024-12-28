@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SessionService} from '../../services/session/session.service';
 import {Router} from '@angular/router';
+import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent {
 
   constructor(private fb:FormBuilder,
               private sessionService: SessionService,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbsService: BreadcrumbsService) {
 
     this.form = this.fb.group({
       email: ['',Validators.required],
@@ -32,7 +34,7 @@ export class LoginComponent {
         .subscribe(
           (val) => {
             if (val) {
-              console.log("User is logged in");
+              this.breadcrumbsService.addBreadcrumb('/home', 'My Games', 1)
               this.router.navigateByUrl('/home');
             } else {
               console.log("Error");
