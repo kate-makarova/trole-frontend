@@ -31,6 +31,6 @@ export class EpisodeComponent {
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.episode = this.episodeService.get(this.episodeId);
-    this.posts = this.postService.getPostsByEpisode(this.episodeId);
+    this.posts = this.postService.getList(this.episodeId);
   }
 }

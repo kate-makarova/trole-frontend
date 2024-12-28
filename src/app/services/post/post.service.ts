@@ -5,17 +5,31 @@ import {Router} from '@angular/router';
 import {APIService} from '../apiservice/apiservice.service';
 import {Observable} from 'rxjs';
 import {Post} from '../../entities/Post';
+import {Episode} from '../../entities/Episode';
+import {EntityServiceInterface} from '../entityServiceInterface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService extends APIService {
+export class PostService extends APIService implements EntityServiceInterface{
 
   constructor(http: HttpClient, sessionService: SessionService, router: Router) {
     super(http, sessionService, router);
   }
 
-  getPostsByEpisode(episode_id: number): Observable<Post[]> {
-    return this.getData<any>('episode-posts/'+episode_id)
+  getList(episodeId: number, page: number): Observable<Post[]> {
+    return this.getData<any>('episode-posts/'+episodeId)
+  }
+
+  get(id: number): Observable<Episode> {
+    return this.getData<Episode>('post/' + id)
+  }
+
+  create(formData: any): Observable<number> {
+    return this.postData('post-create', formData);
+  }
+
+  update(id: number, formData: any): Observable<number> {
+    return this.postData('post-edit/' + id, formData);
   }
 }

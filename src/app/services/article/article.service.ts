@@ -29,6 +29,6 @@ export class ArticleService extends APIService implements EntityServiceInterface
   }
 
   update(id: number, formData: any): Observable<number> {
-    return this.postData('article-edite/' + id, formData);
+    return this.postData('article-edit/' + id, formData);
   }
 }

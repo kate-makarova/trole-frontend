@@ -23,7 +23,10 @@ export class GameFormComponent {
       name: ['', Validators.required],
       image: ['', Validators.required],
       description: ['', Validators.required],
-      fandom: ['', Validators.required]
+      fandom: ['', Validators.required],
+      rating: ['', Validators.required],
+      access_level: ['', Validators.required],
+      status: ['', Validators.required]
     });
   }
 

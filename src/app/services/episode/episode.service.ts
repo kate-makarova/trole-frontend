@@ -30,6 +30,6 @@ export class EpisodeService extends APIService implements EntityServiceInterface
     }
 
     update(id: number, formData: any): Observable<number> {
-        return this.postData('episode-edite/' + id, formData);
+        return this.postData('episode-edit/' + id, formData);
     }
 }
