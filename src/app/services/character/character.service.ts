@@ -20,8 +20,8 @@ export class CharacterService extends APIService {
       return this.getData<Character[]>('character-list/'+game_id)
     }
 
-  override autocomplete(term: string): Observable<SimpleEntity[]> {
-    return super.autocomplete('Character', term);
+  characterAutocomplete(gameId: number, term: string): Observable<SimpleEntity[]> {
+    return this.getData<SimpleEntity[]>('character-autocomplete/'+gameId+'/'+term)
   }
 
     create(formData: any): Observable<number> {

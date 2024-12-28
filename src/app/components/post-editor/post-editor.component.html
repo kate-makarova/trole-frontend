@@ -1,4 +1,10 @@
 <div id="post-editor">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    @for (character of characters; track character) {
+      <a (click)="chooseCharacter(character.id)">{{character.name}}</a>
+    }
 <a (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;<a (click)="insertTag('[i][/i]', 2)">i</a>
-<textarea style="height: 10rem" id="postEditor" type="text" [formControl]="postEditor"></textarea>
+
+  <textarea style="height: 10rem" id="postEditor" type="text" formControlName="content"></textarea>
+  </form>
 </div>

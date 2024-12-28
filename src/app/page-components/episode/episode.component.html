@@ -39,7 +39,7 @@
 
 @if((episode | async)?.is_mine) {
   <div class="row">
-    <app-post-editor></app-post-editor>
+    <app-post-editor [characters]="(episode | async)?.characters"></app-post-editor>
   </div>
 }
 

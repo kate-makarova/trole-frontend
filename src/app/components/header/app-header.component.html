@@ -15,11 +15,11 @@
         @case('game') {
           <li>
 <!--              <a routerLink="/character-create/{{param}}">Create Character</a>-->
-              <app-route-link [path]="'/character-create/{{param}}'" [name]="'Create Character'" [order]="2"></app-route-link>
+              <app-route-link [path]="'/character-create/'+param" [name]="'Create Character'" [order]="2"></app-route-link>
           </li>
           <li>
 <!--              <a routerLink="/episode-create/{{param}}">Create Episode</a>-->
-              <app-route-link [path]="'/episode-create/{{param}}'" [name]="'Create Episode'" [order]="2"></app-route-link>
+              <app-route-link [path]="'/episode-create/'+param" [name]="'Create Episode'" [order]="2"></app-route-link>
           </li>
         }
         @default {}

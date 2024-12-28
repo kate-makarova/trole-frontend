@@ -14,6 +14,7 @@ import {APIService} from '../../services/apiservice/apiservice.service';
 import {SimpleEntity} from '../../entities/SimpleEntity';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
+import {CharacterService} from '../../services/character/character.service';
 
 @Component({
   selector: 'app-episode-form',
@@ -32,6 +33,7 @@ export class EpisodeFormComponent implements OnInit {
   private path: string;
   protected gameName: string;
   mode: string = 'create';
+  gameId: number = 0;
   episodeId: number = 0;
   episodeName: string = '';
 
@@ -45,11 +47,13 @@ export class EpisodeFormComponent implements OnInit {
 
   constructor(private apiservice:APIService,
               private episodeService: EpisodeService,
+              private characterService: CharacterService,
               private router: Router,
               private route: ActivatedRoute,
               private breadcrumbsService:BreadcrumbsService,
               private location: Location) {
-    this.episodeForm.patchValue({game: Number(this.route.snapshot.paramMap.get('id'))})
+    this.gameId = Number(this.route.snapshot.paramMap.get('id'))
+    this.episodeForm.patchValue({game: this.gameId})
     this.path = this.location.path().split('/')[1];
     this.gameName = this.breadcrumbsService.getItem(2).name;
   }
@@ -72,7 +76,7 @@ export class EpisodeFormComponent implements OnInit {
 
   onChangeCharacterSearch(val: string) {
     if (val.length < 3) return;
-    this.apiservice.autocomplete('Character', val).subscribe(data => {
+    this.characterService.characterAutocomplete(this.gameId, val).subscribe(data => {
       this.dataCharacter = data;
     })
   }
