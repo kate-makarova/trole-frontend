@@ -40,7 +40,7 @@ export class GameComponent {
 
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.game = this.gameService.getGame(this.gameId)
+    this.game = this.gameService.get(this.gameId)
     this.fetchData(1);
   }
 }

@@ -7,6 +7,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {AsyncPipe, NgForOf} from '@angular/common';
 import {APIService} from '../../services/apiservice/apiservice.service';
 import {Observable, of} from 'rxjs';
+import {GameService} from '../../services/game/game.service';
 
 @Component({
   selector: 'app-game-form',
@@ -34,7 +35,9 @@ export class GameFormComponent {
   });
   fandom_other: boolean;
 
-  constructor(private apiservice: APIService) {
+  constructor(private apiservice: APIService,
+              private gameService: GameService,
+              private router: Router) {
     this.apiservice.getData<SimpleEntity[]>('static-list/Rating', null).subscribe(data => {
       this.dataRating = data;
     })
@@ -89,7 +92,9 @@ export class GameFormComponent {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    this.gameService.create(this.form.value).subscribe(data => {
+      this.router.navigateByUrl('/game/' + data);
+    })
   }
 
   protected readonly of = of;
