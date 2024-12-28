@@ -15,6 +15,33 @@
       <textarea id="description" formControlName="description"></textarea>
     </div>
 
+      <div class="form-field">
+        <label for="rating">Rating: </label>
+        <select id="rating" formControlName="rating">
+          @for (rating of dataRating; track rating) {
+            <option value="{{rating.id}}">{{rating.name}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="status">Status: </label>
+        <select id="status" formControlName="status">
+          @for (status of dataStatus; track status) {
+            <option value="{{status.id}}">{{status.name}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="access_level">Access Level: </label>
+        <select id="access_level" formControlName="access_level">
+          @for (access_level of dataAccessLevel; track access_level) {
+            <option value="{{access_level.id}}">{{access_level.name}}</option>
+          }
+        </select>
+      </div>
+
 
     <div class="form-field" formArrayName="fandoms">
       <h5>Fandoms:</h5>
@@ -24,15 +51,37 @@
           [data]="dataFandom"
           [searchKeyword]="keywordFandom"
           placeholder="Select fandom"
-          (selected)='selectFandomEvent()'
+          (selected)='selectFandomEvent($event)'
           (inputChanged)='onChangeFandomSearch($event)'
           [itemTemplate]="itemTemplate"
           [notFoundTemplate]="notFoundTemplate">
         </ng-autocomplete>
       </div>
-      <button type="button" (click)="addFandom()">+ Add fandom</button>
-
     </div>
+
+
+    <div class="form-control">
+      <button type="button" (click)="addFandom()">+ Add fandom</button>
+    </div>
+
+      @if (fandom_other) {
+        <div class="form-field" formArrayName="genres">
+          <h5>Original genres:</h5>
+          <div *ngFor="let genre of genres.controls; let j=index">
+            <select id="genre-{{j}}" formControlName="{{j}}">
+              @for (genreOption of dataGenre; track genreOption) {
+                <option value="{{genreOption.id}}">{{genreOption.name}}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <button type="button" (click)="addGenre()">+ Add genre</button>
+        </div>
+      }
+
+
     </fieldset>
     <ng-template #itemTemplate let-item>
       <a [innerHTML]="item.name"></a>
