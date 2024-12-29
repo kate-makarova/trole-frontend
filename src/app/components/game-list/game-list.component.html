@@ -29,11 +29,21 @@
   </div>
   <div class="large-3 columns">
     <p>
-      Total posts: {{ game.total_posts }}<br />
-<!--      Unread posts in my games: 3</p>-->
+      Users: {{ game.total_users }}<br />
+      Characters: {{ game.total_characters }}<br />
+      Episodes: {{ game.total_episodes }}<br />
+      Posts: {{ game.total_posts }}
     <div class="row">
       @for (character of game.my_characters; track character) {
         <img class="avatar-image" src="{{character.avatar}}" style="height: 40px" />
+        <div class="char-badges">
+        @if (character.unread_posts !== null && character.unread_posts > 0) {
+          <span class="badge success" data-tooltip tabindex="1" title="Unread posts">{{character.unread_posts}}</span>
+        }
+        @if (character.new_episodes !== null && character.new_episodes > 0) {
+          <span class="badge primary" data-tooltip tabindex="1" title="New episodes">{{character.new_episodes}}</span>
+        }
+        </div>
       }
     </div>
   </div>
