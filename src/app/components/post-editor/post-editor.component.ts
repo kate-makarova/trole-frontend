@@ -26,7 +26,7 @@ export class PostEditorComponent {
     episode: 0
   });
 
-  @Input('characters') characters: Character[] | undefined;
+  @Input('characters') characters: Observable<Character[]> | undefined;
 
   constructor(private postService: PostService,
               private route: ActivatedRoute) {
@@ -47,4 +47,6 @@ export class PostEditorComponent {
     //   console.log(data);
     // })
   }
+
+  protected readonly Array = Array;
 }

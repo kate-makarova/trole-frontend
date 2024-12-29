@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EpisodeListComponent} from '../../components/episode-list/episode-list.component';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
-import {Observable} from 'rxjs';
+import {Observable, shareReplay} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {RouteLinkComponent} from "../../components/route-link/route-link.component";
 
@@ -19,9 +19,9 @@ import {RouteLinkComponent} from "../../components/route-link/route-link.compone
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
-export class GameComponent {
-  game: Observable<Game> | undefined;
-  episodes: Observable<Episode[]> | undefined;
+export class GameComponent implements OnInit {
+  game$: Observable<Game> | undefined;
+  episodes$: Observable<Episode[]> | undefined;
   gameId: number = 0
 
   constructor(private episodeService: EpisodeService,
@@ -31,7 +31,7 @@ export class GameComponent {
   }
 
   fetchData(page: number): void {
-    this.episodes = this.episodeService.getList(this.gameId, page);
+    this.episodes$ = this.episodeService.getList(this.gameId, page).pipe(shareReplay(1));
   }
 
   onPageChange(page: number): void {
@@ -40,7 +40,7 @@ export class GameComponent {
 
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.game = this.gameService.get(this.gameId)
-    this.fetchData(1);
+    this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1));
+    this.fetchData(1)
   }
 }

@@ -1,7 +1,15 @@
 <div id="post-editor">
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    @for (character of characters; track character) {
-      <a (click)="chooseCharacter(character.id)">{{character.name}}</a>
+    @if (Array.isArray(characters | async)) {
+      @if ((characters | async)?.length == 1) {
+        @for (character of (characters | async); track character) {
+          <img src="{{character.avatar}}" alt="{{character.name}}"/>
+        }
+        } @else {
+        @for (character of (characters | async); track character) {
+          <a (click)="chooseCharacter(character.id)"><img src="{{character.avatar}}" alt="{{character.name}}"/></a>
+        }
+      }
     }
 <a (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;<a (click)="insertTag('[i][/i]', 2)">i</a>
 

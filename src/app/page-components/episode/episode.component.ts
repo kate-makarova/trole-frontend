@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
-import {Observable} from 'rxjs';
+import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
 import {AsyncPipe} from '@angular/common';
 import {Post} from '../../entities/Post';
@@ -17,9 +17,9 @@ import {Post} from '../../entities/Post';
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'
 })
-export class EpisodeComponent {
-  episode: Observable<Episode> | undefined;
-  posts: Observable<Post[]> | undefined;
+export class EpisodeComponent implements OnInit {
+  episode$: Observable<Episode> = of();
+  posts$: Observable<Post[]> = of([]);
   episodeId: number = 0;
 
   constructor(private episodeService: EpisodeService,
@@ -28,9 +28,17 @@ export class EpisodeComponent {
 
   }
 
+  getMyCharacters() {
+    let t = this.episode$?.pipe(
+      map((episode) => episode.characters.filter((ch) => ch.is_mine == true))
+    );
+    console.log(t);
+    return t;
+  }
+
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
-    this.episode = this.episodeService.get(this.episodeId);
-    this.posts = this.postService.getList(this.episodeId, 1);
+    this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));
+    this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
   }
 }
