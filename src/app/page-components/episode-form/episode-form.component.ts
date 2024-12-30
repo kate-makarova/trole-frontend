@@ -31,7 +31,7 @@ export class EpisodeFormComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   protected readonly of = of;
   private path: string;
-  protected gameName: string;
+  protected gameName: string = '';
   mode: string = 'create';
   gameId: number = 0;
   episodeId: number = 0;
@@ -45,8 +45,7 @@ export class EpisodeFormComponent implements OnInit {
     game: 0
   });
 
-  constructor(private apiservice:APIService,
-              private episodeService: EpisodeService,
+  constructor(private episodeService: EpisodeService,
               private characterService: CharacterService,
               private router: Router,
               private route: ActivatedRoute,
@@ -55,7 +54,6 @@ export class EpisodeFormComponent implements OnInit {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'))
     this.episodeForm.patchValue({game: this.gameId})
     this.path = this.location.path().split('/')[1];
-    this.gameName = this.breadcrumbsService.getItem(2).name;
   }
 
   get characters() {
@@ -89,6 +87,7 @@ export class EpisodeFormComponent implements OnInit {
     if (this.path === 'episode-edit') {
       this.mode = 'edit';
       this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
+      this.breadcrumbsService.changeBreadcrumbs('episode-edit', [this.episodeId])
       this.episodeService.get(this.episodeId).subscribe(data => {
         if(data == null) {
           return;
@@ -106,16 +105,19 @@ export class EpisodeFormComponent implements OnInit {
           characters: chars
         })
       })
-    }
+    } else {
+      this.breadcrumbsService.changeBreadcrumbs('episode-create', [this.gameId])}
   }
 
   onSubmit() {
     console.log(this.episodeForm.value);
     if (this.mode === 'edit') {
+      this.breadcrumbsService.changeBreadcrumbs('episode-edit', [this.episodeId])
       this.episodeService.update(this.episodeId, this.episodeForm.value).subscribe(data => {
         this.router.navigateByUrl('/episode/' + data);
       })
     } else {
+      this.breadcrumbsService.changeBreadcrumbs('episode-create', [this.gameId])
       this.episodeService.create(this.episodeForm.value).subscribe(data => {
         this.router.navigateByUrl('/episode/' + data);
       })

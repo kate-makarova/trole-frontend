@@ -50,10 +50,10 @@ export class EpisodeComponent implements OnInit {
 
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
+    this.breadcrumbsService.changeBreadcrumbs('episode', [this.episodeId]);
     this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
       this.titleService.setTitle(episode.name)
-      this.breadcrumbsService.changeBreadcrumbs('episode', [episode.id])
     });
     this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
   }

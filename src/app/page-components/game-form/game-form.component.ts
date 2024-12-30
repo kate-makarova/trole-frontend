@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SessionService} from '../../services/session/session.service';
 import {Router} from '@angular/router';
@@ -8,6 +8,7 @@ import {AsyncPipe, NgForOf} from '@angular/common';
 import {APIService} from '../../services/apiservice/apiservice.service';
 import {Observable, of} from 'rxjs';
 import {GameService} from '../../services/game/game.service';
+import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 
 @Component({
   selector: 'app-game-form',
@@ -20,7 +21,7 @@ import {GameService} from '../../services/game/game.service';
   templateUrl: './game-form.component.html',
   styleUrl: './game-form.component.css'
 })
-export class GameFormComponent {
+export class GameFormComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   form = this.formBuilder.group({
@@ -37,7 +38,8 @@ export class GameFormComponent {
 
   constructor(private apiservice: APIService,
               private gameService: GameService,
-              private router: Router) {
+              private router: Router,
+              private breadcrumbsService: BreadcrumbsService) {
     this.apiservice.getData<SimpleEntity[]>('static-list/Rating', null).subscribe(data => {
       this.dataRating = data;
     })
@@ -76,6 +78,10 @@ export class GameFormComponent {
   dataAccessLevel: SimpleEntity[] = [];
   dataStatus: SimpleEntity[] = [];
   dataGenre: SimpleEntity[] = [];
+
+  ngOnInit() {
+    this.breadcrumbsService.setBreadcrumbs([{name: 'My Games', path: '/home'}, {name: 'Create Game', path: '/game-create'}])
+  }
 
   selectFandomEvent(event: any) {
     let fandoms = this.form.getRawValue().fandoms.filter((f) => f !== null && f.id !== undefined);

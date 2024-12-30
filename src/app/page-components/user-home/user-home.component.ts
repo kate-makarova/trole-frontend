@@ -30,6 +30,6 @@ export class UserHomeComponent implements OnInit {
   }
   ngOnInit() {
     this.myGames = this.gameService.getMyGames()
-    this.breadcrumbsService.setBreadcrumbs([{order: 1, name: 'My Games', path: '/home'}])
+    this.breadcrumbsService.setBreadcrumbs([{name: 'My Games', path: '/home'}])
   }
 }
