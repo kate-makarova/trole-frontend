@@ -66,11 +66,11 @@ export const routes: Routes = [
     component: ChatComponent,
   },
   {
-    path: 'article',
+    path: 'article/:game_id',
     component: ArticleComponent,
   },
   {
-    path: 'article/:id',
+    path: 'article/:game_id/:id',
     component: ArticleComponent,
   },
 ];

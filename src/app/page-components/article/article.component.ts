@@ -7,12 +7,13 @@ import {HttpClient} from "@angular/common/http";
 import {SessionService} from "../../services/session/session.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ArticleService} from "../../services/article/article.service";
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-article',
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    NgIf
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css'
@@ -20,11 +21,13 @@ import {AsyncPipe} from '@angular/common';
 export class ArticleComponent implements OnInit {
   article$: Observable<Article> = of();
   articleId: number|null = null;
+  gameId: number;
 
   constructor(
     private articleService: ArticleService,
     private router: Router,
     private route: ActivatedRoute) {
+    this.gameId = Number(this.route.snapshot.paramMap.get('game_id'));
   }
 
   ngOnInit() {
@@ -33,11 +36,12 @@ export class ArticleComponent implements OnInit {
       this.articleId = parseInt(articleId);
     }
     if (this.articleId) {
-      this.article$ = this.articleService.get(this.articleId).pipe(shareReplay(1))
+      this.article$ = this.articleService.getByGameAndId(this.gameId, this.articleId).pipe(shareReplay(1))
     } else {
-      this.article$ = this.articleService.getIndex().pipe(shareReplay(1))
+      this.article$ = this.articleService.getIndex(this.gameId).pipe(shareReplay(1))
     }
   }
 
 
+  protected readonly Article = Article;
 }

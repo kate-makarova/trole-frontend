@@ -1,6 +1,16 @@
-<div class="row">
-  <h3>{{(article$ | async)?.name}}</h3>
+<div class="row" *ngIf="article$ | async as article; else loading">
+<div>
+  <h3>{{article.name}}</h3>
 </div>
-<div class="row">
-  <p>{{(article$ | async)?.content}}</p>
+<div>
+  <p>{{article.content}}</p>
 </div>
+<div>
+  <p>Published by {{article.author.name}} on {{article.date_created}}</p>
+</div>
+</div>
+
+
+<ng-template #loading>
+  <p>Loading article...</p>
+</ng-template>

@@ -1,16 +1,18 @@
+import {SimpleEntity} from './SimpleEntity';
+
 export class Article {
     id: number;
     name: string;
-    game_id: number;
-    author_id: number;
+    game: SimpleEntity;
+    author: SimpleEntity;
     date_created: Date;
     content: string;
 
-    constructor(id: number, name: string, gameId: number, userId: number, createdAt: Date, content: string) {
+    constructor(id: number, name: string, game: SimpleEntity, user: SimpleEntity, createdAt: Date, content: string) {
         this.id = id;
         this.name = name;
-        this.game_id = gameId;
-        this.author_id = userId;
+        this.game = game;
+        this.author = user;
         this.date_created = createdAt;
         this.content = content;
     }
