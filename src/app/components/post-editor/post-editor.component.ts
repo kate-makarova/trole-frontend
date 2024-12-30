@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
@@ -16,7 +16,7 @@ import {Character} from '../../entities/Character';
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
 })
-export class PostEditorComponent {
+export class PostEditorComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
 
@@ -33,6 +33,14 @@ export class PostEditorComponent {
     this.postForm.patchValue({episode: Number(this.route.snapshot.paramMap.get('id'))})
   }
 
+  ngOnInit() {
+    this.characters?.subscribe((data: Character[]) => {
+      if(data !== null && data.length == 1) {
+        this.postForm.controls.character.setValue(data[0].id)
+      }
+    })
+  }
+
   insertTag(tag: string, index: number) {
     this.postForm.controls.content.setValue(this.postForm.controls.content.getRawValue() + tag)
   }
@@ -43,9 +51,9 @@ export class PostEditorComponent {
 
   onSubmit() {
     console.log(this.postForm.value);
-    // this.postService.create(this.postForm.value).subscribe(data => {
-    //   console.log(data);
-    // })
+    this.postService.create(this.postForm.value).subscribe(data => {
+      console.log(data);
+    })
   }
 
   protected readonly Array = Array;

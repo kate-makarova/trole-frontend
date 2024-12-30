@@ -29,10 +29,9 @@ export class EpisodeComponent implements OnInit {
   }
 
   getMyCharacters() {
-    let t = this.episode$?.pipe(
+    let t = this.episode$?.pipe(shareReplay(1)).pipe(
       map((episode) => episode.characters.filter((ch) => ch.is_mine == true))
     );
-    console.log(t);
     return t;
   }
 

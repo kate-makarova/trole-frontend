@@ -14,6 +14,7 @@ export class RouteLinkComponent {
   @Input('path') path: string = '';
   @Input('name') name: string = '';
   @Input('order') order: number = -1;
+  @Input('class') class: string = '';
 
   constructor(private breadcrumbsService: BreadcrumbsService) {
   }

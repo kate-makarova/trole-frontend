@@ -17,5 +17,8 @@
     </div>
 
   <textarea style="height: 10rem" id="postEditor" type="text" formControlName="content"></textarea>
+    <div class="form-buttons">
+      <button class="button button-primary" type="submit" [disabled]="!postForm.valid">Submit</button>
+    </div>
   </form>
 </div>
