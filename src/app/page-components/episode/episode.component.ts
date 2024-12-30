@@ -7,6 +7,7 @@ import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
 import {AsyncPipe} from '@angular/common';
 import {Post} from '../../entities/Post';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-episode',
@@ -24,7 +25,9 @@ export class EpisodeComponent implements OnInit {
 
   constructor(private episodeService: EpisodeService,
               private postService: PostService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private titleService: Title,
+              ) {
 
   }
 
@@ -44,6 +47,7 @@ export class EpisodeComponent implements OnInit {
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));
+    this.episode$.subscribe(episode => this.titleService.setTitle(episode.name));
     this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
   }
 }

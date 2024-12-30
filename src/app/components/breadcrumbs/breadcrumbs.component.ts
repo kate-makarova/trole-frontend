@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 import {RouteLinkComponent} from '../route-link/route-link.component';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -14,7 +15,9 @@ export class BreadcrumbsComponent implements OnInit {
 
   breadcrumbs: {name: string, path: string, order: number}[] = []
 
-  constructor(private breadcrumbsService: BreadcrumbsService) {
+  constructor(private breadcrumbsService: BreadcrumbsService,
+              private titleService: Title,
+              ) {
   }
 
   ngOnInit() {

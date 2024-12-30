@@ -3,6 +3,7 @@ import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
 import {GameListComponent} from '../../components/game-list/game-list.component';
 import {Observable} from 'rxjs';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-user-home',
@@ -16,7 +17,10 @@ export class UserHomeComponent implements OnInit {
   // @ts-ignore
   myGames: Observable<Game[]> = [];
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService,
+              private titleService: Title) {
+    this.titleService.setTitle('My Games');
+  }
 
   getMyGames(): Observable<Game[]> {
     return this.myGames

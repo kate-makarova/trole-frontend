@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Persistent} from "../../decorators/persistent";
+import {Game} from "../../entities/Game";
+import {Episode} from "../../entities/Episode";
+import {Article} from "../../entities/Article";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +34,12 @@ export class BreadcrumbsService {
         order: order
       }]
     }
+    this.breadcrumbs.next(newBreadcrumbs);
+  }
+
+  changeLastItem(name: string) {
+    let newBreadcrumbs = [...this.breadcrumbs.value];
+    newBreadcrumbs[newBreadcrumbs.length - 1].name = name;
     this.breadcrumbs.next(newBreadcrumbs);
   }
 

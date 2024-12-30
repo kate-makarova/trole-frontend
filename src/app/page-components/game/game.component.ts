@@ -8,6 +8,8 @@ import {GameService} from '../../services/game/game.service';
 import {Observable, shareReplay} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {RouteLinkComponent} from "../../components/route-link/route-link.component";
+import {Title} from "@angular/platform-browser";
+import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 
 @Component({
   selector: 'app-game',
@@ -26,7 +28,9 @@ export class GameComponent implements OnInit {
 
   constructor(private episodeService: EpisodeService,
               private gameService: GameService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private titleService: Title,
+              ) {
 
   }
 
@@ -40,7 +44,10 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1));
+    this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1))
+    this.game$.subscribe(game => {
+      this.titleService.setTitle(game.name)
+    });
     this.fetchData(1)
   }
 }

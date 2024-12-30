@@ -57,6 +57,7 @@ export class APIService {
 
     return this.http.post<ApiResponse>(apiHost+endpoint, body, {headers: h})
         .pipe(switchMap((resp: ApiResponse) => {
+
               return of(resp.data as number);
             }),
             catchError((error) => {
