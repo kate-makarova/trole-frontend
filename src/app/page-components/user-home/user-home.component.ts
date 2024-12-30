@@ -4,6 +4,7 @@ import {GameService} from '../../services/game/game.service';
 import {GameListComponent} from '../../components/game-list/game-list.component';
 import {Observable} from 'rxjs';
 import {Title} from "@angular/platform-browser";
+import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 
 @Component({
   selector: 'app-user-home',
@@ -18,7 +19,9 @@ export class UserHomeComponent implements OnInit {
   myGames: Observable<Game[]> = [];
 
   constructor(private gameService: GameService,
-              private titleService: Title) {
+              private titleService: Title,
+              private breadcrumbsService: BreadcrumbsService,
+              ) {
     this.titleService.setTitle('My Games');
   }
 
@@ -27,5 +30,6 @@ export class UserHomeComponent implements OnInit {
   }
   ngOnInit() {
     this.myGames = this.gameService.getMyGames()
+    this.breadcrumbsService.setBreadcrumbs([{order: 1, name: 'My Games', path: '/home'}])
   }
 }

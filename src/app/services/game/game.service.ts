@@ -7,6 +7,7 @@ import {SessionService} from '../session/session.service';
 import {Router} from '@angular/router';
 import {EntityServiceInterface} from '../entityServiceInterface';
 import {Episode} from '../../entities/Episode';
+import {Breadcrumb} from "../../entities/Breadcrumb";
 
 @Injectable({
   providedIn: 'root'

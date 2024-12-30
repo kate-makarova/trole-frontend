@@ -8,6 +8,7 @@ import {PostService} from '../../services/post/post.service';
 import {AsyncPipe} from '@angular/common';
 import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
+import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 
 @Component({
   selector: 'app-episode',
@@ -27,6 +28,7 @@ export class EpisodeComponent implements OnInit {
               private postService: PostService,
               private route: ActivatedRoute,
               private titleService: Title,
+              private breadcrumbsService: BreadcrumbsService,
               ) {
 
   }
@@ -47,7 +49,10 @@ export class EpisodeComponent implements OnInit {
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));
-    this.episode$.subscribe(episode => this.titleService.setTitle(episode.name));
+    this.episode$.subscribe(episode => {
+      this.titleService.setTitle(episode.name)
+      this.breadcrumbsService.changeBreadcrumbs('episode', [episode.id])
+    });
     this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
   }
 }

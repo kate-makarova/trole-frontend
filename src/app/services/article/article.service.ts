@@ -6,6 +6,8 @@ import {Observable} from "rxjs";
 import {Article} from "../../entities/Article";
 import {APIService} from "../apiservice/apiservice.service";
 import {EntityServiceInterface} from "../entityServiceInterface";
+import {Game} from "../../entities/Game";
+import {Breadcrumb} from "../../entities/Breadcrumb";
 
 @Injectable({
   providedIn: 'root'

@@ -42,7 +42,7 @@ export class ArticleComponent implements OnInit {
       this.article$ = this.articleService.getIndex(this.gameId).pipe(shareReplay(1))
       this.article$.subscribe(article => {
         this.titleService.setTitle(article.name)
-        this.breadcrumbService.changeLastItem(article.name)
+        this.breadcrumbService.changeBreadcrumbs('article', [article.id])
       })
     }
   }

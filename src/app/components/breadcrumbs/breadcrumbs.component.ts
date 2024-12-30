@@ -16,7 +16,6 @@ export class BreadcrumbsComponent implements OnInit {
   breadcrumbs: {name: string, path: string, order: number}[] = []
 
   constructor(private breadcrumbsService: BreadcrumbsService,
-              private titleService: Title,
               ) {
   }
 

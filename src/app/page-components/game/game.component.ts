@@ -30,6 +30,7 @@ export class GameComponent implements OnInit {
               private gameService: GameService,
               private route: ActivatedRoute,
               private titleService: Title,
+              private breadcrumbsService: BreadcrumbsService,
               ) {
 
   }
@@ -47,6 +48,7 @@ export class GameComponent implements OnInit {
     this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1))
     this.game$.subscribe(game => {
       this.titleService.setTitle(game.name)
+      this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
     });
     this.fetchData(1)
   }
