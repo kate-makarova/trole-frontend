@@ -1,4 +1,4 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
@@ -27,6 +27,7 @@ export class PostEditorComponent implements OnInit {
   });
 
   @Input('characters') characters: Observable<Character[]> | undefined;
+  @Output() postAdded: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private postService: PostService,
               private route: ActivatedRoute) {
@@ -52,7 +53,8 @@ export class PostEditorComponent implements OnInit {
   onSubmit() {
     console.log(this.postForm.value);
     this.postService.create(this.postForm.value).subscribe(data => {
-      console.log(data);
+      this.postForm.controls.content.setValue('')
+      this.postAdded.emit(true)
     })
   }
 

@@ -28,11 +28,12 @@
 <div class="row">
   <div class="large-3 column">
     <!--    <a routerLink="/character-list/{{(game | async)?.id}}">Characters</a>-->
-    <app-route-link [class]="'button expanded'" [path]="'/character-list/{{(game | async)?.id}}'" [name]="'Characters'"
+    <app-route-link [class]="'button expanded'" [path]="'/character-list/'+(game$ | async)?.id" [name]="'Characters'"
                     [order]="3"></app-route-link>
   </div>
   <div class="large-3 column">
-    <a class="button expanded" href="#">Articles</a>
+    <app-route-link [class]="'button expanded'" [path]="'/article'" [name]="'Articles'"
+                    [order]="3"></app-route-link>
   </div>
   <div class="large-3 column">
     <a class="button expanded" href="#">Wanted</a>

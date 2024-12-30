@@ -39,7 +39,10 @@
 
 @if((episode$ | async)?.is_mine) {
   <div class="row">
-    <app-post-editor [characters]="getMyCharacters()"></app-post-editor>
+    <app-post-editor
+      [characters]="getMyCharacters()"
+      (postAdded)="onPostAdded($event)"
+    ></app-post-editor>
   </div>
 }
 

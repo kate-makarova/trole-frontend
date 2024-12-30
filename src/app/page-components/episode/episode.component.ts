@@ -35,6 +35,12 @@ export class EpisodeComponent implements OnInit {
     return t;
   }
 
+  onPostAdded(added: boolean) {
+    if (added) {
+      this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
+    }
+  }
+
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));

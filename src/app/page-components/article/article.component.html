@@ -1,1 +1,6 @@
-<p>article works!</p>
+<div class="row">
+  <h3>{{(article$ | async)?.name}}</h3>
+</div>
+<div class="row">
+  <p>{{(article$ | async)?.content}}</p>
+</div>

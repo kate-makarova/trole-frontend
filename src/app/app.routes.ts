@@ -10,6 +10,7 @@ import {CharacterListComponent} from './page-components/character-list/character
 import {Episode} from './entities/Episode';
 import {EpisodeFormComponent} from './page-components/episode-form/episode-form.component';
 import {CharacterFormComponent} from './page-components/character-form/character-form.component';
+import {ArticleComponent} from './page-components/article/article.component';
 export const routes: Routes = [
   {
     path: '',
@@ -63,5 +64,13 @@ export const routes: Routes = [
   {
     path: 'chat/:id',
     component: ChatComponent,
+  },
+  {
+    path: 'article',
+    component: ArticleComponent,
+  },
+  {
+    path: 'article/:id',
+    component: ArticleComponent,
   },
 ];

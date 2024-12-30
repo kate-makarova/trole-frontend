@@ -24,6 +24,10 @@ export class ArticleService extends APIService implements EntityServiceInterface
     return this.getData<Article>('article/' + id)
   }
 
+  getIndex(): Observable<Article> {
+    return this.getData<Article>('article-index')
+  }
+
   create(formData: any): Observable<number> {
     return this.postData('article-create', formData);
   }
