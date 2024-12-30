@@ -3,11 +3,7 @@
         <ul class="breadcrumbs">
             <li *ngFor="let breadcrumb of breadcrumbs; let last = last">
                 <span class="show-for-sr" *ngIf="last">Current: </span>
-                <app-route-link
-                        [path]="breadcrumb.path"
-                        [name]="breadcrumb.name"
-                        [order]="breadcrumb.order">
-                </app-route-link>
+                <a routerLink="{{breadcrumb.path}}">{{breadcrumb.name}}</a>
             </li>
         </ul>
     </nav>

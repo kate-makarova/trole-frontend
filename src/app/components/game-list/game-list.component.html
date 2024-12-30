@@ -9,11 +9,7 @@
     </div>
     <div class="large-6 columns">
         <h5>
-            <app-route-link
-                    [path]="'/game/' + game.id"
-                    [name]="game.name"
-                    [order]="2">
-            </app-route-link>
+            <a routerLink="/game/{{ game.id }}">{{ game.name }}</a>
             <span class="badge success">R</span>
         </h5>
         <p>

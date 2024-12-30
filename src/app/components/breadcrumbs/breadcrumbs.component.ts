@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
-import {RouteLinkComponent} from '../route-link/route-link.component';
-import {Title} from "@angular/platform-browser";
 import {NgForOf, NgIf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-breadcrumbs',
   imports: [
-    RouteLinkComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './breadcrumbs.component.html',
   styleUrl: './breadcrumbs.component.css'

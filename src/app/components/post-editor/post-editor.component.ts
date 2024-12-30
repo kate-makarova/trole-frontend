@@ -4,14 +4,16 @@ import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
 import {SimpleEntity} from '../../entities/SimpleEntity';
 import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 
 @Component({
   selector: 'app-post-editor',
   imports: [
     ReactiveFormsModule,
-    AsyncPipe
+    AsyncPipe,
+    NgIf,
+    NgForOf
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
@@ -57,6 +59,4 @@ export class PostEditorComponent implements OnInit {
       this.postAdded.emit(true)
     })
   }
-
-  protected readonly Array = Array;
 }

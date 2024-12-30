@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
 import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
@@ -14,7 +14,9 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
   selector: 'app-episode',
   imports: [
     PostEditorComponent,
-    AsyncPipe
+    AsyncPipe,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'

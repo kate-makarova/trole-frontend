@@ -3,12 +3,14 @@ import {Character} from '../../entities/Character';
 import {Observable} from 'rxjs';
 import {CharacterService} from '../../services/character/character.service';
 import {ActivatedRoute} from '@angular/router';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-character-list',
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    NgIf,
+    NgForOf
   ],
   templateUrl: './character-list.component.html',
   styleUrl: './character-list.component.css'

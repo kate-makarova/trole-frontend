@@ -2,22 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {EpisodeListComponent} from '../../components/episode-list/episode-list.component';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
 import {Observable, shareReplay} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
-import {RouteLinkComponent} from "../../components/route-link/route-link.component";
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 
 @Component({
   selector: 'app-game',
-    imports: [
-        EpisodeListComponent,
-        AsyncPipe,
-        RouteLinkComponent
-    ],
+  imports: [
+    EpisodeListComponent,
+    AsyncPipe,
+    NgIf,
+    NgForOf
+  ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })

@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {SessionService} from '../../services/session/session.service';
-import {Location} from '@angular/common';
-import {RouteLinkComponent} from '../route-link/route-link.component';
-import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
+import {Location, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
-    RouteLinkComponent
+    NgSwitch,
+    NgSwitchCase,
+    NgIf
   ],
   templateUrl: './app-header.component.html',
   styleUrl: './app-header.component.css'
@@ -20,8 +20,7 @@ export class AppHeaderComponent {
 
   constructor(public sessionService: SessionService,
               private router: Router,
-              private location: Location,
-              private breadcrumbsService: BreadcrumbsService) {
+              private location: Location) {
     this.path = this.location.path().split('/')[1];
     this.router.events.subscribe(event => {
         this.path = this.location.path().split('/')[1];
@@ -31,10 +30,6 @@ export class AppHeaderComponent {
             break;
         }
     });
-  }
-
-  updateBreadcrumbsHome() {
-    this.breadcrumbsService.addBreadcrumb('/', 'Home', 0);
   }
 
 }

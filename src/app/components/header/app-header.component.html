@@ -1,7 +1,7 @@
 <header>
     <div class="top-bar">
         <div class="top-bar-left">
-            <a routerLink="/" (click)="updateBreadcrumbsHome()">
+            <a routerLink="/">
                 <h1>
                     <img src="logo.png" style="height: 50px; display: inline-block" /> TROLE ONLINE
                 </h1>
@@ -11,26 +11,14 @@
             <ul class="menu">
                 <ng-container [ngSwitch]="path">
                     <li *ngSwitchCase="'home'">
-                        <app-route-link
-                                [path]="'/game-create'"
-                                [name]="'Create Game'"
-                                [order]="1">
-                        </app-route-link>
+                        <a routerLink="/game-create">Create Game</a>
                     </li>
                     <ng-container *ngSwitchCase="'game'">
                         <li>
-                            <app-route-link
-                                    [path]="'/character-create/' + param"
-                                    [name]="'Create Character'"
-                                    [order]="2">
-                            </app-route-link>
+                            <a routerLink="/character-create/{{param}}">Create Character</a>
                         </li>
                         <li>
-                            <app-route-link
-                                    [path]="'/episode-create/' + param"
-                                    [name]="'Create Episode'"
-                                    [order]="2">
-                            </app-route-link>
+                            <a routerLink="/episode-create/{{param}}">Create Episode</a>
                         </li>
                     </ng-container>
                 </ng-container>
@@ -38,11 +26,7 @@
             <ul class="menu">
                 <ng-container *ngIf="sessionService.getUser() !== null; else loggedOut">
                     <li>
-                        <app-route-link
-                                [path]="'/home'"
-                                [name]="'My Games'"
-                                [order]="1">
-                        </app-route-link>
+                        <a routerLink="/home">My Games</a>
                     </li>
                     <!-- Uncomment as needed -->
                     <!-- <li><a href="#">Profile</a></li> -->

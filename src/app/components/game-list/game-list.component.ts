@@ -1,16 +1,18 @@
 import {Component, Input} from '@angular/core';
 import {Game} from '../../entities/Game';
 import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
-import {RouteLinkComponent} from '../route-link/route-link.component';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-game-list',
-  imports: [
-    AsyncPipe,
-    RouteLinkComponent
-  ],
+    imports: [
+        AsyncPipe,
+        NgForOf,
+        RouterLink,
+        NgIf
+    ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css'
 })

@@ -1,17 +1,18 @@
 import {Component, Input} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
-import {RouteLinkComponent} from "../route-link/route-link.component";
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-episode-list',
-  imports: [
-    AsyncPipe,
-    RouteLinkComponent
-  ],
+    imports: [
+        AsyncPipe,
+        RouterLink,
+        NgForOf,
+        NgIf
+    ],
   templateUrl: './episode-list.component.html',
   styleUrl: './episode-list.component.css'
 })
