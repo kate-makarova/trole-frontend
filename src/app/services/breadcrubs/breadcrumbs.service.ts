@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
+import {Persistent} from "../../decorators/persistent";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BreadcrumbsService {
+  @Persistent()
   private breadcrumbs = new BehaviorSubject<{path: string, name: string, order: number}[]>(
     [{
       path: '/',

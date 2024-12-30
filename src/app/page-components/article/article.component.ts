@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Article} from "../../entities/Article";
-import {Observable, of, share, shareReplay} from "rxjs";
-import {APIService} from "../../services/apiservice/apiservice.service";
-import {EntityServiceInterface} from "../../services/entityServiceInterface";
-import {HttpClient} from "@angular/common/http";
-import {SessionService} from "../../services/session/session.service";
+import {Observable, of, shareReplay} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ArticleService} from "../../services/article/article.service";
 import {AsyncPipe, NgIf} from '@angular/common';
@@ -41,7 +37,4 @@ export class ArticleComponent implements OnInit {
       this.article$ = this.articleService.getIndex(this.gameId).pipe(shareReplay(1))
     }
   }
-
-
-  protected readonly Article = Article;
 }
