@@ -1,52 +1,65 @@
-@for (game of (games | async); track game) {
-<div class="row">
-  <div class="large-3 columns">
-    <p><img src="{{game.image}}" alt="image for article" alt="article preview image"></p>
-  </div>
-  <div class="large-6 columns">
-    <h5>
-<!--      <a href="/game/{{game.id}}" (click)="updateBreadcrumbs('/game/'+game.id, game.name)">{{game.name}}</a>-->
-      <app-route-link [path]="'/game/'+game.id" [name]="game.name" [order]="2"></app-route-link>
-      <span class="badge success">R</span></h5>
-    <p>
-            <span><i class="fi-fandom">
-              @for (fandom of game.fandoms; track fandom) {
-                <a href="/fandom/{{fandom.id}}">{{fandom.name}}</a>
-              }
-              </i>&nbsp;&nbsp;</span>
-      <span><i class="fi-comments">
-               @for (genre of game.genres; track genre) {
-                 <a href="/fandom/{{genre.id}}">{{genre.name}}</a>
-               }
-            </i>&nbsp;&nbsp;</span>
-      <span><i class="fi-media">
-               @for (media of game.media; track media) {
-                 <a href="/fandom/{{media.id}}">{{media.name}}</a>
-               }
-            </i>&nbsp;&nbsp;</span>
-    </p>
-    <p>{{game.description}}</p>
-  </div>
-  <div class="large-3 columns">
-    <p>
-      Users: {{ game.total_users }}<br />
-      Characters: {{ game.total_characters }}<br />
-      Episodes: {{ game.total_episodes }}<br />
-      Posts: {{ game.total_posts }}
-    <div class="row">
-      @for (character of game.my_characters; track character) {
-        <img class="avatar-image" src="{{character.avatar}}" style="height: 40px" />
-        <div class="char-badges">
-        @if (character.unread_posts !== null && character.unread_posts > 0) {
-          <span class="badge success" data-tooltip tabindex="1" title="Unread posts">{{character.unread_posts}}</span>
-        }
-        @if (character.new_episodes !== null && character.new_episodes > 0) {
-          <span class="badge primary" data-tooltip tabindex="1" title="New episodes">{{character.new_episodes}}</span>
-        }
-        </div>
-      }
+<div *ngFor="let game of games | async" class="row">
+    <div class="large-3 columns">
+        <p>
+            <img
+                    [src]="game.image"
+                    alt="image for article"
+                    alt="article preview image">
+        </p>
     </div>
-  </div>
+    <div class="large-6 columns">
+        <h5>
+            <app-route-link
+                    [path]="'/game/' + game.id"
+                    [name]="game.name"
+                    [order]="2">
+            </app-route-link>
+            <span class="badge success">R</span>
+        </h5>
+        <p>
+      <span><i class="fi-fandom">
+        <a *ngFor="let fandom of game.fandoms" [href]="'/fandom/' + fandom.id">{{ fandom.name }}</a>
+      </i>&nbsp;&nbsp;</span>
+            <span><i class="fi-comments">
+        <a *ngFor="let genre of game.genres" [href]="'/fandom/' + genre.id">{{ genre.name }}</a>
+      </i>&nbsp;&nbsp;</span>
+            <span><i class="fi-media">
+        <a *ngFor="let media of game.media" [href]="'/fandom/' + media.id">{{ media.name }}</a>
+      </i>&nbsp;&nbsp;</span>
+        </p>
+        <p>{{ game.description }}</p>
+    </div>
+    <div class="large-3 columns">
+        <p>
+            Users: {{ game.total_users }}<br />
+            Characters: {{ game.total_characters }}<br />
+            Episodes: {{ game.total_episodes }}<br />
+            Posts: {{ game.total_posts }}
+        </p>
+        <div class="row">
+            <div *ngFor="let character of game.my_characters" class="character-info">
+                <img
+                        class="avatar-image"
+                        [src]="character.avatar"
+                        style="height: 40px" />
+                <div class="char-badges">
+          <span
+                  *ngIf="character.unread_posts !== null && character.unread_posts > 0"
+                  class="badge success"
+                  data-tooltip tabindex="1"
+                  [title]="'Unread posts'">
+            {{ character.unread_posts }}
+          </span>
+                    <span
+                            *ngIf="character.new_episodes !== null && character.new_episodes > 0"
+                            class="badge primary"
+                            data-tooltip tabindex="1"
+                            [title]="'New episodes'">
+            {{ character.new_episodes }}
+          </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
 </div>
-  <hr />
-}

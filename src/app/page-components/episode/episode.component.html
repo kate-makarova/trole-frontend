@@ -1,49 +1,48 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">{{(episode$ | async)?.name}}</h4>
+    <h4 style="margin: 0;" class="text-center">{{ (episode$ | async)?.name }}</h4>
 </div>
 
 <hr>
+
 <div class="row text-center">
-  <img src="{{(episode$ | async)?.image}}" style="max-height: 400px" />
+    <img [src]="(episode$ | async)?.image" style="max-height: 400px" />
 </div>
-<div class="row"  style="white-space: pre-line">
-  {{(episode$ | async)?.description}}
+
+<div class="row" style="white-space: pre-line">
+    {{ (episode$ | async)?.description }}
 </div>
+
 <hr>
+
 <div class="row">
-  <ul>
-    @for (character of (episode$ | async)?.characters; track character) {
-      <li><a href="/character/{{character.id}}">{{character.name}}</a></li>
-    }
-  </ul>
+    <ul>
+        <li *ngFor="let character of (episode$ | async)?.characters">
+            <a [href]="'/character/' + character.id">{{ character.name }}</a>
+        </li>
+    </ul>
 </div>
+
 <br />
 
-    @for (post of (posts$ | async); track post) {
-      <div class="row column">
-        <div class="media-object">
-          <div class="media-object-section">
+<div *ngFor="let post of (posts$ | async)" class="row column">
+    <div class="media-object">
+        <div class="media-object-section">
             <a href="#">
-              <div class="thumbnail">
-                <h5>{{ post.character.name }}</h5>
-                <img width="80px" src="{{post.character.avatar}}"/>
-              </div>
+                <div class="thumbnail">
+                    <h5>{{ post.character.name }}</h5>
+                    <img width="80px" [src]="post.character.avatar"/>
+                </div>
             </a>
-          </div>
-          <div class="media-object-section" style="white-space: pre-line">
-            {{ post.content }}
-          </div>
         </div>
-      </div>
-    }
+        <div class="media-object-section" style="white-space: pre-line">
+            {{ post.content }}
+        </div>
+    </div>
+</div>
 
-@if((episode$ | async)?.is_mine) {
-  <div class="row">
+<div *ngIf="(episode$ | async)?.is_mine" class="row">
     <app-post-editor
-      [characters]="getMyCharacters()"
-      (postAdded)="onPostAdded($event)"
+            [characters]="getMyCharacters()"
+            (postAdded)="onPostAdded($event)"
     ></app-post-editor>
-  </div>
-}
-
-
+</div>

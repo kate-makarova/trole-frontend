@@ -1,51 +1,66 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">{{ (game$ | async)?.name }}</h4>
+    <h4 style="margin: 0;" class="text-center">{{ (game$ | async)?.name }}</h4>
 </div>
+
 <hr>
-  <div class="row">
+
+<div class="row">
     <div class="column large-4">
-      <img src="{{(game$ | async)?.image}}" style="max-height: 400px"/>
+        <img [src]="(game$ | async)?.image" style="max-height: 400px"/>
     </div>
     <div class="column large-8">
-      <div class="">
-        @for (fandom of (game$ | async)?.fandoms; track fandom) {
-          <span class="label primary">{{ fandom.name }}</span>&nbsp;
-        } <br/>
-        @for (genre of (game$ | async)?.genres; track genre) {
-          <span class="label success">{{ genre.name }}</span>
-        }
-      </div>
-      <div class="">
-        {{ (game$ | async)?.description }}
-      </div>
-      <div class=" footer">
-        {{ (game$ | async)?.total_episodes }} episodes <br/>
-        {{ (game$ | async)?.total_posts }} posts
-      </div>
+        <div>
+            <ng-container *ngIf="(game$ | async)?.fandoms">
+                <span *ngFor="let fandom of (game$ | async)?.fandoms" class="label primary">{{ fandom.name }}</span>&nbsp;
+            </ng-container>
+            <br/>
+            <ng-container *ngIf="(game$ | async)?.genres">
+                <span *ngFor="let genre of (game$ | async)?.genres" class="label success">{{ genre.name }}</span>
+            </ng-container>
+        </div>
+        <div>
+            {{ (game$ | async)?.description }}
+        </div>
+        <div class="footer">
+            {{ (game$ | async)?.total_episodes }} episodes <br/>
+            {{ (game$ | async)?.total_posts }} posts
+        </div>
     </div>
-  </div>
+</div>
+
 <hr>
+
 <div class="row">
-  <div class="large-3 column">
-    <!--    <a routerLink="/character-list/{{(game | async)?.id}}">Characters</a>-->
-    <app-route-link [class]="'button expanded'" [path]="'/character-list/'+(game$ | async)?.id" [name]="'Characters'"
-                    [order]="3"></app-route-link>
-  </div>
-  <div class="large-3 column">
-    <app-route-link [class]="'button expanded'" [path]="'/article/'+(game$ | async)?.id" [name]="'Articles'"
-                    [order]="3"></app-route-link>
-  </div>
-  <div class="large-3 column">
-    <a class="button expanded" href="#">Wanted</a>
-  </div>
-  <div class="large-3 column">
-    <a class="button expanded success" href="#">Chat room</a>
-  </div>
+    <div class="large-3 column">
+        <app-route-link
+                class="button expanded"
+                [path]="'/character-list/' + (game$ | async)?.id"
+                [name]="'Characters'"
+                [order]="3">
+        </app-route-link>
+    </div>
+    <div class="large-3 column">
+        <app-route-link
+                class="button expanded"
+                [path]="'/article/' + (game$ | async)?.id"
+                [name]="'Articles'"
+                [order]="3">
+        </app-route-link>
+    </div>
+    <div class="large-3 column">
+        <a class="button expanded" href="#">Wanted</a>
+    </div>
+    <div class="large-3 column">
+        <a class="button expanded success" href="#">Chat room</a>
+    </div>
 </div>
 
 <br/>
+
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">EPISODES</h4>
+    <h4 style="margin: 0;" class="text-center">EPISODES</h4>
 </div>
+
 <hr>
-<app-episode-list [episodes]="this.episodes$"></app-episode-list>
+
+<app-episode-list [episodes]="episodes$"></app-episode-list>

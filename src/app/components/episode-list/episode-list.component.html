@@ -1,35 +1,37 @@
 <div class="row">
-<table>
-  <thead>
-  <tr>
-    <th style="width: 10%">Status</th>
-    <th>Title</th>
-    <th style="width: 20%">Characters</th>
-    <th style="width: 20%">Last Post</th>
-  </tr>
-  </thead>
-  <tbody>
-    @for (episode of (episodes | async); track episode) {
-  <tr>
-    <td>{{episode.status}}</td>
-    <td><h5>
-<!--        <a href="/episode/{{episode.id}}">{{episode.name}}</a>-->
-        <app-route-link [path]="'/episode/'+episode.id" [name]="episode.name" [order]="3"></app-route-link>
-    </h5></td>
-    <td>
-      <ul>
-      @for (character of episode.characters; track character) {
-        <li>
-          @if(character.is_mine) { >> }
-          <a href="/character/{{character.id}}">{{character.name}}</a>
-        </li>
-      }
-      </ul>
-    </td>
-    <td>{{episode.last_post_date}} - {{episode.last_post_author?.name}}</td>
-  </tr>
-    }
-  </tbody>
-</table>
-<!--  <app-pagination (pageChanged)="onPageChange($event)"></app-pagination>-->
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 10%">Status</th>
+            <th>Title</th>
+            <th style="width: 20%">Characters</th>
+            <th style="width: 20%">Last Post</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let episode of episodes | async">
+            <td>{{ episode.status }}</td>
+            <td>
+                <h5>
+                    <app-route-link
+                            [path]="'/episode/' + episode.id"
+                            [name]="episode.name"
+                            [order]="3">
+                    </app-route-link>
+                </h5>
+            </td>
+            <td>
+                <ul>
+                    <li *ngFor="let character of episode.characters">
+                        <span *ngIf="character.is_mine">>> </span>
+                        <a [href]="'/character/' + character.id">{{ character.name }}</a>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                {{ episode.last_post_date }} - {{ episode.last_post_author?.name }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

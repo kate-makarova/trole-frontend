@@ -1,45 +1,60 @@
 <header>
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <a routerLink="/" (click)="updateBreadcrumbsHome()"><h1><img src="logo.png" style="height: 50px; display: inline-block" /> TROLE ONLINE</h1></a>
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a routerLink="/" (click)="updateBreadcrumbsHome()">
+                <h1>
+                    <img src="logo.png" style="height: 50px; display: inline-block" /> TROLE ONLINE
+                </h1>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <ul class="menu">
+                <ng-container [ngSwitch]="path">
+                    <li *ngSwitchCase="'home'">
+                        <app-route-link
+                                [path]="'/game-create'"
+                                [name]="'Create Game'"
+                                [order]="1">
+                        </app-route-link>
+                    </li>
+                    <ng-container *ngSwitchCase="'game'">
+                        <li>
+                            <app-route-link
+                                    [path]="'/character-create/' + param"
+                                    [name]="'Create Character'"
+                                    [order]="2">
+                            </app-route-link>
+                        </li>
+                        <li>
+                            <app-route-link
+                                    [path]="'/episode-create/' + param"
+                                    [name]="'Create Episode'"
+                                    [order]="2">
+                            </app-route-link>
+                        </li>
+                    </ng-container>
+                </ng-container>
+            </ul>
+            <ul class="menu">
+                <ng-container *ngIf="sessionService.getUser() !== null; else loggedOut">
+                    <li>
+                        <app-route-link
+                                [path]="'/home'"
+                                [name]="'My Games'"
+                                [order]="1">
+                        </app-route-link>
+                    </li>
+                    <!-- Uncomment as needed -->
+                    <!-- <li><a href="#">Profile</a></li> -->
+                    <!-- <li><a href="#">Look for Game</a></li> -->
+                    <li><a href="#">Log Out</a></li>
+                </ng-container>
+                <ng-template #loggedOut>
+                    <li>
+                        <a routerLink="/login">Log In</a>
+                    </li>
+                </ng-template>
+            </ul>
+        </div>
     </div>
-    <div class="top-bar-right">
-      <ul class="menu">
-      @switch(path) {
-        @case('home') {
-          <li>
-<!--              <a routerLink="/game-create">Create Game</a>-->
-              <app-route-link [path]="'/game-create'" [name]="'Create Game'" [order]="1"></app-route-link>
-          </li>
-        }
-        @case('game') {
-
-          <li>
-<!--              <a routerLink="/character-create/{{param}}">Create Character</a>-->
-              <app-route-link [path]="'/character-create/'+param" [name]="'Create Character'" [order]="2"></app-route-link>
-          </li>
-          <li>
-<!--              <a routerLink="/episode-create/{{param}}">Create Episode</a>-->
-              <app-route-link [path]="'/episode-create/'+param" [name]="'Create Episode'" [order]="2"></app-route-link>
-          </li>
-        }
-        @default {}
-      }
-      </ul>
-      <ul class="menu">
-      @if (sessionService.getUser() !== null) {
-        <li>
-<!--          <a routerLink="/home">My Games</a>-->
-          <app-route-link [path]="'/home'" [name]="'My Games'" [order]="1"></app-route-link>
-        </li>
-<!--        <li><a href="#">Profile</a></li>-->
-<!--        <li><a href="#">Look for Game</a></li>-->
-        <li><a href="#">Log Out</a></li>
-      } @else {
-        <li><a routerLink="/login">Log In</a></li>
-        }
-      </ul>
-    </div>
-  </div>
-  <!-- /Sub Navigation -->
 </header>

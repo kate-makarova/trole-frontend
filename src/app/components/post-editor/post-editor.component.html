@@ -1,24 +1,43 @@
 <div id="post-editor">
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    <div>
-    @if (Array.isArray(characters | async)) {
-      @if ((characters | async)?.length == 1) {
-        @for (character of (characters | async); track character) {
-          <img style="height:40px" src="{{character.avatar}}" alt="{{character.name}}"/>
-        }
-        } @else {
-        @for (character of (characters | async); track character) {
-          <a (click)="chooseCharacter(character.id)"><img style="height:40px" src="{{character.avatar}}" alt="{{character.name}}"/></a>
-        }
-      }
-    }</div>
-    <div>
-<a (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;<a (click)="insertTag('[i][/i]', 2)">i</a>
-    </div>
-
-  <textarea style="height: 10rem" id="postEditor" type="text" formControlName="content"></textarea>
-    <div class="form-buttons">
-      <button class="button button-primary" type="submit" [disabled]="!postForm.valid">Submit</button>
-    </div>
-  </form>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+        <div>
+            <ng-container *ngIf="characters | async as charArray">
+                <ng-container *ngIf="charArray.length === 1; else multipleCharacters">
+                    <img
+                            *ngFor="let character of charArray"
+                            style="height:40px"
+                            [src]="character.avatar"
+                            [alt]="character.name" />
+                </ng-container>
+                <ng-template #multipleCharacters>
+                    <a
+                            *ngFor="let character of charArray"
+                            (click)="chooseCharacter(character.id)">
+                        <img
+                                style="height:40px"
+                                [src]="character.avatar"
+                                [alt]="character.name" />
+                    </a>
+                </ng-template>
+            </ng-container>
+        </div>
+        <div>
+            <a (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;
+            <a (click)="insertTag('[i][/i]', 2)">i</a>
+        </div>
+        <textarea
+                style="height: 10rem"
+                id="postEditor"
+                type="text"
+                formControlName="content">
+    </textarea>
+        <div class="form-buttons">
+            <button
+                    class="button button-primary"
+                    type="submit"
+                    [disabled]="!postForm.valid">
+                Submit
+            </button>
+        </div>
+    </form>
 </div>

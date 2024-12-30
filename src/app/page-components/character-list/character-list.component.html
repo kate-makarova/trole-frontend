@@ -1,9 +1,8 @@
 <div class="row">
-  <ul class="list">
-@for (character of (characters | async); track character) {
-    <li><a href="/character/{{character.id}}">{{character.name}}</a>
-  @if (character.is_mine) { * }
-    </li>
-}
-  </ul>
+    <ul class="list">
+        <li *ngFor="let character of characters | async">
+            <a [href]="'/character/' + character.id">{{ character.name }}</a>
+            <span *ngIf="character.is_mine"> *</span>
+        </li>
+    </ul>
 </div>
