@@ -32,26 +32,16 @@
 
 <div class="row">
     <div class="large-3 column">
-        <app-route-link
-                class="button expanded"
-                [path]="'/character-list/' + (game$ | async)?.id"
-                [name]="'Characters'"
-                [order]="3">
-        </app-route-link>
+      <a class="button expanded" routerLink="/character-list/{{(game$ | async)?.id }}">Character List</a>
     </div>
     <div class="large-3 column">
-        <app-route-link
-                class="button expanded"
-                [path]="'/article/' + (game$ | async)?.id"
-                [name]="'Articles'"
-                [order]="3">
-        </app-route-link>
+      <a class="button expanded" routerLink="/article/{{(game$ | async)?.id }}">Articles</a>
     </div>
     <div class="large-3 column">
-        <a class="button expanded" href="#">Wanted</a>
+        <a class="button expanded disabled" href="#">Wanted</a>
     </div>
     <div class="large-3 column">
-        <a class="button expanded success" href="#">Chat room</a>
+        <a class="button expanded success disabled" href="#">Chat room</a>
     </div>
 </div>
 

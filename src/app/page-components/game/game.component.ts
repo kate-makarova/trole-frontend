@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EpisodeListComponent} from '../../components/episode-list/episode-list.component';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
 import {Observable, shareReplay} from 'rxjs';
@@ -16,7 +16,8 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
     EpisodeListComponent,
     AsyncPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'

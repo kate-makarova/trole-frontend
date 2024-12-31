@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 import {NgForOf, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {Breadcrumb} from '../../entities/Breadcrumb';
+
+class Breadcrumbs {
+}
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -15,7 +19,7 @@ import {RouterLink} from "@angular/router";
 })
 export class BreadcrumbsComponent implements OnInit {
 
-  breadcrumbs: {name: string, path: string, order: number}[] = []
+  breadcrumbs: Breadcrumb[] = []
 
   constructor(private breadcrumbsService: BreadcrumbsService,
               ) {

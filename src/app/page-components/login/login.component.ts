@@ -17,8 +17,7 @@ export class LoginComponent {
 
   constructor(private fb:FormBuilder,
               private sessionService: SessionService,
-              private router: Router,
-              private breadcrumbsService: BreadcrumbsService) {
+              private router: Router) {
 
     this.form = this.fb.group({
       email: ['',Validators.required],
@@ -34,7 +33,6 @@ export class LoginComponent {
         .subscribe(
           (val) => {
             if (val) {
-              this.breadcrumbsService.addBreadcrumb('/home', 'My Games', 1)
               this.router.navigateByUrl('/home');
             } else {
               console.log("Error");
