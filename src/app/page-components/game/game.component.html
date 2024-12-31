@@ -1,5 +1,7 @@
+<app-top-buttons [buttons]="topButtons"></app-top-buttons>
+
 <div class="row column">
-    <h4 style="margin: 0;" class="text-center">{{ (game$ | async)?.name }}</h4>
+    <h4 style="margin: 0; text-transform: uppercase" class="text-center">{{ (game$ | async)?.name }}</h4>
 </div>
 
 <hr>

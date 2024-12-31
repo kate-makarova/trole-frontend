@@ -1,9 +1,10 @@
+<app-top-buttons [buttons]="topButtons"></app-top-buttons>
+
 <div class="row" *ngIf="article$ | async as article; else loading">
 <div>
   <h3>{{article.name}}</h3>
 </div>
-<div>
-  <p>{{article.content}}</p>
+<div [innerHTML]="article.content">
 </div>
 <div>
   <p>Published by {{article.author.name}} on {{article.date_created}}</p>

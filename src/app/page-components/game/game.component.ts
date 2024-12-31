@@ -9,6 +9,8 @@ import {Observable, shareReplay} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
+import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
+import {TopButton} from '../../entities/TopButton';
 
 @Component({
   selector: 'app-game',
@@ -17,7 +19,8 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
     AsyncPipe,
     NgIf,
     NgForOf,
-    RouterLink
+    RouterLink,
+    TopButtonsComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
@@ -25,7 +28,8 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
 export class GameComponent implements OnInit {
   game$: Observable<Game> | undefined;
   episodes$: Observable<Episode[]> | undefined;
-  gameId: number = 0
+  gameId: number = 0;
+  topButtons: TopButton[] = []
 
   constructor(private episodeService: EpisodeService,
               private gameService: GameService,
@@ -50,6 +54,32 @@ export class GameComponent implements OnInit {
     this.game$.subscribe(game => {
       this.titleService.setTitle(game.name)
       this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
+      if (game.is_mine) {
+        this.topButtons = [
+          {
+            path: '/character-crete',
+            name: 'Create Character',
+            class: 'button primary',
+            id: 'top-button-create-character'
+          },
+          {
+            path: '/character-episode',
+            name: 'Create Episode',
+            class: 'button primary',
+            id: 'top-button-create-episode'
+          }
+        ]
+      } else {
+        this.topButtons = [
+          {
+            path: '/game-join',
+            name: 'Join Game',
+            class: 'button success',
+            id: 'top-button-join-game'
+          }
+          ]
+      }
+
     });
     this.fetchData(1)
   }

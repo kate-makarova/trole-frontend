@@ -10,16 +10,21 @@
         </thead>
         <tbody>
         <tr *ngFor="let episode of episodes | async">
-            <td>{{ episode.status }}</td>
+            <td [ngSwitch]="episode.status">
+              <span class="label success" *ngSwitchCase="'Ongoing'"> {{ episode.status }}</span>
+              <span class="label primary" *ngSwitchCase="'Finished'"> {{ episode.status }}</span>
+              <span class="label secondary" *ngSwitchCase="'Archived'"> {{ episode.status }}</span>
+              <span class="label ongoing disabled" *ngSwitchCase="'Pending'"> {{ episode.status }}</span>
+            </td>
             <td>
                 <h5>
-                    <a routerLink="/episode/{{ episode.id }}">{{episode.name}}</a>
+                  <a routerLink="/episode/{{ episode.id }}">{{episode.name}}</a>
+                  <span class="badge" *ngIf="episode.is_mine">mine</span>
                 </h5>
             </td>
             <td>
                 <ul>
                     <li *ngFor="let character of episode.characters">
-                        <span *ngIf="character.is_mine">>> </span>
                         <a [href]="'/character/' + character.id">{{ character.name }}</a>
                     </li>
                 </ul>

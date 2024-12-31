@@ -3,16 +3,18 @@ import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Observable} from 'rxjs';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 
 @Component({
   selector: 'app-episode-list',
-    imports: [
-        AsyncPipe,
-        RouterLink,
-        NgForOf,
-        NgIf
-    ],
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    NgForOf,
+    NgIf,
+    NgSwitchCase,
+    NgSwitch
+  ],
   templateUrl: './episode-list.component.html',
   styleUrl: './episode-list.component.css'
 })

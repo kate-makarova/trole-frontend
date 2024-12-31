@@ -16,6 +16,7 @@ export class Game {
   fandoms: Fandom[]
   genres: Genre[]
   media: Media[]
+  is_mine: boolean;
 
   constructor(id: number,
               name: string,
@@ -28,6 +29,7 @@ export class Game {
               fandoms: Fandom[],
               genres: Genre[],
               media: Media[],
+              is_mine: boolean,
               image: string | null = null) {
     this.id = id;
     this.name = name;
@@ -41,5 +43,6 @@ export class Game {
     this.fandoms = fandoms;
     this.genres = genres;
     this.media = media;
+    this.is_mine = is_mine;
   }
 }

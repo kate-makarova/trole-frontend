@@ -6,12 +6,15 @@ import {ArticleService} from "../../services/article/article.service";
 import {AsyncPipe, NgIf} from '@angular/common';
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 import {Title} from "@angular/platform-browser";
+import {TopButton} from "../../entities/TopButton";
+import {TopButtonsComponent} from "../../components/top-buttons/top-buttons.component";
 
 @Component({
   selector: 'app-article',
   imports: [
     AsyncPipe,
-    NgIf
+    NgIf,
+    TopButtonsComponent
   ],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css'
@@ -20,6 +23,7 @@ export class ArticleComponent implements OnInit {
   article$: Observable<Article> = of();
   articleId: number|null = null;
   gameId: number;
+  topButtons: TopButton[] = []
 
   constructor(
     private articleService: ArticleService,
@@ -32,6 +36,14 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit() {
     const articleId = this.route.snapshot.paramMap.get('id');
+    this.topButtons = [
+      {
+        path: '/article-create',
+        name: 'Add Article',
+        class: 'button success',
+        id: 'top-button-create-article'
+      }
+    ]
     if (articleId) {
       this.articleId = parseInt(articleId);
     }

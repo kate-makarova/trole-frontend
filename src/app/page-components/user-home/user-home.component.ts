@@ -5,18 +5,22 @@ import {GameListComponent} from '../../components/game-list/game-list.component'
 import {Observable} from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
+import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
+import {TopButton} from '../../entities/TopButton';
 
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
   imports: [
-    GameListComponent
+    GameListComponent,
+    TopButtonsComponent
   ],
   styleUrl: './user-home.component.css'
 })
 export class UserHomeComponent implements OnInit {
   // @ts-ignore
   myGames: Observable<Game[]> = [];
+  topButtons: TopButton[] = []
 
   constructor(private gameService: GameService,
               private titleService: Title,
@@ -29,6 +33,14 @@ export class UserHomeComponent implements OnInit {
     return this.myGames
   }
   ngOnInit() {
+    this.topButtons = [
+      {
+        path: '/game-create',
+        name: 'Create Game',
+        class: 'button success',
+        id: 'top-button-create-game'
+      }
+    ]
     this.myGames = this.gameService.getMyGames()
     this.breadcrumbsService.setBreadcrumbs([{name: 'My Games', path: '/home'}])
   }

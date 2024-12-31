@@ -9,21 +9,6 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <ng-container [ngSwitch]="path">
-                    <li *ngSwitchCase="'home'">
-                        <a routerLink="/game-create">Create Game</a>
-                    </li>
-                    <ng-container *ngSwitchCase="'game'">
-                        <li>
-                            <a routerLink="/character-create/{{param}}">Create Character</a>
-                        </li>
-                        <li>
-                            <a routerLink="/episode-create/{{param}}">Create Episode</a>
-                        </li>
-                    </ng-container>
-                </ng-container>
-            </ul>
-            <ul class="menu">
                 <ng-container *ngIf="sessionService.getUser() !== null; else loggedOut">
                     <li>
                         <a routerLink="/home">My Games</a>
