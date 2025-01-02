@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiHost: "http://api.trole.online/api/"
+  apiHost: "https://api.trole.online/api/"
 };
