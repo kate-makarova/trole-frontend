@@ -7,8 +7,6 @@ import {Location, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
   selector: 'app-header',
   imports: [
     RouterLink,
-    NgSwitch,
-    NgSwitchCase,
     NgIf
   ],
   templateUrl: './app-header.component.html',
