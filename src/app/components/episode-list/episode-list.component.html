@@ -1,4 +1,6 @@
-<div class="row">
+<ng-container *ngIf="episodes$ | async as episodeArray">
+ <ng-container *ngIf="episodeArray.length > 0; else noEpisodes">
+<div class="row" >
     <table>
         <thead>
         <tr>
@@ -9,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let episode of episodes | async">
+        <tr *ngFor="let episode of episodeArray">
             <td [ngSwitch]="episode.status">
               <span class="label success" *ngSwitchCase="'Ongoing'"> {{ episode.status }}</span>
               <span class="label primary" *ngSwitchCase="'Finished'"> {{ episode.status }}</span>
@@ -36,3 +38,10 @@
         </tbody>
     </table>
 </div>
+ </ng-container>
+</ng-container>
+<ng-template #noEpisodes>
+  <div class="row text-center">
+  No episodes so far
+  </div>
+</ng-template>
