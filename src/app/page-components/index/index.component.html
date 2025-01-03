@@ -25,23 +25,18 @@
 
 <hr>
 
-    <div class="row">
+    <div class="row" *ngFor="let newsArticle of (newsArticles$ | async)">
         <div class="large-2 columns">
             <p>
-                <img src="https://windybot.com/img/1K8zmgvb7B7eQOku8yXx.jpg">
+                <img [src]="newsArticle.image">
             </p>
         </div>
         <div class="large-10 columns">
             <h5>
-                Core Functionality Is Ready
+               {{newsArticle.name}}
             </h5>
-            <div style="font-style: italic">2025-01-03</div>
-            <p>The core sight functionality is ready. We can create games, characters and episodes. There are some basic
-                bb codes we can use in the posts. Only the limited amount of genres and fandoms have been added to the database at this point. You can
-            request more, and I will gladly add them.There is the visibility setting in the game menu, but it does not affect anything at this point. All the
-            games, for now, are visible to the registered users and only to the registered users.</p>
-            <p>There is no registration at this point, and it will not be opened for the time being. All the new users
-            will be added manually.</p>
+            <div style="font-style: italic">{{newsArticle.date}}</div>
+            <div [innerHTML]="newsArticle.content | slice:0:700"></div>
         </div>
         <hr />
     </div>
