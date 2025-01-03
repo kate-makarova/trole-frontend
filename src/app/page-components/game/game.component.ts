@@ -40,14 +40,6 @@ export class GameComponent implements OnInit {
 
   }
 
-  fetchData(page: number): void {
-    this.episodes$ = this.episodeService.getList(this.gameId, page).pipe(shareReplay(1));
-  }
-
-  onPageChange(page: number): void {
-    this.fetchData(page);
-  }
-
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
     this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1))
@@ -55,24 +47,28 @@ export class GameComponent implements OnInit {
       this.titleService.setTitle(game.name)
       this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
       if (game.is_mine) {
+        const create_episode_button =           {
+          path: '/episode-create/'+this.gameId,
+          name: 'Create Episode',
+          class: 'button primary',
+          id: 'top-button-create-episode'
+        }
+        if (game.my_characters.length == 0) {
+          create_episode_button.class += ' disabled'
+        }
         this.topButtons = [
+          create_episode_button,
           {
-            path: '/character-crete',
+            path: '/character-create/'+this.gameId,
             name: 'Create Character',
             class: 'button primary',
-            id: 'top-button-create-character'
-          },
-          {
-            path: '/character-episode',
-            name: 'Create Episode',
-            class: 'button primary',
-            id: 'top-button-create-episode'
+            id: 'top-button-character-create'
           }
         ]
       } else {
         this.topButtons = [
           {
-            path: '/game-join',
+            path: '/game-join/'+this.gameId,
             name: 'Join Game',
             class: 'button success',
             id: 'top-button-join-game'
@@ -81,6 +77,5 @@ export class GameComponent implements OnInit {
       }
 
     });
-    this.fetchData(1)
   }
 }
