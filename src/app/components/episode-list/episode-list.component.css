@@ -45,8 +45,8 @@
   border-top: 1px solid #e6e6e6;
 }
 
-.product-filters-tab:last-child() {
-  border-bottom: 1px solid #e6e6e6;
+.product-filters-tab:last-child {
+  border-bottom: 0;
 }
 
 .mobile-product-filters {
