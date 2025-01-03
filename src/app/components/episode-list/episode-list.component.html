@@ -30,7 +30,7 @@
             <td>
                 <h5>
                   <a routerLink="/episode/{{ episode.id }}">{{episode.name}}</a>
-                  <span class="badge" *ngIf="episode.is_mine">mine</span>
+                  &nbsp;<span class="label" style="font-size: 0.6rem" *ngIf="episode.is_mine">mine</span>
                 </h5>
             </td>
             <td>
