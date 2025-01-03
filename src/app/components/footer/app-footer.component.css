@@ -1,0 +1,10 @@
+#push {
+    height: 150px;
+}
+
+footer {
+    position:static;
+    height: 150px;
+    bottom: 0;
+    width: 100%;
+}
