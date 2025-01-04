@@ -16,6 +16,9 @@
                     <li>
                         <a routerLink="/settings">Settings</a>
                     </li>
+                  <li *ngIf="sessionService.getUser()?.is_admin">
+                    <a routerLink="/admin">Admin</a>
+                  </li>
                     <!-- Uncomment as needed -->
                     <!-- <li><a href="#">Profile</a></li> -->
                     <!-- <li><a href="#">Look for Game</a></li> -->
