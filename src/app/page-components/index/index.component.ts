@@ -3,6 +3,7 @@ import {NewsArticle} from "../../entities/NewsArticle";
 import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {Observable, of, shareReplay} from "rxjs";
 import {NewsArticleService} from "../../services/newsarticle/newsarticle.service";
+import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 
 @Component({
   selector: 'app-index',
@@ -18,10 +19,12 @@ export class IndexComponent implements OnInit {
 
   newsArticles$: Observable<NewsArticle[]> = of([])
 
-  constructor(private newsArticleService: NewsArticleService) {
+  constructor(private newsArticleService: NewsArticleService,
+              private breadcrumbsService: BreadcrumbsService) {
   }
 
   ngOnInit() {
+    this.breadcrumbsService.changeBreadcrumbs('index', [])
     this.newsArticles$ = this.newsArticleService.getLatestArticles(5).pipe(shareReplay(1));
   }
 }
