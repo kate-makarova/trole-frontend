@@ -24,7 +24,7 @@
 
 <br />
 
-<div *ngFor="let post of (posts$ | async)" class="row column">
+<div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" class="row column">
     <div class="media-object">
         <div class="media-object-section">
             <a href="#">
