@@ -2,3 +2,8 @@
   position: absolute;
   margin-top: -60px;
 }
+
+.character-info {
+  display: inline-block;
+  margin-right: 5px;
+}

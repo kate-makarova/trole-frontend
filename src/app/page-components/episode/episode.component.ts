@@ -68,9 +68,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
         const unread_post = data.find((post) => !post.is_read)
         if (unread_post) {
           this.viewportScroller.scrollToAnchor('p'+unread_post.id);
+          this.postService.setPostsRead(this.episodeId)
         }
       },
-      error: (err) => console.error('Error loading data', err),
     });
 
   }

@@ -24,13 +24,14 @@
 
 <br />
 
-<div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" class="row column">
+<div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" [attr.data-read]="post.is_read" class="row column">
     <div class="media-object">
         <div class="media-object-section">
             <a href="#">
                 <div class="thumbnail">
                     <h5>{{ post.character.name }}</h5>
                     <img width="80px" [src]="post.character.avatar"/>
+                  <div *ngIf="!post.is_read" class="label success">New post</div>
                 </div>
             </a>
         </div>

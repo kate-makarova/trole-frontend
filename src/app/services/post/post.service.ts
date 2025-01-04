@@ -32,4 +32,11 @@ export class PostService extends APIService implements EntityServiceInterface{
   update(id: number, formData: any): Observable<number> {
     return this.postData('post-edit/' + id, formData);
   }
+
+  setPostsRead(episodeId: number): void {
+    const t = this.getData<any>('set-posts-read/'+episodeId)
+    t.subscribe((r) => {
+      console.log(r)
+    })
+  }
 }

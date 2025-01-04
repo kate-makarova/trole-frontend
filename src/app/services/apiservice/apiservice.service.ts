@@ -44,7 +44,6 @@ export class APIService {
             default:
               return of(null as T);
           }
-          return of(null as T);
         })
       )
   }
@@ -70,7 +69,6 @@ export class APIService {
                 default:
                   return of(0);
               }
-              return of(0);
             })
         )
   }
