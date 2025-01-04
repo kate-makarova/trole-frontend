@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Persistent} from "../../decorators/persistent";
 import {APIService} from "../apiservice/apiservice.service";
 import {Breadcrumb} from "../../entities/Breadcrumb";
 
@@ -8,18 +7,17 @@ import {Breadcrumb} from "../../entities/Breadcrumb";
   providedIn: 'root'
 })
 export class BreadcrumbsService extends APIService {
-  @Persistent()
   private breadcrumbs = new BehaviorSubject<Breadcrumb[]>(
     []
   );
   breadcrumbs$ = this.breadcrumbs.asObservable();
 
-  getItem(index: number) {
-    return this.breadcrumbs.value[index];
-  }
-
   setBreadcrumbs (data: Breadcrumb[]) {
     this.breadcrumbs.next(data);
+  }
+
+  clearBreadcrumbs() {
+    this.breadcrumbs.next([])
   }
 
   changeBreadcrumbs(path: string, parameters: any[]) {

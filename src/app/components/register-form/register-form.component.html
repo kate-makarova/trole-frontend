@@ -1,1 +1,30 @@
-<p>register works!</p>
+<div class="row">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <h3>Register</h3>
+      <div class="form-field">
+        <label>User name:</label>
+        <input name="username" formControlName="username"  type="text">
+      </div>
+      <div class="form-field">
+        <label for="email">Email: </label>
+        <input id="email" type="text" formControlName="email">
+      </div>
+      <div class="form-field">
+        <label for="password">Password: </label>
+        <input id="password" type="text" formControlName="password">
+      </div>
+      <div class="form-field">
+        <label for="repeat_password">Repeat password: </label>
+        <input id="repeat_password" type="text" formControlName="repeat_password">
+      </div>
+
+
+    </fieldset>
+    <div class="form-buttons">
+      <button class="button button-primary" type="submit" [disabled]="!registerForm.valid">Submit</button>
+    </div>
+
+
+  </form>
+</div>

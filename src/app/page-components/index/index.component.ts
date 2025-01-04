@@ -24,7 +24,7 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.breadcrumbsService.changeBreadcrumbs('index', [])
+    this.breadcrumbsService.clearBreadcrumbs()
     this.newsArticles$ = this.newsArticleService.getLatestArticles(5).pipe(shareReplay(1));
   }
 }
