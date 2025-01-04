@@ -1,0 +1,222 @@
+
+.news-feature-card-header {
+    margin-top: 30px;
+    background-color: #5cadea;
+    padding: 10px 15px 5px 45px;
+    position: relative;
+    margin-top: 15px;
+}
+
+.news-feature-card-header.icon:after {
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #fefefe;
+}
+
+.news-feature-card-header.hotel-icon:after {
+    content: "\f236";
+}
+
+.news-feature-card-header.car-icon:after {
+    content: "\f1b9";
+}
+
+.news-feature-card-header .news-feature-card-subtitle {
+    float: left;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.news-feature-card-header-controls a {
+    color: #fefefe;
+}
+
+.news-feature-card-header-controls i {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+}
+
+.news-feature-card-image {
+    margin-top: 5px;
+}
+
+.news-feature-card-details {
+    background: #fbfbfb;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    color: #8a8a8a;
+}
+
+.news-feature-card-details button.added-button {
+    color: #505050;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
+}
+
+.news-feature-card-details button.added-button img {
+    margin-right: 5px;
+}
+
+.news-feature-card-details button.added-button:hover {
+    color: #505050;
+    border: 1px solid #747474;
+}
+
+.news-feature-card-details button.add-button {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
+}
+
+@media screen and (max-width: 39.9375em) {
+    .news-feature-card-content {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #cacaca;
+    }
+}
+
+.news-feature-card-price {
+    text-align: right;
+}
+
+@media screen and (max-width: 39.9375em) {
+    .news-feature-card-price {
+        padding-top: 15px;
+    }
+    .news-feature-card-price .price-subtext {
+        margin-bottom: 0px;
+    }
+}
+
+.news-feature-card-price h6 {
+    font-weight: 600;
+    font-size: 1.3em;
+    color: #0a0a0a;
+    padding: 0;
+    margin: 0;
+}
+
+.news-feature-card-title {
+    font-weight: 500;
+    font-size: 1.25em;
+    color: #0a0a0a;
+}
+
+.news-feature-card-date-range {
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #0a0a0a;
+}
+
+
+
+
+
+
+
+.full-width-testimonial {
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.1)), url("https://windybot.com/img/8KRRLt_htJeJXBLhQhwu.jpg");
+    background-position: center center;
+}
+
+.full-width-testimonial-icon .quote-path {
+    fill: none;
+    stroke: #ffae00;
+    stroke-width: 2.5192;
+    stroke-miterlimit: 10;
+}
+
+.full-width-testimonial-content,
+.full-width-testimonial-icon {
+    text-align: center;
+}
+
+.full-width-testimonial-section {
+    padding-top: 2rem;
+}
+
+.full-width-testimonial-section .full-width-testimonial-text {
+    font-weight: 300;
+    color: #ffffff;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: -5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: 1.5em;
+}
+
+@media print, screen and (min-width: 40em) {
+    .full-width-testimonial-section .full-width-testimonial-text {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
+
+@media print, screen and (min-width: 64em) {
+    .full-width-testimonial-section .full-width-testimonial-text {
+        padding-left: 180px;
+        padding-right: 180px;
+        font-size: 1.8em;
+    }
+}
+
+@media screen and (min-width: 75em) {
+    .full-width-testimonial-section .full-width-testimonial-text {
+        padding-left: 300px;
+        padding-right: 300px;
+    }
+}
+
+.full-width-testimonial-section .full-width-testimonial-source {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding-bottom: 0;
+    margin-bottom: 0.2em;
+    font-size: 1.0em;
+}
+
+.full-width-testimonial-section .full-width-testimonial-source-context {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.8em;
+}
+
+.full-width-testimonial-section .slick-slider {
+    margin-bottom: 0px;
+}
+
+.full-width-testimonial-text,
+.full-width-testimonial-content,
+.full-width-testimonial-source,
+.full-width-testimonial-icon {
+    padding-bottom: 2rem;
+}
+
+.full-width-testimonial-content {
+    width: 100%;
+}
+

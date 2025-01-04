@@ -10,10 +10,7 @@ import {Breadcrumb} from "../../entities/Breadcrumb";
 export class BreadcrumbsService extends APIService {
   @Persistent()
   private breadcrumbs = new BehaviorSubject<Breadcrumb[]>(
-    [{
-      path: '/',
-      name: 'Home'
-    }]
+    []
   );
   breadcrumbs$ = this.breadcrumbs.asObservable();
 

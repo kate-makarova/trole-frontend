@@ -6,11 +6,11 @@
 
 <hr>
 
-<div class="row">
+<div class="row" style="display: flex">
     <div class="column large-4">
         <img [src]="(game$ | async)?.image" style="max-height: 400px"/>
     </div>
-    <div class="column large-8">
+    <div class="column large-8" style="display: flex; flex-direction: column; align-self: stretch;">
         <div>
             <ng-container *ngIf="(game$ | async)?.fandoms">
                 <span *ngFor="let fandom of (game$ | async)?.fandoms" class="label primary">{{ fandom.name }}</span>&nbsp;
@@ -20,7 +20,7 @@
                 <span *ngFor="let genre of (game$ | async)?.genres" class="label success">{{ genre.name }}</span>
             </ng-container>
         </div>
-        <div>
+        <div style="flex-grow: 1">
             {{ (game$ | async)?.description }}
         </div>
         <div class="footer">
@@ -34,16 +34,16 @@
 
 <div class="row">
     <div class="large-3 column">
-      <a class="button expanded" routerLink="/character-list/{{(game$ | async)?.id }}">Character List</a>
+      <a class="button hollow expanded" routerLink="/character-list/{{(game$ | async)?.id }}">Character List</a>
     </div>
     <div class="large-3 column">
-      <a class="button expanded" routerLink="/article/{{(game$ | async)?.id }}">Articles</a>
+      <a class="button hollow expanded" routerLink="/article/{{(game$ | async)?.id }}">Articles</a>
     </div>
     <div class="large-3 column">
-        <a class="button expanded disabled" href="#">Wanted</a>
+        <a class="button hollow expanded disabled" href="#">Wanted</a>
     </div>
     <div class="large-3 column">
-        <a class="button expanded success disabled" href="#">Chat room</a>
+        <a class="button hollow expanded success disabled" href="#">Chat room</a>
     </div>
 </div>
 

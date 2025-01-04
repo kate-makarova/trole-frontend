@@ -1,6 +1,6 @@
 <div id="post-editor">
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-        <div>
+        <div class="post-form-characters">
             <ng-container *ngIf="characters | async as charArray">
                 <ng-container *ngIf="charArray.length === 1; else multipleCharacters">
                     <img
@@ -21,9 +21,12 @@
                 </ng-template>
             </ng-container>
         </div>
-        <div>
-            <a (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;
-            <a (click)="insertTag('[i][/i]', 2)">i</a>
+        <div id="post-buttons" class="tiny button-group" style="margin-top: 1rem">
+            <a class="button hollow" (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;
+            <a class="button hollow" (click)="insertTag('[i][/i]', 2)">i</a>
+            <a class="button hollow" (click)="insertTag('[u][/u]', 2)">u</a>
+            <a class="button hollow" (click)="insertTag('[s][/s]', 2)">s</a>
+            <a class="button hollow" (click)="insertTag('[img][/img]', 2)">img</a>
         </div>
         <textarea
                 style="height: 10rem"

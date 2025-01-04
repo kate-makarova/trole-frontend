@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
 import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf, ViewportScroller} from '@angular/common';
 import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
@@ -21,7 +21,7 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'
 })
-export class EpisodeComponent implements OnInit {
+export class EpisodeComponent implements OnInit, AfterViewInit {
   episode$: Observable<Episode> = of();
   posts$: Observable<Post[]> = of([]);
   episodeId: number = 0;
@@ -31,6 +31,8 @@ export class EpisodeComponent implements OnInit {
               private route: ActivatedRoute,
               private titleService: Title,
               private breadcrumbsService: BreadcrumbsService,
+              private viewportScroller: ViewportScroller,
+              private cdRef: ChangeDetectorRef
               ) {
 
   }
@@ -56,5 +58,20 @@ export class EpisodeComponent implements OnInit {
       this.titleService.setTitle(episode.name)
     });
     this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
+  }
+
+  ngAfterViewInit(): void {
+    this.posts$.subscribe({
+      next: (data) => {
+        console.log(data);
+        this.cdRef.detectChanges();
+        const unread_post = data.find((post) => !post.is_read)
+        if (unread_post) {
+          this.viewportScroller.scrollToAnchor('p'+unread_post.id);
+          this.postService.setPostsRead(this.episodeId)
+        }
+      },
+    });
+
   }
 }

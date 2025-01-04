@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './app-footer.component.css'
 })
 export class AppFooterComponent {
-
 }

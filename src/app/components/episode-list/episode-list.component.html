@@ -1,6 +1,15 @@
 <ng-container *ngIf="episodes$ | async as episodeArray">
  <ng-container *ngIf="episodeArray.length > 0; else noEpisodes">
-<div class="row" >
+   <div class="row">
+     <div class="float-right">
+       <button class="button hollow small primary">Unread Episodes</button>
+       <button class="button hollow small primary">My Episodes</button>
+       <button (click)="toggleFilters()" class="button hollow small primary">All Filters</button>
+     </div>
+     <input type="search" name="search" placeholder="Search.." class="animated-search-form">
+   </div>
+   <div class="row">
+<div [class]="mainBlockClass">
     <table>
         <thead>
         <tr>
@@ -13,7 +22,7 @@
         <tbody>
         <tr *ngFor="let episode of episodeArray">
             <td [ngSwitch]="episode.status">
-              <span class="label success" *ngSwitchCase="'Ongoing'"> {{ episode.status }}</span>
+              <span class="label success" *ngSwitchCase="'Active'"> {{ episode.status }}</span>
               <span class="label primary" *ngSwitchCase="'Finished'"> {{ episode.status }}</span>
               <span class="label secondary" *ngSwitchCase="'Archived'"> {{ episode.status }}</span>
               <span class="label ongoing disabled" *ngSwitchCase="'Pending'"> {{ episode.status }}</span>
@@ -21,7 +30,7 @@
             <td>
                 <h5>
                   <a routerLink="/episode/{{ episode.id }}">{{episode.name}}</a>
-                  <span class="badge" *ngIf="episode.is_mine">mine</span>
+                  &nbsp;<span class="label" style="font-size: 0.6rem" *ngIf="episode.is_mine">mine</span>
                 </h5>
             </td>
             <td>
@@ -38,6 +47,38 @@
         </tbody>
     </table>
 </div>
+     <div id="filters" [class]="filterBlockClass">
+       <div id="filter-block" *ngIf="showFilters">
+         <div class="product-filters">
+           <h5 class="product-filters-header hide-for-small-only">Filters</h5>
+           <ul class="vertical menu hide-for-small-only" data-accordion-menu>
+             <li class="product-filters-tab">
+               <a href="#">Status</a>
+               <ul class="categories-menu menu vertical nested is-active">
+                 <li><input id="category-checkbox1" type="checkbox"><label for="category-checkbox1">Active</label></li>
+                 <li><input id="category-checkbox2" type="checkbox"><label for="category-checkbox2">Finished</label></li>
+                 <li><input id="category-checkbox3" type="checkbox"><label for="category-checkbox3">Archived</label></li>
+                 <li><input id="category-checkbox4" type="checkbox"><label for="category-checkbox4">Pending</label></li>
+               </ul>
+             </li>
+             <li class="product-filters-tab">
+               <a href="#">Characters</a>
+               <ul class="categories-menu menu vertical nested is-active">
+                 <li *ngFor="let character of characters$ | async; index as i"><input id="character-{{i}}" type="checkbox"><label for="character-{{i}}">{{character.name}}</label></li>
+<!--                 <li><input id="size-checkbox1" type="checkbox"><label for="size-checkbox1">Serpent</label></li>-->
+<!--                 <li><input id="size-checkbox2" type="checkbox"><label for="size-checkbox2">Dragon</label></li>-->
+<!--                 <li><input id="size-checkbox3" type="checkbox"><label for="size-checkbox3">Daenerys Targaryen</label></li>-->
+<!--                 <li><input id="size-checkbox4" type="checkbox"><label for="size-checkbox3">Someone</label></li>-->
+<!--                 <li><input id="size-checkbox5" type="checkbox"><label for="size-checkbox3">Someone Else</label></li>-->
+               </ul>
+             </li>
+           </ul>
+           <button class="button primary small">Filter</button>
+           <button class="button secondary small">Clear All</button>
+         </div>
+       </div>
+     </div>
+   </div>
  </ng-container>
 </ng-container>
 <ng-template #noEpisodes>

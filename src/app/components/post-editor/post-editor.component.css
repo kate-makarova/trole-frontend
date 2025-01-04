@@ -1,0 +1,9 @@
+.post-form-characters {
+  background: #e6e6e6;
+  padding: 1rem;
+}
+
+#post-buttons .button:hover {
+  background: #1779ba;
+  color: #fefefe;
+}

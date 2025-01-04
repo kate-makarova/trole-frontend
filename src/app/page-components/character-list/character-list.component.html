@@ -1,8 +1,16 @@
+<div class="row column">
+  <h4 style="margin: 0; text-transform: uppercase" class="text-center">Character List</h4>
+</div>
+<hr />
 <div class="row">
     <ul class="list">
-        <li *ngFor="let character of characters | async">
-            <a [href]="'/character/' + character.id">{{ character.name }}</a>
-            <span *ngIf="character.is_mine"> *</span>
+        <li *ngFor="let character of characters | async" class="character-list-item">
+          <img
+            style="height:40px"
+            [src]="character.avatar"
+            [alt]="character.name" />
+            &nbsp;<a [href]="'/character/' + character.id">{{ character.name }}</a>
+            &nbsp;<span *ngIf="character.is_mine" class="label">mine</span>
         </li>
     </ul>
 </div>
