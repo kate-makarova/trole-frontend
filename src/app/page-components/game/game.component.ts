@@ -11,6 +11,7 @@ import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 import {TopButton} from '../../entities/TopButton';
+import {QueueAction} from 'rxjs/internal/scheduler/QueueAction';
 
 @Component({
   selector: 'app-game',
@@ -40,42 +41,58 @@ export class GameComponent implements OnInit {
 
   }
 
+  gameJoin() {
+    this.gameService.join(this.gameId).subscribe(game => {
+      this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1));
+      this.game$.subscribe(game => {
+        this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
+        this.setTopButtons(game)
+      });
+    })
+  }
+
+  setTopButtons(game: Game) {
+    if (game.is_mine) {
+      const create_episode_button =           {
+        path: '/episode-create/'+this.gameId,
+        name: 'Create Episode',
+        class: 'button primary',
+        id: 'top-button-create-episode',
+        click: null
+      }
+      if (game.my_characters.length == 0) {
+        create_episode_button.class += ' disabled'
+      }
+      this.topButtons = [
+        create_episode_button,
+        {
+          path: '/character-create/'+this.gameId,
+          name: 'Create Character',
+          class: 'button primary',
+          id: 'top-button-character-create',
+          click: null
+        }
+      ]
+    } else {
+      this.topButtons = [
+        {
+          path: null,
+          name: 'Join Game',
+          class: 'button success',
+          id: 'top-button-join-game',
+          click: this.gameJoin.bind(this)
+        }
+      ]
+    }
+  }
+
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
     this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1))
     this.game$.subscribe(game => {
       this.titleService.setTitle(game.name)
       this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
-      if (game.is_mine) {
-        const create_episode_button =           {
-          path: '/episode-create/'+this.gameId,
-          name: 'Create Episode',
-          class: 'button primary',
-          id: 'top-button-create-episode'
-        }
-        if (game.my_characters.length == 0) {
-          create_episode_button.class += ' disabled'
-        }
-        this.topButtons = [
-          create_episode_button,
-          {
-            path: '/character-create/'+this.gameId,
-            name: 'Create Character',
-            class: 'button primary',
-            id: 'top-button-character-create'
-          }
-        ]
-      } else {
-        this.topButtons = [
-          {
-            path: '/game-join/'+this.gameId,
-            name: 'Join Game',
-            class: 'button success',
-            id: 'top-button-join-game'
-          }
-          ]
-      }
-
+      this.setTopButtons(game)
     });
   }
 }

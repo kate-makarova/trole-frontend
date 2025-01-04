@@ -41,7 +41,8 @@ export class ArticleComponent implements OnInit {
         path: '/article-create',
         name: 'Add Article',
         class: 'button success',
-        id: 'top-button-create-article'
+        id: 'top-button-create-article',
+        click: null
       }
     ]
     if (articleId) {

@@ -37,4 +37,8 @@ export class GameService extends APIService implements EntityServiceInterface {
   get(id: number): Observable<Game> {
     return this.getData<Game>('game/'+id)
   }
+
+  join(id: number): Observable<boolean> {
+    return this.postData('game-join', {"game": id})
+  }
 }

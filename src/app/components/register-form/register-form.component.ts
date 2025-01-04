@@ -37,7 +37,11 @@ export class RegisterFormComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted!', this.registerForm.value);
+      this.userService.userCreateAdmin(this.registerForm.value).subscribe(
+        data => {
+          console.log(data);
+        }
+      )
     } else {
       console.log('Form is invalid');
     }

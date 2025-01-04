@@ -38,7 +38,8 @@ export class UserHomeComponent implements OnInit {
         path: '/game-create',
         name: 'Create Game',
         class: 'button success',
-        id: 'top-button-create-game'
+        id: 'top-button-create-game',
+        click: null
       }
     ]
     this.myGames$ = this.gameService.getMyGames()

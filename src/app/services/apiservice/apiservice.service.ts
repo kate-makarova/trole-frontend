@@ -48,7 +48,7 @@ export class APIService {
       )
   }
 
-  postData(endpoint: string, body: object): Observable<number> {
+  postData<T>(endpoint: string, body: object): Observable<T> {
     const apiHost = environment.apiHost;
 
     let h = new HttpHeaders();
@@ -57,7 +57,7 @@ export class APIService {
     return this.http.post<ApiResponse>(apiHost+endpoint, body, {headers: h})
         .pipe(switchMap((resp: ApiResponse) => {
 
-              return of(resp.data as number);
+              return of(resp.data as T);
             }),
             catchError((error) => {
               // Handle error if any request fails
@@ -65,9 +65,9 @@ export class APIService {
               switch(error.status) {
                 case 401:
                   this.router.navigateByUrl('/login');
-                  return of(0);
+                  return of(0 as T);
                 default:
-                  return of(0);
+                  return of(0 as T);
               }
             })
         )
