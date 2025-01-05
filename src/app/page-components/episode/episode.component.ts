@@ -9,6 +9,7 @@ import {AsyncPipe, NgForOf, NgIf, ViewportScroller} from '@angular/common';
 import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
+import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
 
 @Component({
   selector: 'app-episode',
@@ -16,7 +17,8 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
     PostEditorComponent,
     AsyncPipe,
     NgForOf,
-    NgIf
+    NgIf,
+    PlaceholderImageComponent
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'
@@ -56,6 +58,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
       this.titleService.setTitle(episode.name)
+      if (episode.is_new) {
+        this.postService.setPostsRead(this.episodeId)
+      }
     });
     this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
   }

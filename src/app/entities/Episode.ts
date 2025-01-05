@@ -13,6 +13,7 @@ export class Episode {
   image: string | null;
   characters:Character[]
   game_id: number;
+  is_new: boolean = false;
 
   constructor(id: number,
               title: string,
@@ -24,7 +25,8 @@ export class Episode {
               lastPostCharacter: SimpleEntity,
               characters: Character[],
               gameId: number,
-              image: string | null = null) {
+              image: string | null = null,
+              is_new: boolean = false) {
     this.id = id;
     this.name = title;
     this.status = status;
@@ -36,5 +38,6 @@ export class Episode {
     this.image = image;
     this.characters = characters;
     this.game_id = gameId;
+    this.is_new = is_new;
   }
 }

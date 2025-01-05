@@ -6,6 +6,7 @@ import {SimpleEntity} from '../../entities/SimpleEntity';
 import {Observable} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
+import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 
 @Component({
   selector: 'app-post-editor',
@@ -13,7 +14,8 @@ import {Character} from '../../entities/Character';
     ReactiveFormsModule,
     AsyncPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    PlaceholderImageComponent
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'

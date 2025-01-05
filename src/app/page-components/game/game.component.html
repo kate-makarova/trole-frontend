@@ -1,23 +1,24 @@
+<ng-container *ngIf="game$ | async as game; else loading">
 <app-top-buttons [buttons]="topButtons"></app-top-buttons>
 
 <div class="row column">
-    <h4 style="margin: 0; text-transform: uppercase" class="text-center">{{ (game$ | async)?.name }}</h4>
+    <h4 style="margin: 0; text-transform: uppercase" class="text-center">{{ game.name }}</h4>
 </div>
 
 <hr>
 
 <div class="row" style="display: flex">
     <div class="column large-4">
-        <img [src]="(game$ | async)?.image" style="max-height: 400px"/>
+        <app-placeholder-image [src]="game.image" style="max-height: 400px"/>
     </div>
     <div class="column large-8" style="display: flex; flex-direction: column; align-self: stretch;">
         <div>
-            <ng-container *ngIf="(game$ | async)?.fandoms">
-                <span *ngFor="let fandom of (game$ | async)?.fandoms" class="label primary">{{ fandom.name }}</span>&nbsp;
+            <ng-container *ngIf="game.fandoms">
+                <span *ngFor="let fandom of game.fandoms" class="label primary">{{ fandom.name }}</span>&nbsp;
             </ng-container>
             <br/>
-            <ng-container *ngIf="(game$ | async)?.genres">
-                <span *ngFor="let genre of (game$ | async)?.genres" class="label success">{{ genre.name }}</span>
+            <ng-container *ngIf="game?.genres">
+                <span *ngFor="let genre of game.genres" class="label success">{{ genre.name }}</span>
             </ng-container>
         </div>
         <div style="flex-grow: 1">
@@ -34,10 +35,10 @@
 
 <div class="row">
     <div class="large-3 column">
-      <a class="button hollow expanded" routerLink="/character-list/{{(game$ | async)?.id }}">Character List</a>
+      <a class="button hollow expanded" routerLink="/character-list/{{ game.id }}">Character List</a>
     </div>
     <div class="large-3 column">
-      <a class="button hollow expanded" routerLink="/article/{{(game$ | async)?.id }}">Articles</a>
+      <a class="button hollow expanded" routerLink="/article/{{ game.id }}">Articles</a>
     </div>
     <div class="large-3 column">
         <a class="button hollow expanded disabled" href="#">Wanted</a>
@@ -56,3 +57,7 @@
 <hr>
 
 <app-episode-list></app-episode-list>
+</ng-container>
+<ng-template #loading>
+  Loading...
+  </ng-template>

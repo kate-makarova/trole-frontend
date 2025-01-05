@@ -1,22 +1,23 @@
+<ng-container *ngIf="episode$ | async as episode; else loading" >
 <div class="row column">
-    <h4 style="margin: 0;" class="text-center">{{ (episode$ | async)?.name }}</h4>
+    <h4 style="margin: 0;" class="text-center">{{ episode.name }}</h4>
 </div>
 
 <hr>
 
 <div class="row text-center">
-    <img [src]="(episode$ | async)?.image" style="max-height: 400px" />
+    <app-placeholder-image [src]="episode.image" style="max-height: 400px" />
 </div>
 
 <div class="row" style="white-space: pre-line">
-    {{ (episode$ | async)?.description }}
+    {{ episode.description }}
 </div>
 
 <hr>
 
 <div class="row">
     <ul>
-        <li *ngFor="let character of (episode$ | async)?.characters">
+        <li *ngFor="let character of episode.characters">
             <a [href]="'/character/' + character.id">{{ character.name }}</a>
         </li>
     </ul>
@@ -40,9 +41,13 @@
     </div>
 </div>
 
-<div *ngIf="(episode$ | async)?.is_mine" class="row">
+<div *ngIf="episode.is_mine" class="row">
     <app-post-editor
             [characters]="getMyCharacters()"
             (postAdded)="onPostAdded($event)"
     ></app-post-editor>
 </div>
+</ng-container>
+<ng-template #loading>
+  Loading...
+  </ng-template>

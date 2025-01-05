@@ -3,7 +3,7 @@
         <div class="post-form-characters">
             <ng-container *ngIf="characters | async as charArray">
                 <ng-container *ngIf="charArray.length === 1; else multipleCharacters">
-                    <img
+                    <app-placeholder-image
                             *ngFor="let character of charArray"
                             style="height:40px"
                             [src]="character.avatar"
@@ -13,7 +13,7 @@
                     <a
                             *ngFor="let character of charArray"
                             (click)="chooseCharacter(character.id)">
-                        <img
+                        <app-placeholder-image
                                 style="height:40px"
                                 [src]="character.avatar"
                                 [alt]="character.name" />

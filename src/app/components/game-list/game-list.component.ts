@@ -3,15 +3,17 @@ import {Game} from '../../entities/Game';
 import {Observable} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {RouterLink} from "@angular/router";
+import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 
 @Component({
   selector: 'app-game-list',
-    imports: [
-        AsyncPipe,
-        NgForOf,
-        RouterLink,
-        NgIf
-    ],
+  imports: [
+    AsyncPipe,
+    NgForOf,
+    RouterLink,
+    NgIf,
+    PlaceholderImageComponent
+  ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css'
 })

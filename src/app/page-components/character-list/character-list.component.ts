@@ -5,13 +5,15 @@ import {CharacterService} from '../../services/character/character.service';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
+import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
 
 @Component({
   selector: 'app-character-list',
   imports: [
     AsyncPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    PlaceholderImageComponent
   ],
   templateUrl: './character-list.component.html',
   styleUrl: './character-list.component.css'

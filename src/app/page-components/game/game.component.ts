@@ -12,6 +12,7 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 import {TopButton} from '../../entities/TopButton';
 import {QueueAction} from 'rxjs/internal/scheduler/QueueAction';
+import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
 
 @Component({
   selector: 'app-game',
@@ -21,7 +22,8 @@ import {QueueAction} from 'rxjs/internal/scheduler/QueueAction';
     NgIf,
     NgForOf,
     RouterLink,
-    TopButtonsComponent
+    TopButtonsComponent,
+    PlaceholderImageComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
