@@ -20,7 +20,7 @@ import {TopButtonsComponent} from "../../components/top-buttons/top-buttons.comp
   styleUrl: './article.component.css'
 })
 export class ArticleComponent implements OnInit {
-  article$: Observable<Article> = of();
+  article$: Observable<Article|null> = of();
   articleId: number|null = null;
   gameId: number;
   topButtons: TopButton[] = []
@@ -51,10 +51,13 @@ export class ArticleComponent implements OnInit {
     if (this.articleId) {
       this.titleService.setTitle('Articles');
       this.breadcrumbService.changeBreadcrumbs('article', [this.gameId, this.articleId])
-      this.article$ = this.articleService.getByGameAndId(this.gameId, this.articleId).pipe(shareReplay(1))
+      this.articleService.loadByGameAndId(this.gameId, this.articleId)
+      this.article$ = this.articleService.get().pipe(shareReplay(1))
     } else {
-      this.article$ = this.articleService.getIndex(this.gameId).pipe(shareReplay(1))
+      this.articleService.loadIndex(this.gameId)
+      this.article$ = this.articleService.get().pipe(shareReplay(1))
       this.article$.subscribe(article => {
+        if(article == null){return}
         this.titleService.setTitle(article.name)
         this.breadcrumbService.changeBreadcrumbs('article', [this.gameId])
       })

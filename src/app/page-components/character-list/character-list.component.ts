@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Character} from '../../entities/Character';
-import {Observable} from 'rxjs';
+import {Observable, shareReplay} from 'rxjs';
 import {CharacterService} from '../../services/character/character.service';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
@@ -29,7 +29,8 @@ export class CharacterListComponent implements OnInit {
 
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.characters = this.characterService.getCharacters(this.gameId);
+    this.characterService.load(this.gameId);
+    this.characters = this.characterService.getList().pipe(shareReplay(1));
     this.breadcrumbsService.changeBreadcrumbs('character-list', [this.gameId]);
   }
 }

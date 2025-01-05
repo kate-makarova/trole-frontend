@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
 import {GameListComponent} from '../../components/game-list/game-list.component';
-import {Observable, of} from 'rxjs';
+import {Observable, of, shareReplay} from 'rxjs';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
@@ -42,7 +42,8 @@ export class UserHomeComponent implements OnInit {
         click: null
       }
     ]
-    this.myGames$ = this.gameService.getMyGames()
+    this.gameService.loadMyGames()
+    this.myGames$ = this.gameService.getList().pipe(shareReplay(1))
     this.breadcrumbsService.setBreadcrumbs([{name: 'My Games', path: '/home'}])
   }
 }

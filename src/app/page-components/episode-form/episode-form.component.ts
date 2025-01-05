@@ -31,7 +31,6 @@ export class EpisodeFormComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   protected readonly of = of;
   private path: string;
-  protected gameName: string = '';
   mode: string = 'create';
   gameId: number = 0;
   episodeId: number = 0;
@@ -88,7 +87,8 @@ export class EpisodeFormComponent implements OnInit {
       this.mode = 'edit';
       this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
       this.breadcrumbsService.changeBreadcrumbs('episode-edit', [this.episodeId])
-      this.episodeService.get(this.episodeId).subscribe(data => {
+      this.episodeService.load(this.episodeId);
+      this.episodeService.get().subscribe(data => {
         if(data == null) {
           return;
         }

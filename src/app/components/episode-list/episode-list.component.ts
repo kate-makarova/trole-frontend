@@ -34,11 +34,13 @@ export class EpisodeListComponent implements OnInit {
   }
 
   fetchData(page: number): void {
-      this.episodes$ = this.episodeService.getList(this.gameId, page).pipe(shareReplay(1));
+      this.episodeService.loadList(this.gameId, page);
+      this.episodes$ = this.episodeService.getList().pipe(shareReplay(1));
   }
 
   fetchCharacters(): void {
-    this.characters$ = this.characterService.getCharacters(this.gameId)
+    this.characterService.loadList(this.gameId, 1)
+    this.characters$ = this.characterService.getList().pipe(shareReplay(1));
   }
 
   onPageChange(page: number): void {

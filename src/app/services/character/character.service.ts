@@ -1,30 +1,22 @@
 import { Injectable } from '@angular/core';
-import {APIService} from '../apiservice/apiservice.service';
-import {HttpClient} from '@angular/common/http';
-import {SessionService} from '../session/session.service';
-import {Router} from '@angular/router';
 import {Character} from '../../entities/Character';
 import {Observable} from 'rxjs';
 import {SimpleEntity} from '../../entities/SimpleEntity';
+import {EntityService} from '../EntityService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CharacterService extends APIService {
+export class CharacterService extends EntityService<Character> {
 
-  constructor(http: HttpClient, sessionService: SessionService, router: Router) {
-    super(http, sessionService, router);
+  protected override endpoints = {
+    "loadList": "character-list/",
+    "load": "character/",
+    "create": "character-create",
+    "update": "character-edit/"
   }
-
-  getCharacters(game_id: number): Observable<Character[]> {
-      return this.getData<Character[]>('character-list/'+game_id)
-    }
 
   characterAutocomplete(gameId: number, term: string): Observable<SimpleEntity[]> {
     return this.getData<SimpleEntity[]>('character-autocomplete/'+gameId+'/'+term)
   }
-
-    create(formData: any): Observable<number> {
-    return this.postData('character-create', formData);
-    }
 }

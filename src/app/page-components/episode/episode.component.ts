@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
 import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
@@ -18,13 +18,13 @@ import {PlaceholderImageComponent} from '../../components/placeholder-image/plac
     AsyncPipe,
     NgForOf,
     NgIf,
-    PlaceholderImageComponent
+    PlaceholderImageComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'
 })
 export class EpisodeComponent implements OnInit, AfterViewInit {
-  episode$: Observable<Episode> = of();
+  episode$: Observable<Episode|null> = of(null);
   posts$: Observable<Post[]> = of([]);
   episodeId: number = 0;
 
@@ -40,28 +40,35 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
 
   getMyCharacters() {
     let t = this.episode$?.pipe(shareReplay(1)).pipe(
-      map((episode) => episode.characters.filter((ch) => ch.is_mine == true))
+      map((episode) => {
+        if (!episode) {return []}
+        return episode.characters.filter((ch) => ch.is_mine == true)
+      })
     );
     return t;
   }
 
   onPostAdded(added: boolean) {
     if (added) {
-      this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
+      this.postService.loadList(this.episodeId, 1)
+      this.posts$ = this.postService.getList().pipe(shareReplay(1));
     }
   }
 
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.breadcrumbsService.changeBreadcrumbs('episode', [this.episodeId]);
-    this.episode$ = this.episodeService.get(this.episodeId).pipe(shareReplay(1));
+    this.episodeService.load(this.episodeId);
+    this.episode$ = this.episodeService.get().pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
+      if (!episode) {return}
       this.titleService.setTitle(episode.name)
       if (episode.is_new) {
         this.postService.setPostsRead(this.episodeId)
       }
     });
-    this.posts$ = this.postService.getList(this.episodeId, 1).pipe(shareReplay(1));
+    this.postService.loadList(this.episodeId, 1)
+    this.posts$ = this.postService.getList().pipe(shareReplay(1));
   }
 
   ngAfterViewInit(): void {
@@ -97,5 +104,11 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
         subtree: true
       });
     });
+  }
+
+  editPost(post_id: number, data: { post_content: string}) {
+    this.postService.update(post_id, data).subscribe(post => {
+      this.postService.updateListItem(post, post_id)
+    })
   }
 }

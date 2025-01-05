@@ -5,7 +5,7 @@ import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
-import {Observable, shareReplay} from 'rxjs';
+import {Observable, of, shareReplay} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
@@ -29,12 +29,11 @@ import {PlaceholderImageComponent} from '../../components/placeholder-image/plac
   styleUrl: './game.component.css'
 })
 export class GameComponent implements OnInit {
-  game$: Observable<Game> | undefined;
-  episodes$: Observable<Episode[]> | undefined;
+  game$: Observable<Game|null> = of(null);
   gameId: number = 0;
   topButtons: TopButton[] = []
 
-  constructor(private episodeService: EpisodeService,
+  constructor(
               private gameService: GameService,
               private route: ActivatedRoute,
               private titleService: Title,
@@ -45,8 +44,10 @@ export class GameComponent implements OnInit {
 
   gameJoin() {
     this.gameService.join(this.gameId).subscribe(game => {
-      this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1));
+      this.gameService.load(this.gameId)
+      this.game$ = this.gameService.get().pipe(shareReplay(1));
       this.game$.subscribe(game => {
+        if(game == null){return}
         this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
         this.setTopButtons(game)
       });
@@ -90,8 +91,10 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.game$ = this.gameService.get(this.gameId).pipe(shareReplay(1))
+    this.gameService.load(this.gameId)
+    this.game$ = this.gameService.get().pipe(shareReplay(1))
     this.game$.subscribe(game => {
+      if(game == null){return}
       this.titleService.setTitle(game.name)
       this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
       this.setTopButtons(game)
