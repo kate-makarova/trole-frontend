@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
@@ -33,8 +33,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private titleService: Title,
               private breadcrumbsService: BreadcrumbsService,
-              private viewportScroller: ViewportScroller,
-              private cdRef: ChangeDetectorRef
+              private viewportScroller: ViewportScroller
               ) {
 
   }
@@ -68,15 +67,35 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.posts$.subscribe({
       next: (data) => {
-        console.log(data);
-        this.cdRef.detectChanges();
         const unread_post = data.find((post) => !post.is_read)
         if (unread_post) {
-          this.viewportScroller.scrollToAnchor('p'+unread_post.id);
+          this.waitForElm('#p'+unread_post.id).then(() => {
+            this.viewportScroller.scrollToAnchor('p'+unread_post.id);
+          })
           this.postService.setPostsRead(this.episodeId)
         }
       },
     });
 
+  }
+
+  waitForElm(selector: string) {
+    return new Promise(resolve => {
+      if (document.querySelector(selector)) {
+        return resolve(document.querySelector(selector));
+      }
+
+      const observer = new MutationObserver(mutations => {
+        if (document.querySelector(selector)) {
+          observer.disconnect();
+          resolve(document.querySelector(selector));
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
   }
 }

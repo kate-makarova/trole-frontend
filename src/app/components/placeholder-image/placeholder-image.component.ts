@@ -16,7 +16,6 @@ export class PlaceholderImageComponent {
     }
   }
   onError() {
-    console.log('error');
     this.src = 'placeholder.jpg';
   }
 }

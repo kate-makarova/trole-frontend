@@ -31,7 +31,7 @@
             <a href="#">
                 <div class="thumbnail">
                     <h5>{{ post.character.name }}</h5>
-                    <img width="80px" [src]="post.character.avatar"/>
+                    <app-placeholder-image style="width: 80px" [alt]="post.character.name" [src]="post.character.avatar"/>
                   <div *ngIf="!post.is_read" class="label success">New post</div>
                 </div>
             </a>
