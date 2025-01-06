@@ -1,0 +1,21 @@
+<div class="row">
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <h3>New Article</h3>
+      <div class="form-field">
+        <label>Name:</label>
+        <input name="name" formControlName="name"  type="text">
+      </div>
+      <div class="form-field">
+        <textarea id="content" formControlName="content" style="height: 500px"></textarea>
+      </div>
+
+
+    </fieldset>
+    <div class="form-buttons">
+      <button class="button button-primary" type="submit" [disabled]="!articleForm.valid">Submit</button>
+    </div>
+
+
+  </form>
+</div>

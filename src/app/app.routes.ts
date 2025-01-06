@@ -11,6 +11,7 @@ import {EpisodeFormComponent} from './page-components/episode-form/episode-form.
 import {CharacterFormComponent} from './page-components/character-form/character-form.component';
 import {ArticleComponent} from './page-components/article/article.component';
 import {AdminComponent} from './page-components/admin/admin.component';
+import {ArticleFormComponent} from './page-components/article-form/article-form.component';
 export const routes: Routes = [
   {
     path: '',
@@ -72,6 +73,14 @@ export const routes: Routes = [
   {
     path: 'article/:game_id/:id',
     component: ArticleComponent,
+  },
+  {
+    path: 'article-create/:game_id',
+    component: ArticleFormComponent,
+  },
+  {
+    path: 'article-edit/:game_id/:id',
+    component: ArticleFormComponent,
   },
   {
     path: 'admin',

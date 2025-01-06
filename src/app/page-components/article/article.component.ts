@@ -38,7 +38,7 @@ export class ArticleComponent implements OnInit {
     const articleId = this.route.snapshot.paramMap.get('id');
     this.topButtons = [
       {
-        path: '/article-create',
+        path: '/article-create/'+this.gameId,
         name: 'Add Article',
         class: 'button success',
         id: 'top-button-create-article',
@@ -58,8 +58,16 @@ export class ArticleComponent implements OnInit {
       this.article$ = this.articleService.get().pipe(shareReplay(1))
       this.article$.subscribe(article => {
         if(article == null){return}
+        this.articleId = article.id;
         this.titleService.setTitle(article.name)
         this.breadcrumbService.changeBreadcrumbs('article', [this.gameId])
+        this.topButtons.push(  {
+          path: '/article-edit/'+this.gameId+'/'+this.articleId,
+          name: 'Edit Article',
+          class: 'button primary',
+          id: 'top-button-edit-article',
+          click: null
+        })
       })
     }
   }
