@@ -51,6 +51,15 @@ export class ArticleComponent implements OnInit {
     if (this.articleId) {
       this.titleService.setTitle('Articles');
       this.breadcrumbService.changeBreadcrumbs('article', [this.gameId, this.articleId])
+
+      this.topButtons.push(  {
+        path: '/article-edit/'+this.gameId+'/'+this.articleId,
+        name: 'Edit Article',
+        class: 'button primary',
+        id: 'top-button-edit-article',
+        click: null
+      })
+
       this.articleService.loadByGameAndId(this.gameId, this.articleId)
       this.article$ = this.articleService.get().pipe(shareReplay(1))
     } else {
@@ -61,7 +70,7 @@ export class ArticleComponent implements OnInit {
         this.titleService.setTitle(article.name)
         this.breadcrumbService.changeBreadcrumbs('article', [this.gameId])
         this.topButtons.push(  {
-          path: '/article-edit/'+this.gameId+'/'+this.articleId,
+          path: '/article-edit/'+this.gameId+'/'+article.id,
           name: 'Edit Article',
           class: 'button primary',
           id: 'top-button-edit-article',

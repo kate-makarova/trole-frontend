@@ -42,10 +42,10 @@ export class ArticleFormComponent implements OnInit {
   ngOnInit() {
     if(this.mode === 'edit') {
       this.breadcrumbsService.changeBreadcrumbs('article-edit', [this.articleId])
-      this.articleService.load(this.articleId);
+      this.articleService.loadByGameAndId(this.gameId, this.articleId);
       this.articleService.get().subscribe(data => {
         if(data == null) {return}
-        this.articleForm.controls.content.setValue(data.content);
+        this.articleForm.controls.content.setValue(data.content_bb);
         this.articleForm.controls.name.setValue(data.name);
       })
     } else {
