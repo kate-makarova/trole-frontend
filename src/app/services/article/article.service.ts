@@ -15,7 +15,7 @@ export class ArticleService extends EntityService<Article> {
   }
 
   loadByGameAndId(gameId: number, id: number): void {
-    this.getData<Article>('article-index/'+gameId+'/'+id).subscribe((data: Article) => {
+    this.getData<Article>('article/'+gameId+'/'+id).subscribe((data: Article) => {
       this.entitySubject.next(data);
     })
   }

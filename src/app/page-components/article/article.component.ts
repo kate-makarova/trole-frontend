@@ -58,7 +58,6 @@ export class ArticleComponent implements OnInit {
       this.article$ = this.articleService.get().pipe(shareReplay(1))
       this.article$.subscribe(article => {
         if(article == null){return}
-        this.articleId = article.id;
         this.titleService.setTitle(article.name)
         this.breadcrumbService.changeBreadcrumbs('article', [this.gameId])
         this.topButtons.push(  {

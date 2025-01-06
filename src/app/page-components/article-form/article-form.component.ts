@@ -31,8 +31,8 @@ export class ArticleFormComponent implements OnInit {
               private route: ActivatedRoute,
               private breadcrumbsService:BreadcrumbsService
   ) {
-    this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.articleId = Number(this.route.snapshot.paramMap.get('articleId'));
+    this.gameId = Number(this.route.snapshot.paramMap.get('game_id'));
+    this.articleId = Number(this.route.snapshot.paramMap.get('id'));
     if(this.articleId > 0) {
       this.mode = 'edit';
     }
@@ -54,6 +54,7 @@ export class ArticleFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.articleForm.value);
     if(this.mode === 'edit') {
       this.articleService.update(this.articleId, this.articleForm.value).subscribe(data => {
         this.router.navigateByUrl('/article/' + this.gameId + '/' + data);
