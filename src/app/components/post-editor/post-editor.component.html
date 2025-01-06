@@ -21,13 +21,7 @@
                 </ng-template>
             </ng-container>
         </div>
-        <div id="post-buttons" class="tiny button-group" style="margin-top: 1rem">
-            <a class="button hollow" (click)="insertTag('[b][/b]', 2)">b</a>&nbsp;
-            <a class="button hollow" (click)="insertTag('[i][/i]', 2)">i</a>
-            <a class="button hollow" (click)="insertTag('[u][/u]', 2)">u</a>
-            <a class="button hollow" (click)="insertTag('[s][/s]', 2)">s</a>
-            <a class="button hollow" (click)="insertTag('[img][/img]', 2)">img</a>
-        </div>
+        <app-editor-buttons [control]="postForm.controls['content']" />
         <textarea *ngIf="post == null"
                 style="height: 10rem"
                 id="postEditor"

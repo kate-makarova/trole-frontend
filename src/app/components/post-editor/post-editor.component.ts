@@ -8,16 +8,18 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 import {Post} from '../../entities/Post';
+import {EditorButtonsComponent} from "../editor-buttons/editor-buttons.component";
 
 @Component({
   selector: 'app-post-editor',
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    NgIf,
-    NgForOf,
-    PlaceholderImageComponent
-  ],
+    imports: [
+        ReactiveFormsModule,
+        AsyncPipe,
+        NgIf,
+        NgForOf,
+        PlaceholderImageComponent,
+        EditorButtonsComponent
+    ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
 })
@@ -52,10 +54,6 @@ export class PostEditorComponent implements OnInit {
         this.postForm.controls.character.setValue(data[0].id)
       }
     })
-  }
-
-  insertTag(tag: string, index: number) {
-    this.postForm.controls.content.setValue(this.postForm.controls.content.getRawValue() + tag)
   }
 
   chooseCharacter(character_id : number) {
