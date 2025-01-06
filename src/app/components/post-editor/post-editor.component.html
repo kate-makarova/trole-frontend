@@ -1,6 +1,6 @@
 <div id="post-editor">
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-        <div class="post-form-characters">
+        <div *ngIf="post == null" class="post-form-characters">
             <ng-container *ngIf="characters | async as charArray">
                 <ng-container *ngIf="charArray.length === 1; else multipleCharacters">
                     <app-placeholder-image
@@ -28,11 +28,19 @@
             <a class="button hollow" (click)="insertTag('[s][/s]', 2)">s</a>
             <a class="button hollow" (click)="insertTag('[img][/img]', 2)">img</a>
         </div>
-        <textarea
+        <textarea *ngIf="post == null"
                 style="height: 10rem"
                 id="postEditor"
                 type="text"
-                formControlName="content">
+                formControlName="content"
+        >
+    </textarea>
+      <textarea *ngIf="post != null"
+                style="height: 10rem"
+                id="postEditor-{{post.id}}"
+                type="text"
+                formControlName="content"
+      >
     </textarea>
         <div class="form-buttons">
             <button

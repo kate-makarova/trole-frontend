@@ -106,9 +106,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  editPost(post_id: number, data: { post_content: string}) {
-    this.postService.update(post_id, data).subscribe(post => {
-      this.postService.updateListItem(post, post_id)
-    })
+  editPost(post: Post) {
+    post.edit = true;
+    this.postService.updateListItem(post, post.id)
   }
 }

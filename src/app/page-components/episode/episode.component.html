@@ -5,43 +5,50 @@
 
 <hr>
 
-<div class="row text-center">
-    <app-placeholder-image [src]="episode.image" style="max-height: 400px" />
-</div>
-
-<div class="row" style="white-space: pre-line">
-    {{ episode.description }}
-</div>
+  <div class="row" style="display: flex">
+    <div class="column large-4">
+      <app-placeholder-image [src]="episode.image" style="max-height: 400px"/>
+    </div>
+    <div class="column large-8" style="display: flex; flex-direction: column; align-self: stretch;">
+      <div>
+        <span class="label success">{{ episode.status }}</span>
+        <br/>
+      </div>
+      <div style="flex-grow: 1">
+        {{ episode.description }}
+      </div>
+      <div class="footer">
+        <ul class="menu">
+          <li *ngFor="let character of episode.characters">
+            <a [href]="'/character/' + character.id">{{ character.name }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
 <hr>
 
-<div class="row">
-    <ul>
-        <li *ngFor="let character of episode.characters">
-            <a [href]="'/character/' + character.id">{{ character.name }}</a>
-        </li>
-    </ul>
-</div>
 
 <br />
 
 <div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" [attr.data-read]="post.is_read" class="row column">
     <div class="media-object">
         <div class="media-object-section">
-            <a href="#">
                 <div class="thumbnail">
                     <h5>{{ post.character.name }}</h5>
                   <div style="min-height: 80px;">
                     <app-placeholder-image style="width: 80px" [alt]="post.character.name" [src]="post.character.avatar"/>
                   </div>
                     <div style="line-height: 1rem">
-<!--                  <a *ngIf="post.is_mine" (click)="editPost(post.id, )">Edit</a>-->
+                  <button *ngIf="post.is_mine" (click)="editPost(post)">Edit</button>
                   <div *ngIf="!post.is_read" class="label success">New post</div>
                     </div>
                 </div>
-            </a>
         </div>
-        <div class="media-object-section" [innerHTML]="post.content">
+        <div class="media-object-section" style="width: 100%;">
+          <app-post-editor *ngIf="post.edit" [post]="post" style="margin-top: -17px"></app-post-editor>
+          <div *ngIf="!post.edit" [innerHTML]="post.content"></div>
         </div>
     </div>
 </div>

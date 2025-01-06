@@ -8,7 +8,9 @@ export class Post {
   post_date: string;
   character: Character;
   content: string;
+  content_bb: string|null = null;
   is_mine: boolean;
+  edit: boolean = false;
 
   constructor(id: number,
               episodeId: number,
@@ -16,6 +18,7 @@ export class Post {
               postDate: string,
               character: Character,
               content: string,
+              contentBB: string|null = null,
               is_mine: boolean,
   ) {
     this.id = id;
@@ -24,6 +27,7 @@ export class Post {
    this.post_date = postDate;
    this.character = character;
    this.content = content;
+   this.content_bb = contentBB;
    this.is_mine = is_mine;
   }
 }

@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
+import {Post} from '../../entities/Post';
 
 @Component({
   selector: 'app-post-editor',
@@ -23,6 +24,7 @@ import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.
 export class PostEditorComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
+  private mode = 'create';
 
   postForm = this.formBuilder.group({
     content: ['', Validators.required],
@@ -30,8 +32,10 @@ export class PostEditorComponent implements OnInit {
     episode: 0
   });
 
+  @Input('post') post: Post|null = null;
   @Input('characters') characters: Observable<Character[]> | undefined;
   @Output() postAdded: EventEmitter<boolean> = new EventEmitter();
+  @Output() postUpdated: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private postService: PostService,
               private route: ActivatedRoute) {
@@ -39,6 +43,10 @@ export class PostEditorComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.post !== null) {
+      this.postForm.controls.content.setValue(this.post.content_bb)
+      this.mode = 'update'
+    }
     this.characters?.subscribe((data: Character[]) => {
       if(data !== null && data.length == 1) {
         this.postForm.controls.character.setValue(data[0].id)
@@ -56,9 +64,17 @@ export class PostEditorComponent implements OnInit {
 
   onSubmit() {
     console.log(this.postForm.value);
-    this.postService.create(this.postForm.value).subscribe(data => {
-      this.postForm.controls.content.setValue('')
-      this.postAdded.emit(true)
-    })
+    if (this.mode == 'update' && this.post !== null) {
+      this.postService.update(this.post.id, this.postForm.value).subscribe(
+        () => {
+          this.postUpdated.emit(true)
+        }
+      )
+    } else {
+      this.postService.create(this.postForm.value).subscribe(data => {
+        this.postForm.controls.content.setValue('')
+        this.postAdded.emit(true)
+      })
+    }
   }
 }
