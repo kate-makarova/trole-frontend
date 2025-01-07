@@ -1,0 +1,14 @@
+<app-top-buttons [buttons]="topButtons"></app-top-buttons>
+<div data-alert class="alert-box info" *ngIf="is_guest">You have not logged in so you can only see the games with the public level of access.</div>
+
+<div class="row column">
+    <h4 style="margin: 0;" class="text-center">ALL GAMES</h4>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="large-12 columns">
+        <app-game-list [games]="games$"></app-game-list>
+    </div>
+</div>

@@ -9,6 +9,9 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu float-right">
+                <li>
+                    <a routerLink="/games">All Games</a>
+                </li>
                 <ng-container *ngIf="sessionService.getUser() !== null; else loggedOut">
                     <li>
                         <a routerLink="/home">My Games</a>

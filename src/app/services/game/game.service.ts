@@ -9,7 +9,7 @@ import {EntityService} from '../EntityService';
 export class GameService extends EntityService<Game> {
 
   protected override endpoints = {
-    "loadList": "game-list/",
+    "loadList": "", //not used
     "load": "game/",
     "create": "game-create",
     "update": "game-edit/"
@@ -21,6 +21,12 @@ export class GameService extends EntityService<Game> {
 
   loadMyGames(): void{
     this.getData<Game[]>('home').subscribe(data => {
+      this.entityListSubject.next(data);
+    })
+  }
+
+  loadAllGames(): void{
+    this.getData<Game[]>('game-list').subscribe(data => {
       this.entityListSubject.next(data);
     })
   }

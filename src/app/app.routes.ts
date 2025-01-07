@@ -12,6 +12,7 @@ import {CharacterFormComponent} from './page-components/character-form/character
 import {ArticleComponent} from './page-components/article/article.component';
 import {AdminComponent} from './page-components/admin/admin.component';
 import {ArticleFormComponent} from './page-components/article-form/article-form.component';
+import {GamesComponent} from "./page-components/games/games.component";
 export const routes: Routes = [
   {
     path: '',
@@ -22,6 +23,11 @@ export const routes: Routes = [
     path: 'home',
     title: 'Game Overview',
     component: UserHomeComponent,
+  },
+  {
+    path: 'games',
+    title: 'All Games',
+    component: GamesComponent,
   },
   {
     path: 'login',
