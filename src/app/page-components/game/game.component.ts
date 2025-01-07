@@ -13,6 +13,7 @@ import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.comp
 import {TopButton} from '../../entities/TopButton';
 import {QueueAction} from 'rxjs/internal/scheduler/QueueAction';
 import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
+import {SessionService} from "../../services/session/session.service";
 
 @Component({
   selector: 'app-game',
@@ -38,6 +39,7 @@ export class GameComponent implements OnInit {
               private route: ActivatedRoute,
               private titleService: Title,
               private breadcrumbsService: BreadcrumbsService,
+              private sessionService: SessionService,
               ) {
 
   }
@@ -55,6 +57,9 @@ export class GameComponent implements OnInit {
   }
 
   setTopButtons(game: Game) {
+    if(this.sessionService.getUser() == null){
+      return;
+    }
     if (game.is_mine) {
       const create_episode_button =           {
         path: '/episode-create/'+this.gameId,
