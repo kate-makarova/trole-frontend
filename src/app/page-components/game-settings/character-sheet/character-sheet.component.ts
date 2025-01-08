@@ -1,25 +1,23 @@
-import {Component, inject} from '@angular/core';
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {GameSettingsNavComponent} from "../game-settings/game-settings-nav/game-settings-nav.component";
-import {FormBuilder, FormsModule, Validators} from "@angular/forms";
+import {Component, inject, OnInit} from '@angular/core';
+import {CharacterSheetService} from "../../../services/character-sheet/character-sheet.service";
 import {Observable, of, shareReplay} from "rxjs";
-import {CharacterSheet} from "../../entities/CharacterSheet";
-import {CharacterSheetService} from "../../services/character-sheet/character-sheet.service";
+import {CharacterSheet} from "../../../entities/CharacterSheet";
 import {ActivatedRoute} from "@angular/router";
+import {FormBuilder, Validators} from "@angular/forms";
+import {AsyncPipe, NgIf} from "@angular/common";
+import {GameSettingsNavComponent} from "../game-settings-nav/game-settings-nav.component";
 
 @Component({
-  selector: 'app-character-form',
+  selector: 'app-character-sheet',
   imports: [
     AsyncPipe,
-    GameSettingsNavComponent,
     NgIf,
-    NgForOf,
-    FormsModule
+    GameSettingsNavComponent
   ],
-  templateUrl: './character-form.component.html',
-  styleUrl: './character-form.component.css'
+  templateUrl: './character-sheet.component.html',
+  styleUrl: './character-sheet.component.css'
 })
-export class CharacterFormComponent {
+export class CharacterSheetComponent implements OnInit {
   gameSettingsTabId: string = 'character-sheet';
   private formBuilder = inject(FormBuilder);
   characterSheet$: Observable<CharacterSheet|null> = of(null);
@@ -42,9 +40,5 @@ export class CharacterFormComponent {
       }
     })
     this.characterSheet$ = this.characterSheetService.get().pipe(shareReplay(1));
-  }
-
-  onSubmit() {
-    console.log(this.characterSheetForm.value);
   }
 }

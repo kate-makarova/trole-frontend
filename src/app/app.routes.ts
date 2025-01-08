@@ -8,7 +8,7 @@ import {LoginComponent} from './page-components/login/login.component';
 import {GameFormComponent} from './page-components/game-form/game-form.component';
 import {CharacterListComponent} from './page-components/character-list/character-list.component';
 import {EpisodeFormComponent} from './page-components/episode-form/episode-form.component';
-import {CharacterFormComponent} from './page-components/character-form/character-form.component';
+import {CharacterFormComponent} from './page-components/character-form-old/character-form.component';
 import {ArticleComponent} from './page-components/article/article.component';
 import {AdminComponent} from './page-components/admin/admin.component';
 import {ArticleFormComponent} from './page-components/article-form/article-form.component';

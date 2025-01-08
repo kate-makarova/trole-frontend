@@ -1,26 +1,20 @@
-<div class="row">
-  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()">
-    <fieldset>
-      <h3>New Character</h3>
-      <div class="form-field">
-        <label>Name:</label>
-        <input name="name" formControlName="name"  type="text">
-      </div>
-      <div class="form-field">
-        <label for="avatar">Avatar: </label>
-        <input id="avatar" type="text" formControlName="avatar">
-      </div>
-      <div class="form-field">
-        <label for="description">Description: </label>
-        <textarea id="description" formControlName="description"></textarea>
-      </div>
+<h3>Create New Character</h3>
 
+<ng-container *ngIf="characterSheet$ | async as characterSheet; else loading">
 
-    </fieldset>
-    <div class="form-buttons">
-      <button class="button button-primary" type="submit" [disabled]="!characterForm.valid">Submit</button>
+    <form (ngSubmit)="onSubmit()">
+    <div *ngFor="let field of characterSheet.fields">
+        <label [for]="field.id">{{ field.fieldName }}>
+            <input [type]="field.type" [name]="field.id" [id]="field.id" />
+        </label>
+        <div class="description">
+            {{ field.description }}
+        </div>
     </div>
+    </form>
 
 
-  </form>
-</div>
+</ng-container>
+<ng-template #loading>
+    Loading...
+</ng-template>

@@ -1,0 +1,44 @@
+<app-game-settings-nav [tabId]="gameSettingsTabId"></app-game-settings-nav>
+<h3>Character sheet</h3>
+
+<div class="row">
+    <div class="large-1 columns">Order</div>
+    <div class="large-4 columns">Field name</div>
+    <div class="large-4 columns">Field description</div>
+    <div class="large-2 columns">Field type</div>
+    <div class="large-1 columns">Required</div>
+</div>
+<ng-container *ngIf="characterSheet$ | async; else loading">
+
+    <div class="row">
+        <div class="large-1 columns"><input type="text" /></div>
+        <div class="large-4 columns"><input type="text" /></div>
+        <div class="large-4 columns"><textarea></textarea></div>
+        <div class="large-2 columns"><select>
+            <option>Text input</option>
+            <option>Textarea</option>
+            <option>Dropdown</option>
+            <option>Radio Buttons</option>
+            <option>Checkboxes</option>
+        </select></div>
+        <div class="large-1 columns">Required</div>
+    </div>
+
+
+<!--<div class="row">-->
+<!--    <div class="large-1 columns"><input type="text" /></div>-->
+<!--    <div class="large-4 columns"><input type="text" /></div>-->
+<!--    <div class="large-4 columns"><textarea></textarea></div>-->
+<!--    <div class="large-2 columns"><select>-->
+<!--        <option>Text input</option>-->
+<!--        <option>Textarea</option>-->
+<!--        <option>Dropdown</option>-->
+<!--        <option>Radio Buttons</option>-->
+<!--        <option>Checkboxes</option>-->
+<!--    </select></div>-->
+<!--    <div class="large-1 columns">Required</div>-->
+<!--</div>-->
+</ng-container>
+<ng-template #loading>
+  Loading...
+  </ng-template>
