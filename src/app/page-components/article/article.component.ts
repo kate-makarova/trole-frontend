@@ -8,6 +8,8 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
 import {Title} from "@angular/platform-browser";
 import {TopButton} from "../../entities/TopButton";
 import {TopButtonsComponent} from "../../components/top-buttons/top-buttons.component";
+import {SessionService} from '../../services/session/session.service';
+import {Game} from '../../entities/Game';
 
 @Component({
   selector: 'app-article',
@@ -30,12 +32,20 @@ export class ArticleComponent implements OnInit {
     private route: ActivatedRoute,
     private breadcrumbService: BreadcrumbsService,
     private titleService: Title,
+    private sessionService: SessionService
     ) {
     this.gameId = Number(this.route.snapshot.paramMap.get('game_id'));
+    const articleId = this.route.snapshot.paramMap.get('id');
+    if (articleId) {
+      this.articleId = parseInt(articleId);
+    }
   }
 
-  ngOnInit() {
-    const articleId = this.route.snapshot.paramMap.get('id');
+  setTopButtons(articleId:number|null = null) {
+    if (this.sessionService.getUser() == null) {
+      return;
+    }
+
     this.topButtons = [
       {
         path: '/article-create/'+this.gameId,
@@ -45,13 +55,16 @@ export class ArticleComponent implements OnInit {
         click: null
       }
     ]
-    if (articleId) {
-      this.articleId = parseInt(articleId);
-    }
-    if (this.articleId) {
-      this.titleService.setTitle('Articles');
-      this.breadcrumbService.changeBreadcrumbs('article', [this.gameId, this.articleId])
 
+    if(articleId) {
+      this.topButtons.push(  {
+        path: '/article-edit/'+this.gameId+'/'+articleId,
+        name: 'Edit Article',
+        class: 'button primary',
+        id: 'top-button-edit-article',
+        click: null
+      })
+    } else {
       this.topButtons.push(  {
         path: '/article-edit/'+this.gameId+'/'+this.articleId,
         name: 'Edit Article',
@@ -59,8 +72,15 @@ export class ArticleComponent implements OnInit {
         id: 'top-button-edit-article',
         click: null
       })
+    }
+  }
 
+  ngOnInit() {
+    if (this.articleId) {
+      this.titleService.setTitle('Articles');
+      this.breadcrumbService.changeBreadcrumbs('article', [this.gameId, this.articleId])
       this.articleService.loadByGameAndId(this.gameId, this.articleId)
+      this.setTopButtons()
       this.article$ = this.articleService.get().pipe(shareReplay(1))
     } else {
       this.articleService.loadIndex(this.gameId)
@@ -69,13 +89,7 @@ export class ArticleComponent implements OnInit {
         if(article == null){return}
         this.titleService.setTitle(article.name)
         this.breadcrumbService.changeBreadcrumbs('article', [this.gameId])
-        this.topButtons.push(  {
-          path: '/article-edit/'+this.gameId+'/'+article.id,
-          name: 'Edit Article',
-          class: 'button primary',
-          id: 'top-button-edit-article',
-          click: null
-        })
+        this.setTopButtons(article.id)
       })
     }
   }

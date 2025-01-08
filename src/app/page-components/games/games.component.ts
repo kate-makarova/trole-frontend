@@ -50,7 +50,7 @@ export class GamesComponent implements OnInit {
     this.titleService.setTitle(
       'My Games'
     )
-    this.gameService.loadMyGames()
+    this.gameService.loadAllGames()
     this.games$ = this.gameService.getList().pipe(shareReplay(1))
     this.breadcrumbsService.setBreadcrumbs([{name: 'Games', path: '/games'}])
   }
