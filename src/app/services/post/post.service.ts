@@ -11,7 +11,7 @@ export class PostService extends EntityService<Post>{
     "loadList": "episode-posts/",
     "load": "post/",
     "create": "post-create",
-    "update": "post-edit/"
+    "update": "post-update/"
   }
 
   setPostsRead(episodeId: number): void {

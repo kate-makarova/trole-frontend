@@ -47,7 +47,12 @@
                 </div>
         </div>
         <div class="media-object-section" style="width: 100%;">
-          <app-post-editor *ngIf="post.edit" [post]="post" style="margin-top: -17px"></app-post-editor>
+          <app-post-editor
+            *ngIf="post.edit"
+            [post]="post"
+            (postUpdated)="onPostUpdated($event)"
+            style="margin-top: -17px">
+          </app-post-editor>
           <div *ngIf="!post.edit" [innerHTML]="post.content"></div>
         </div>
     </div>

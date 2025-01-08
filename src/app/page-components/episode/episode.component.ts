@@ -55,6 +55,13 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onPostUpdated(updated: boolean) {
+    if (updated) {
+      this.postService.loadList(this.episodeId, 1)
+      this.posts$ = this.postService.getList().pipe(shareReplay(1));
+    }
+  }
+
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.breadcrumbsService.changeBreadcrumbs('episode', [this.episodeId]);
