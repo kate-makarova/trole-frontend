@@ -1,6 +1,5 @@
 import {Component, inject} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {GameSettingsNavComponent} from "../game-settings/game-settings-nav/game-settings-nav.component";
 import {FormBuilder, FormsModule, Validators} from "@angular/forms";
 import {Observable, of, shareReplay} from "rxjs";
 import {CharacterSheet} from "../../entities/CharacterSheet";
@@ -11,7 +10,6 @@ import {ActivatedRoute} from "@angular/router";
   selector: 'app-character-form',
   imports: [
     AsyncPipe,
-    GameSettingsNavComponent,
     NgIf,
     NgForOf,
     FormsModule
@@ -19,8 +17,7 @@ import {ActivatedRoute} from "@angular/router";
   templateUrl: './character-form.component.html',
   styleUrl: './character-form.component.css'
 })
-export class CharacterFormComponent {
-  gameSettingsTabId: string = 'character-sheet';
+export class CharacterFormComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   characterSheet$: Observable<CharacterSheet|null> = of(null);
   gameId: number = 0;

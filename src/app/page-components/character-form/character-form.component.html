@@ -5,12 +5,25 @@
     <form (ngSubmit)="onSubmit()">
     <div *ngFor="let field of characterSheet.fields">
         <label [for]="field.id">{{ field.fieldName }}>
-            <input [type]="field.type" [name]="field.id" [id]="field.id" />
+
+            <input *ngIf="field.type == 'text'" type="text" [name]="field.id" [id]="field.id" />
+
+            <textarea *ngIf="field.type == 'textarea'" [name]="field.id" [id]="field.id"></textarea>
+
+            <select *ngIf="field.type == 'dropdown'" [name]="field.id" [id]="field.id">
+                <option *ngFor="let option of field.options" [value]="option.id">{{ option.name }}</option>
+            </select>
+
+            <input *ngIf="field.type == 'radio'" type="radio" [name]="field.id" [id]="field.id" />
+            <input *ngIf="field.type == 'checkbox'" type="checkbox" [name]="field.id" [id]="field.id" />
+
         </label>
         <div class="description">
             {{ field.description }}
         </div>
     </div>
+
+        <button type="submit">Create</button>
     </form>
 
 
