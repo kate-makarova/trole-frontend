@@ -1,18 +1,18 @@
 import {SimpleEntity} from "./SimpleEntity";
 
-export class CharacterSheetField {
-    id: number;
+export class CharacterSheetTemplateField {
+    id: number|string;
     characterSheetId: number;
-    fieldName: string;
+    field_name: string;
     description: string;
     type: number;
     is_required: boolean;
-    options: SimpleEntity[];
+    options: SimpleEntity[] = [];
 
-    constructor(id: number, characterSheetId: number, fieldName: string, description: string, type: number, is_required: boolean, options: SimpleEntity[]) {
+    constructor(id: number, characterSheetId: number, fieldName: string, description: string, type: number, is_required: boolean, options: SimpleEntity[] = []) {
         this.id = id;
         this.characterSheetId = characterSheetId;
-        this.fieldName = fieldName;
+        this.field_name = fieldName;
         this.description = description;
         this.type = type;
         this.is_required = is_required;

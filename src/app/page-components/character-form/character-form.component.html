@@ -1,24 +1,24 @@
 <h3>Create New Character</h3>
 
-<ng-container *ngIf="characterSheet$ | async as characterSheet; else loading">
+<ng-container *ngIf="formUpdate$ | async; else loading">
+<ng-container *ngIf="characterSheetTemplate$ | async as characterSheet">
 
-    <form (ngSubmit)="onSubmit()">
-    <div *ngFor="let field of characterSheet.fields">
-        <label [for]="field.id">{{ field.fieldName }}>
+    <form [formGroup]="characterSheetForm" (ngSubmit)="onSubmit()">
+      <div class="form-field" *ngFor="let field of characterSheet.fields">
+      <label [for]="field.id">{{ field.field_name }}</label>
 
-            <input *ngIf="field.type == 'text'" type="text" [name]="field.id" [id]="field.id" />
+            <input *ngIf="field.type == 1" type="text"  [formControlName]="field.id" [id]="field.id" />
 
-            <textarea *ngIf="field.type == 'textarea'" [name]="field.id" [id]="field.id"></textarea>
+            <textarea *ngIf="field.type == 2" [formControlName]="field.id" [id]="field.id"></textarea>
 
-            <select *ngIf="field.type == 'dropdown'" [name]="field.id" [id]="field.id">
+            <select *ngIf="field.type == 3" [formControlName]="field.id" [id]="field.id">
                 <option *ngFor="let option of field.options" [value]="option.id">{{ option.name }}</option>
             </select>
 
-            <input *ngIf="field.type == 'radio'" type="radio" [name]="field.id" [id]="field.id" />
-            <input *ngIf="field.type == 'checkbox'" type="checkbox" [name]="field.id" [id]="field.id" />
+<!--            <input *ngIf="field.type == 4" type="radio" [formControlName]="field.id" [id]="field.id" />-->
+<!--            <input *ngIf="field.type == 5" type="checkbox" [formControlName]="field.id" [id]="field.id" />-->
 
-        </label>
-        <div class="description">
+        <div class="field-description">
             {{ field.description }}
         </div>
     </div>
@@ -27,6 +27,7 @@
     </form>
 
 
+</ng-container>
 </ng-container>
 <ng-template #loading>
     Loading...
