@@ -17,6 +17,7 @@ export class Game {
   genres: Genre[]
   media: Media[]
   is_mine: boolean;
+  can_admin: boolean = false;
 
   constructor(id: number,
               name: string,
@@ -30,6 +31,7 @@ export class Game {
               genres: Genre[],
               media: Media[],
               is_mine: boolean,
+              can_admin: boolean,
               image: string | null = null) {
     this.id = id;
     this.name = name;
@@ -44,5 +46,6 @@ export class Game {
     this.genres = genres;
     this.media = media;
     this.is_mine = is_mine;
+    this.can_admin = can_admin;
   }
 }

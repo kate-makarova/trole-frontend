@@ -4,7 +4,9 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angula
 import {BehaviorSubject, Observable, of, shareReplay} from "rxjs";
 import {CharacterSheetTemplate} from "../../entities/CharacterSheetTemplate";
 import {CharacterSheetService} from "../../services/character-sheet/character-sheet.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {CharacterService} from '../../services/character/character.service';
+import {BreadcrumbsComponent} from '../../components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-character-form',
@@ -28,8 +30,11 @@ export class CharacterFormComponent implements OnInit {
   protected formUpdate$: Observable<boolean> = this.formUpdateSubject.asObservable();
 
   constructor(private characterSheetService: CharacterSheetService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router,
+              private characterService: CharacterService) {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
+    this.characterSheetForm.addControl('game', this.formBuilder.control(this.gameId))
   }
 
   ngOnInit() {
@@ -37,7 +42,6 @@ export class CharacterFormComponent implements OnInit {
     this.characterSheetTemplate$ = this.characterSheetService.getCharacterSheetTemplate().pipe(shareReplay(1));
     this.characterSheetTemplate$.subscribe(data => {
       if (data == null) {return}
-    //  this.characterSheetForm.addControl('id', this.formBuilder.control(data?.id, Validators.required))
       for (let field of data.fields) {
         this.characterSheetForm.addControl(''+field.id, this.formBuilder.control('', field.is_required ? Validators.required : null))
       }
@@ -47,5 +51,8 @@ export class CharacterFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.characterSheetForm.value);
+    this.characterService.create(this.characterSheetForm.value).subscribe(data => {
+      this.router.navigateByUrl('/character-list/'+this.route.snapshot.paramMap.get('id'));
+    })
   }
 }

@@ -1,0 +1,27 @@
+.tabs {
+  margin: 0;
+  border: 1px solid #e6e6e6;
+  background: #fefefe;
+  list-style-type: none;
+}
+
+.tabs-title {
+  float: left;
+}
+
+[data-whatinput=mouse] .tabs-title > a {
+  outline: 0;
+}
+
+.tabs-title > a {
+  display: block;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: #1779ba;
+}
+
+.tabs-title > a:focus, .tabs-title > a[aria-selected=true] {
+  background: #e6e6e6;
+  color: #1779ba;
+}

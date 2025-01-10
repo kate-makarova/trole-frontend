@@ -1,44 +1,40 @@
-<app-game-settings-nav [tabId]="gameSettingsTabId"></app-game-settings-nav>
-<h3>Character sheet</h3>
-
 <div class="row">
+  <app-game-settings-nav [tabId]="gameSettingsTabId"></app-game-settings-nav>
+  <h3>Character sheet</h3>
+
+  <div class="row">
     <div class="large-1 columns">Order</div>
     <div class="large-4 columns">Field name</div>
     <div class="large-4 columns">Field description</div>
     <div class="large-2 columns">Field type</div>
     <div class="large-1 columns">Required</div>
-</div>
-<ng-container *ngIf="characterSheet$ | async; else loading">
+  </div>
+  <ng-container *ngIf="formUpdate$ | async; else loading">
+    <ng-container *ngIf="characterSheetTemplate$ | async as characterSheet">
 
-    <div class="row">
-        <div class="large-1 columns"><input type="text" /></div>
-        <div class="large-4 columns"><input type="text" /></div>
-        <div class="large-4 columns"><textarea></textarea></div>
-        <div class="large-2 columns"><select>
-            <option>Text input</option>
-            <option>Textarea</option>
-            <option>Dropdown</option>
-            <option>Radio Buttons</option>
-            <option>Checkboxes</option>
-        </select></div>
-        <div class="large-1 columns">Required</div>
-    </div>
+      <form [formGroup]="characterSheetForm" (ngSubmit)="onSubmit()">
+        <div class="row form-field" *ngFor="let field of characterSheet.fields">
+          <div class="large-1 columns"><input type="text" [formControlName]="'order-'+field.id" /></div>
+          <div class="large-4 columns"><input type="text" [formControlName]="'name-'+field.id" /></div>
+          <div class="large-4 columns"><textarea [formControlName]="'description-'+field.id" ></textarea></div>
+          <div class="large-2 columns"><select [formControlName]="'type-'+field.id">
+            <option [value]="1">Text input</option>
+            <option [value]="2">Textarea</option>
+            <option [value]="3">Dropdown</option>
+            <option [value]="4">Radio Buttons</option>
+            <option [value]="5">Checkboxes</option>
+          </select></div>
+          <div class="large-1 columns"><input [formControlName]="'required-'+field.id" type="checkbox"></div>
+        </div>
+        <div>
+          <button class="button secondary" type="submit">Add field</button>
+        </div>
 
-
-<!--<div class="row">-->
-<!--    <div class="large-1 columns"><input type="text" /></div>-->
-<!--    <div class="large-4 columns"><input type="text" /></div>-->
-<!--    <div class="large-4 columns"><textarea></textarea></div>-->
-<!--    <div class="large-2 columns"><select>-->
-<!--        <option>Text input</option>-->
-<!--        <option>Textarea</option>-->
-<!--        <option>Dropdown</option>-->
-<!--        <option>Radio Buttons</option>-->
-<!--        <option>Checkboxes</option>-->
-<!--    </select></div>-->
-<!--    <div class="large-1 columns">Required</div>-->
-<!--</div>-->
-</ng-container>
-<ng-template #loading>
-  Loading...
+        <button class="button success" type="submit">Save</button>
+      </form>
+    </ng-container>
+  </ng-container>
+  <ng-template #loading>
+    Loading...
   </ng-template>
+</div>

@@ -1,5 +1,8 @@
-<h3>Create New Character</h3>
+<div class="row column">
+  <h4 style="margin: 0;" class="text-center">Create New Character</h4>
+</div>
 
+<div class="row">
 <ng-container *ngIf="formUpdate$ | async; else loading">
 <ng-container *ngIf="characterSheetTemplate$ | async as characterSheet">
 
@@ -23,7 +26,7 @@
         </div>
     </div>
 
-        <button type="submit">Create</button>
+        <button class="button success" type="submit">Create</button>
     </form>
 
 
@@ -32,3 +35,4 @@
 <ng-template #loading>
     Loading...
 </ng-template>
+</div>

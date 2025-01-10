@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CharacterSheetService} from "../../../services/character-sheet/character-sheet.service";
-import {Observable, of, shareReplay} from "rxjs";
+import {BehaviorSubject, Observable, of, shareReplay} from "rxjs";
 import {CharacterSheetTemplate} from "../../../entities/CharacterSheetTemplate";
 import {ActivatedRoute} from "@angular/router";
-import {FormBuilder, Validators} from "@angular/forms";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {GameSettingsNavComponent} from "../game-settings-nav/game-settings-nav.component";
 
 @Component({
@@ -12,7 +12,9 @@ import {GameSettingsNavComponent} from "../game-settings-nav/game-settings-nav.c
   imports: [
     AsyncPipe,
     NgIf,
-    GameSettingsNavComponent
+    GameSettingsNavComponent,
+    NgForOf,
+    ReactiveFormsModule
   ],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'
@@ -20,25 +22,34 @@ import {GameSettingsNavComponent} from "../game-settings-nav/game-settings-nav.c
 export class CharacterSheetComponent implements OnInit {
   gameSettingsTabId: string = 'character-sheet';
   private formBuilder = inject(FormBuilder);
-  characterSheet$: Observable<CharacterSheetTemplate|null> = of(null);
+  characterSheetTemplate$: Observable<CharacterSheetTemplate|null> = of(null);
   gameId: number = 0;
   characterSheetForm = this.formBuilder.group({
   });
+  protected formUpdateSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+  protected formUpdate$: Observable<boolean> = this.formUpdateSubject.asObservable();
 
   constructor(private characterSheetService: CharacterSheetService,
               private route: ActivatedRoute) {
-    this.gameId = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameId = Number(this.route.snapshot.paramMap.get('game_id'));
   }
 
   ngOnInit() {
-    this.characterSheetService.load(this.gameId)
-    this.characterSheet$.subscribe(data => {
+    this.characterSheetService.loadCharacterSheetTemplate(this.gameId)
+    this.characterSheetTemplate$ = this.characterSheetService.getCharacterSheetTemplate().pipe(shareReplay(1));
+    this.characterSheetTemplate$.subscribe(data => {
       if (data == null) {return}
-      this.characterSheetForm.addControl('id', this.formBuilder.control(data?.id, Validators.required))
       for (let field of data.fields) {
-        this.characterSheetForm.addControl('field-'+field.id, this.formBuilder.control('', field.is_required ? Validators.required : null))
+        this.characterSheetForm.addControl('order-'+field.id, this.formBuilder.control(field.order, field.is_required ? Validators.required : null))
+        this.characterSheetForm.addControl('name-'+field.id, this.formBuilder.control(field.field_name, field.is_required ? Validators.required : null))
+        this.characterSheetForm.addControl('description-'+field.id, this.formBuilder.control(field.description, field.is_required ? Validators.required : null))
+        this.characterSheetForm.addControl('type-'+field.id, this.formBuilder.control(field.type, field.is_required ? Validators.required : null))
+        this.characterSheetForm.addControl('required-'+field.id, this.formBuilder.control(field.is_required, field.is_required ? Validators.required : null))
       }
+      this.formUpdateSubject.next(true)
     })
-    this.characterSheet$ = this.characterSheetService.get().pipe(shareReplay(1));
+  }
+  onSubmit() {
+    console.log(this.characterSheetForm.value);
   }
 }

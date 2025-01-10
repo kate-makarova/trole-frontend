@@ -92,6 +92,16 @@ export class GameComponent implements OnInit {
         }
       ]
     }
+
+    if(game.can_admin) {
+      this.topButtons.push({
+        path: '/game-settings/character-sheet/'+this.gameId,
+        name: 'Game Settings',
+        class: 'button secondary',
+        id: 'top-button-game-settings',
+        click: null
+      })
+    }
   }
 
   ngOnInit() {

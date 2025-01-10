@@ -4,7 +4,6 @@ import {NgClass, NgIf} from "@angular/common";
 @Component({
   selector: 'app-game-settings-nav',
   imports: [
-    NgIf,
     NgClass
   ],
   templateUrl: './game-settings-nav.component.html',

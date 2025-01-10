@@ -13,6 +13,7 @@ import {ArticleComponent} from './page-components/article/article.component';
 import {AdminComponent} from './page-components/admin/admin.component';
 import {ArticleFormComponent} from './page-components/article-form/article-form.component';
 import {GamesComponent} from "./page-components/games/games.component";
+import {CharacterSheetComponent} from './page-components/game-settings/character-sheet/character-sheet.component';
 export const routes: Routes = [
   {
     path: '',
@@ -43,6 +44,11 @@ export const routes: Routes = [
     path: 'game-create',
     title: 'Create Game',
     component: GameFormComponent,
+  },
+  {
+    path: 'game-settings/character-sheet/:game_id',
+    title: 'Game Settings - Character Sheet',
+    component: CharacterSheetComponent,
   },
   {
     path: 'character-create/:id',
