@@ -29,7 +29,11 @@ export class PageComponent implements OnInit {
     this.category = this.route.snapshot.paramMap.get('category');
     this.path = this.route.snapshot.paramMap.get('path');
     if(this.path !== null) {
-      this.pageService.loadPageByPath(this.path)
+      let path = this.path
+      if (this.category !== null) {
+        path = this.category + '/' + path;
+      }
+      this.pageService.loadPageByPath(path)
     }
     this.page$ = this.pageService.get().pipe(shareReplay(1));
     this.page$.subscribe(page => {
