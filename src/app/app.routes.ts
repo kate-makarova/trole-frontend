@@ -14,6 +14,7 @@ import {AdminComponent} from './page-components/admin/admin.component';
 import {ArticleFormComponent} from './page-components/article-form/article-form.component';
 import {GamesComponent} from "./page-components/games/games.component";
 import {CharacterSheetComponent} from './page-components/game-settings/character-sheet/character-sheet.component';
+import {PageComponent} from "./page-components/page/page.component";
 export const routes: Routes = [
   {
     path: '',
@@ -93,6 +94,14 @@ export const routes: Routes = [
   {
     path: 'article-edit/:game_id/:id',
     component: ArticleFormComponent,
+  },
+  {
+    path: 'page/:category/:path',
+    component: PageComponent,
+  },
+  {
+    path: 'page/:path',
+    component: PageComponent,
   },
   {
     path: 'admin',
