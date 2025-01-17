@@ -1,0 +1,1 @@
+This is the how-to general page. It has a [url="/how-to/game-create"]link to the game creation page[/url].
