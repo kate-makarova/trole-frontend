@@ -15,7 +15,7 @@
       <form [formGroup]="characterSheetForm" (ngSubmit)="onSubmit()">
         <div class="row form-field" *ngFor="let field of characterSheet.fields">
           <div class="large-1 columns"><input type="text" [formControlName]="'order-'+field.id" /></div>
-          <div class="large-4 columns"><input type="text" [formControlName]="'name-'+field.id" /></div>
+          <div class="large-4 columns"><input type="text" [formControlName]="'field_name-'+field.id" /></div>
           <div class="large-4 columns"><textarea [formControlName]="'description-'+field.id" ></textarea></div>
           <div class="large-2 columns"><select [formControlName]="'type-'+field.id">
             <option [value]="1">Text input</option>
@@ -27,7 +27,7 @@
           <div class="large-1 columns"><input [formControlName]="'required-'+field.id" type="checkbox"></div>
         </div>
         <div>
-          <button class="button secondary" type="submit">Add field</button>
+          <a class="button secondary" (click)="addField()">Add field</a>
         </div>
 
         <button class="button success" type="submit">Save</button>

@@ -24,6 +24,7 @@ export class CharacterSheetComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   characterSheetTemplate$: Observable<CharacterSheetTemplate|null> = of(null);
   gameId: number = 0;
+  templateId: number = 0;
   characterSheetForm = this.formBuilder.group({
   });
   protected formUpdateSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
@@ -34,14 +35,19 @@ export class CharacterSheetComponent implements OnInit {
     this.gameId = Number(this.route.snapshot.paramMap.get('game_id'));
   }
 
+  addField() {
+    this.characterSheetService.addNewFields()
+  }
+
   ngOnInit() {
     this.characterSheetService.loadCharacterSheetTemplate(this.gameId)
     this.characterSheetTemplate$ = this.characterSheetService.getCharacterSheetTemplate().pipe(shareReplay(1));
     this.characterSheetTemplate$.subscribe(data => {
       if (data == null) {return}
+      this.templateId = data.id
       for (let field of data.fields) {
         this.characterSheetForm.addControl('order-'+field.id, this.formBuilder.control(field.order, field.is_required ? Validators.required : null))
-        this.characterSheetForm.addControl('name-'+field.id, this.formBuilder.control(field.field_name, field.is_required ? Validators.required : null))
+        this.characterSheetForm.addControl('field_name-'+field.id, this.formBuilder.control(field.field_name, field.is_required ? Validators.required : null))
         this.characterSheetForm.addControl('description-'+field.id, this.formBuilder.control(field.description, field.is_required ? Validators.required : null))
         this.characterSheetForm.addControl('type-'+field.id, this.formBuilder.control(field.type, field.is_required ? Validators.required : null))
         this.characterSheetForm.addControl('required-'+field.id, this.formBuilder.control(field.is_required, field.is_required ? Validators.required : null))
@@ -51,5 +57,6 @@ export class CharacterSheetComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.characterSheetForm.value);
+    this.characterSheetService.editCharacterSheetTemplate(this.templateId, this.characterSheetForm.value)
   }
 }
