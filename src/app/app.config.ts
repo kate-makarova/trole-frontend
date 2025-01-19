@@ -1,9 +1,15 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
-import {provideHttpClient} from '@angular/common/http';
+import {HttpClient, provideHttpClient} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './locale/', '.json');
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,5 +17,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideStore(),
     provideHttpClient(),
+    importProvidersFrom(TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    }))
   ]
 };

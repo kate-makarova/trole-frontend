@@ -10,10 +10,20 @@ import {environment} from '../../../environments/environment';
 export class SessionService {
   private user: User|null = null;
   private accessToken: string = '';
+  private tokenExpirationDate: Date|null = null;
   private refreshToken: string = '';
 
   constructor(private http: HttpClient) {
     const session = localStorage.getItem('session')
+    const expirationDateString = localStorage.getItem('tokenExpirationDate')
+    if (expirationDateString !== null) {
+      const expirationDate = new Date(expirationDateString)
+      if (expirationDate < new Date()) {
+        localStorage.removeItem('accessToken')
+      } else {
+        this.tokenExpirationDate = expirationDate
+      }
+    }
     if(session) {
       const data = JSON.parse(session)
       this.accessToken = data.accessToken;

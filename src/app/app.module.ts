@@ -3,11 +3,17 @@ import {NgModule} from '@angular/core';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {RouterModule} from '@angular/router';
 import {routes} from './app.routes';
+import {BrowserModule} from '@angular/platform-browser';
+
+
 @NgModule({
-    imports: [
+  imports: [
+    BrowserModule,
     ReactiveFormsModule,
-      AutocompleteLibModule,
-      RouterModule.forRoot(routes, {anchorScrolling: 'enabled'})
-],
+    AutocompleteLibModule,
+    RouterModule.forRoot(routes, {anchorScrolling: 'enabled'}),
+  ],
 })
+
+
 export class AppModule {}

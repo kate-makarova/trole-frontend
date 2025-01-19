@@ -4,13 +4,15 @@ import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {Observable, of, shareReplay} from "rxjs";
 import {NewsArticleService} from "../../services/newsarticle/newsarticle.service";
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-index',
   imports: [
     SlicePipe,
     NgForOf,
-    AsyncPipe
+    AsyncPipe,
+    TranslateModule
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
