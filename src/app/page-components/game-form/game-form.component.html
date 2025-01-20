@@ -81,6 +81,21 @@
         </div>
       }
 
+        <div class="form-field" formArrayName="languages">
+            <h5>Languages:</h5>
+            <div *ngFor="let genre of languages.controls; let k=index">
+                <select id="language-{{k}}" formControlName="{{k}}">
+                    @for (languageOption of dataLanguage; track languageOption) {
+                        <option value="{{languageOption.id}}">{{ languageOption.name }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-control">
+            <button type="button" (click)="addLanguage()">+ Add language</button>
+        </div>
+
 
     </fieldset>
     <ng-template #itemTemplate let-item>

@@ -11,7 +11,8 @@
     </div>
     <div class="column large-8" style="display: flex; flex-direction: column; align-self: stretch;">
       <div>
-        <span class="label success">{{ episode.status }}</span>
+        <span class="label success">{{ episode.status }}</span>&nbsp;
+          <span *ngIf="episode.language !== null" class="label primary">{{ episode.language }}</span>
         <br/>
       </div>
       <div style="flex-grow: 1">

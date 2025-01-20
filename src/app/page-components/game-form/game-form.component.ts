@@ -9,6 +9,7 @@ import {APIService} from '../../services/apiservice/apiservice.service';
 import {Observable, of} from 'rxjs';
 import {GameService} from '../../services/game/game.service';
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
+import {LanguageService} from "../../services/language/language.service";
 
 @Component({
   selector: 'app-game-form',
@@ -30,16 +31,19 @@ export class GameFormComponent implements OnInit {
     description: ['', Validators.required],
     fandoms: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
     genres: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
+    languages: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
     rating: ['', Validators.required],
     access_level: ['', Validators.required],
     status: ['', Validators.required]
   });
   fandom_other: boolean;
+  languages$: Observable<SimpleEntity[]> = of([])
 
   constructor(private apiservice: APIService,
               private gameService: GameService,
               private router: Router,
-              private breadcrumbsService: BreadcrumbsService) {
+              private breadcrumbsService: BreadcrumbsService,
+              private languageService: LanguageService) {
     this.apiservice.getData<SimpleEntity[]>('static-list/Rating', null).subscribe(data => {
       this.dataRating = data;
     })
@@ -52,6 +56,10 @@ export class GameFormComponent implements OnInit {
     this.apiservice.getData<SimpleEntity[]>('static-list/Genre', null).subscribe(data => {
       this.dataGenre = data;
     })
+    this.languageService.loadList();
+    this.languageService.getList().subscribe(data => {
+      this.dataLanguage = data;
+    })
     this.fandom_other = false;
   }
 
@@ -61,6 +69,14 @@ export class GameFormComponent implements OnInit {
 
   addFandom() {
     this.fandoms.push(this.formBuilder.control(''));
+  }
+
+  get languages() {
+    return this.form.get('languages') as FormArray;
+  }
+
+  addLanguage() {
+    this.languages.push(this.formBuilder.control(''));
   }
 
   get genres() {
@@ -78,6 +94,7 @@ export class GameFormComponent implements OnInit {
   dataAccessLevel: SimpleEntity[] = [];
   dataStatus: SimpleEntity[] = [];
   dataGenre: SimpleEntity[] = [];
+  dataLanguage: SimpleEntity[] = [];
 
   ngOnInit() {
     this.breadcrumbsService.setBreadcrumbs([{name: 'My Games', path: '/home'}, {name: 'Create Game', path: '/game-create'}])
