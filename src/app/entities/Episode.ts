@@ -14,6 +14,7 @@ export class Episode {
   characters:Character[]
   game_id: number;
   is_new: boolean = false;
+  language: string|null = null;
 
   constructor(id: number,
               title: string,
@@ -26,7 +27,8 @@ export class Episode {
               characters: Character[],
               gameId: number,
               image: string | null = null,
-              is_new: boolean = false) {
+              is_new: boolean = false,
+              language: string|null) {
     this.id = id;
     this.name = title;
     this.status = status;
@@ -39,5 +41,6 @@ export class Episode {
     this.characters = characters;
     this.game_id = gameId;
     this.is_new = is_new;
+    this.language = language;
   }
 }

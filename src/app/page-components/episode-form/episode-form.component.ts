@@ -8,13 +8,14 @@ import {
 } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
-import {Location, NgForOf} from '@angular/common';
-import {of} from 'rxjs';
+import {AsyncPipe, Location, NgForOf} from '@angular/common';
+import {Observable, of, share, shareReplay} from 'rxjs';
 import {APIService} from '../../services/apiservice/apiservice.service';
 import {SimpleEntity} from '../../entities/SimpleEntity';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 import {CharacterService} from '../../services/character/character.service';
+import {LanguageService} from "../../services/language/language.service";
 
 @Component({
   selector: 'app-episode-form',
@@ -22,7 +23,8 @@ import {CharacterService} from '../../services/character/character.service';
     FormsModule,
     ReactiveFormsModule,
     AutocompleteLibModule,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './episode-form.component.html',
   styleUrl: './episode-form.component.css'
@@ -35,6 +37,7 @@ export class EpisodeFormComponent implements OnInit {
   gameId: number = 0;
   episodeId: number = 0;
   episodeName: string = '';
+  languages$: Observable<SimpleEntity[]> = of([])
 
   episodeForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -49,7 +52,8 @@ export class EpisodeFormComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private breadcrumbsService:BreadcrumbsService,
-              private location: Location) {
+              private location: Location,
+              private languageService: LanguageService) {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'))
     this.episodeForm.patchValue({game: this.gameId})
     this.path = this.location.path().split('/')[1];
@@ -83,6 +87,8 @@ export class EpisodeFormComponent implements OnInit {
   // }
 
   ngOnInit() {
+    this.languageService.loadGameLanguagesList(this.gameId)
+    this.languages$ = this.languageService.getList().pipe(shareReplay(1))
     if (this.path === 'episode-edit') {
       this.mode = 'edit';
       this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
