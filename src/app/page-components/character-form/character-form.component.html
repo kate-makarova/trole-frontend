@@ -9,6 +9,9 @@
     <form [formGroup]="characterSheetForm" (ngSubmit)="onSubmit()">
       <div class="form-field" *ngFor="let field of characterSheet.fields">
       <label [for]="field.id">{{ field.field_name }}</label>
+        <div style="font-size: 0.8rem" class="field-description">
+          {{ field.description }}
+        </div>
 
             <input *ngIf="field.type == 1" type="text"  [formControlName]="field.id" [id]="field.id" />
 
@@ -21,9 +24,6 @@
 <!--            <input *ngIf="field.type == 4" type="radio" [formControlName]="field.id" [id]="field.id" />-->
 <!--            <input *ngIf="field.type == 5" type="checkbox" [formControlName]="field.id" [id]="field.id" />-->
 
-        <div class="field-description">
-            {{ field.description }}
-        </div>
     </div>
 
         <button class="button success" type="submit">Create</button>

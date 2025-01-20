@@ -1,0 +1,24 @@
+<ng-container *ngIf="characterSheet$ | async as characterSheet; else loading">
+
+  <h4 style="margin: 0; text-transform: uppercase" class="text-center">{{ (characterName$ | async) }}</h4>
+  <hr/>
+  <div class="row">
+    <div class="column large-2">
+      <img [src]="(avatar$ | async)"/>
+    </div>
+    <div class="column large-10">
+      <div *ngFor="let field of characterSheet.fields">
+        <ng-container *ngIf="field.id !== 'avatar'">
+          <label [for]="field.id">{{ field.field_name }}</label>
+          <div>{{ field.value }}</div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-template #loading>
+  <p>Loading character sheet...</p>
+</ng-template>
+

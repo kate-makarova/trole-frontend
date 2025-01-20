@@ -16,10 +16,10 @@ import {GameSettingsNavComponent} from "../game-settings-nav/game-settings-nav.c
     NgForOf,
     ReactiveFormsModule
   ],
-  templateUrl: './character-sheet.component.html',
-  styleUrl: './character-sheet.component.css'
+  templateUrl: './game-settings-character-sheet.component.html',
+  styleUrl: './game-settings-character-sheet.component.css'
 })
-export class CharacterSheetComponent implements OnInit {
+export class GameSettingsCharacterSheetComponent implements OnInit {
   gameSettingsTabId: string = 'character-sheet';
   private formBuilder = inject(FormBuilder);
   characterSheetTemplate$: Observable<CharacterSheetTemplate|null> = of(null);

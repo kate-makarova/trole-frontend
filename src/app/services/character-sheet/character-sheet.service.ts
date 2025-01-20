@@ -3,6 +3,8 @@ import {EntityService} from "../EntityService";
 import {CharacterSheetTemplate} from "../../entities/CharacterSheetTemplate";
 import {BehaviorSubject, Observable} from 'rxjs';
 import {CharacterSheetTemplateField} from '../../entities/CharacterSheetTemplateField';
+import {CharacterSheet} from '../../entities/CharacterSheet';
+import {Character} from '../../entities/Character';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,11 @@ import {CharacterSheetTemplateField} from '../../entities/CharacterSheetTemplate
 export class CharacterSheetService extends EntityService<CharacterSheetTemplate> {
   protected templateSubject: BehaviorSubject<CharacterSheetTemplate|null> = new BehaviorSubject<CharacterSheetTemplate|null>(null);
   public template$: Observable<CharacterSheetTemplate|null> = this.templateSubject.asObservable();
+  protected characterSheetSubject: BehaviorSubject<CharacterSheet|null> = new BehaviorSubject<CharacterSheet|null>(null);
+  public characterSheet$: Observable<CharacterSheet|null> = this.characterSheetSubject.asObservable();
   newFields: number = 0;
   gameId: number = 0;
+  characterId = 0;
 
   protected override endpoints = {
     "loadList": "", //not in use
@@ -20,10 +25,21 @@ export class CharacterSheetService extends EntityService<CharacterSheetTemplate>
     "update": "character-sheet-edit/"
   }
 
+  loadCharacterSheet(characterId: number) {
+    this.characterId = characterId;
+    this.getData<CharacterSheet>('character-sheet/'+characterId).subscribe((data) => {
+      console.log(data)
+      this.characterSheetSubject.next(data)
+    })
+  }
+
+  getCharacterSheet(): Observable<CharacterSheet|null> {
+    return this.characterSheet$;
+  }
+
   loadCharacterSheetTemplate(gameId: number) {
     this.gameId = gameId;
     this.getData<CharacterSheetTemplate>('character-sheet-template/'+gameId).subscribe((data) => {
-      console.log(data)
       this.templateSubject.next(data)
     })
   }
