@@ -2,6 +2,7 @@ import {Character} from './Character';
 import {Fandom} from './Fandom';
 import {Genre} from './Genre';
 import {Media} from './Media';
+import {SimpleEntity} from './SimpleEntity';
 
 export class Game {
   id: number;
@@ -12,10 +13,11 @@ export class Game {
   total_users: number;
   description: string;
   image: string | null;
-  my_characters:Character[]
-  fandoms: Fandom[]
-  genres: Genre[]
-  media: Media[]
+  my_characters:Character[];
+  fandoms: Fandom[];
+  languages: SimpleEntity[];
+  genres: Genre[];
+  media: Media[];
   is_mine: boolean;
   can_admin: boolean = false;
 
@@ -29,6 +31,7 @@ export class Game {
               myCharacters: Character[],
               fandoms: Fandom[],
               genres: Genre[],
+              languages: SimpleEntity[],
               media: Media[],
               is_mine: boolean,
               can_admin: boolean,
@@ -44,6 +47,7 @@ export class Game {
     this.my_characters = myCharacters;
     this.fandoms = fandoms;
     this.genres = genres;
+    this.languages = languages;
     this.media = media;
     this.is_mine = is_mine;
     this.can_admin = can_admin;

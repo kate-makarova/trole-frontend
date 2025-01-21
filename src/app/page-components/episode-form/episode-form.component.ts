@@ -44,6 +44,7 @@ export class EpisodeFormComponent implements OnInit {
     image: [''],
     description: [''],
     characters: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
+    language: [''],
     game: 0
   });
 
@@ -107,6 +108,7 @@ export class EpisodeFormComponent implements OnInit {
           name: data.name,
           game: data.game_id,
           image: data.image,
+          language: data.language,
           description: data.description,
           characters: chars
         })

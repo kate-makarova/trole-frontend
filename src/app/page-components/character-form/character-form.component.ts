@@ -52,7 +52,7 @@ export class CharacterFormComponent implements OnInit {
   onSubmit() {
     console.log(this.characterSheetForm.value);
     this.characterService.create(this.characterSheetForm.value).subscribe(data => {
-      this.router.navigateByUrl('/character-list/'+this.route.snapshot.paramMap.get('id'));
+      this.router.navigateByUrl('/character-list/'+this.gameId);
     })
   }
 }

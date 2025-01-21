@@ -17,9 +17,13 @@
                 <span *ngFor="let fandom of game.fandoms" class="label primary">{{ fandom.name }}</span>&nbsp;
             </ng-container>
             <br/>
-            <ng-container *ngIf="game?.genres">
+            <ng-container *ngIf="game.genres">
                 <span *ngFor="let genre of game.genres" class="label success">{{ genre.name }}</span>
             </ng-container>
+          <br />
+          <ng-container *ngIf="game.languages">
+            <span *ngFor="let language of game.languages" class="label secondary">{{ language.name }}</span>
+          </ng-container>
         </div>
         <div style="flex-grow: 1">
             {{ (game$ | async)?.description }}
