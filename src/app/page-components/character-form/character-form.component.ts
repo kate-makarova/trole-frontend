@@ -7,6 +7,7 @@ import {CharacterSheetService} from "../../services/character-sheet/character-sh
 import {ActivatedRoute, Router} from "@angular/router";
 import {CharacterService} from '../../services/character/character.service';
 import {BreadcrumbsComponent} from '../../components/breadcrumbs/breadcrumbs.component';
+import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 
 @Component({
   selector: 'app-character-form',
@@ -32,6 +33,7 @@ export class CharacterFormComponent implements OnInit {
   constructor(private characterSheetService: CharacterSheetService,
               private route: ActivatedRoute,
               private router: Router,
+              private breadcrumbsService: BreadcrumbsService,
               private characterService: CharacterService) {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
     this.characterSheetForm.addControl('game', this.formBuilder.control(this.gameId))
@@ -39,6 +41,7 @@ export class CharacterFormComponent implements OnInit {
 
   ngOnInit() {
     this.characterSheetService.loadCharacterSheetTemplate(this.gameId)
+    this.breadcrumbsService.changeBreadcrumbs('character-create', [this.gameId])
     this.characterSheetTemplate$ = this.characterSheetService.getCharacterSheetTemplate().pipe(shareReplay(1));
     this.characterSheetTemplate$.subscribe(data => {
       if (data == null) {return}

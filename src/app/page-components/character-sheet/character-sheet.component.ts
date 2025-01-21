@@ -36,6 +36,7 @@ export class CharacterSheetComponent implements OnInit {
 
   ngOnInit() {
     this.characterSheetService.loadCharacterSheet(this.characterId)
+    this.breadcrumbService.changeBreadcrumbs('character', [this.characterId])
     this.characterSheet$ = this.characterSheetService.getCharacterSheet().pipe(shareReplay(1))
     this.characterSheet$.subscribe(characterSheet => {
       if (characterSheet == null) {return}
