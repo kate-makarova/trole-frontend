@@ -10,12 +10,14 @@ import {CharacterListComponent} from './page-components/character-list/character
 import {EpisodeFormComponent} from './page-components/episode-form/episode-form.component';
 import {CharacterFormComponent} from './page-components/character-form/character-form.component';
 import {ArticleComponent} from './page-components/article/article.component';
-import {AdminComponent} from './page-components/admin/admin.component';
+import {AdminComponent} from './page-components/admin/admin/admin.component';
 import {ArticleFormComponent} from './page-components/article-form/article-form.component';
 import {GamesComponent} from "./page-components/games/games.component";
 import {GameSettingsCharacterSheetComponent} from './page-components/game-settings/character-sheet/game-settings-character-sheet.component';
 import {PageComponent} from "./page-components/page/page.component";
 import {CharacterSheetComponent} from './page-components/character-sheet/character-sheet.component';
+import {UserCreateComponent} from './page-components/admin/user-create/user-create.component';
+import {PageFormComponent} from './page-components/admin/page-form/page-form.component';
 export const routes: Routes = [
   {
     path: '',
@@ -112,5 +114,13 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+  },
+  {
+    path: 'admin/user-create',
+    component: UserCreateComponent,
+  },
+  {
+    path: 'admin/page-create',
+    component: PageFormComponent,
   },
 ];

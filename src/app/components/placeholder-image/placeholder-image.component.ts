@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-placeholder-image',
@@ -6,15 +6,19 @@ import {Component, Input} from '@angular/core';
   templateUrl: './placeholder-image.component.html',
   styleUrl: './placeholder-image.component.css'
 })
-export class PlaceholderImageComponent {
+export class PlaceholderImageComponent implements OnInit {
   @Input('src') src: string|null = '';
   @Input ('alt') alt: string|null = '';
   @Input ('style') style: string|null = '';
   constructor() {
-    if (this.src?.indexOf('http') === -1) {
+  }
+
+  ngOnInit() {
+    if (this.src === null || this.src.indexOf('http') === -1) {
       this.src = 'placeholder.jpg';
     }
   }
+
   onError() {
     this.src = 'placeholder.jpg';
   }

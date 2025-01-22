@@ -21,7 +21,7 @@
                 </ng-template>
             </ng-container>
         </div>
-        <app-editor-buttons [control]="postForm.controls['content']" />
+        <app-editor-buttons [control]="postForm.controls['content']" [id]="'postEditor'" />
         <textarea *ngIf="post == null"
                 style="height: 10rem"
                 id="postEditor"

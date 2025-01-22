@@ -1,0 +1,11 @@
+<div class="row" *ngIf="this.sessionService.getUser()?.is_admin; else noAccess">
+  <app-admin-nav [tabId]="gameSettingsTabId"></app-admin-nav>
+  <h3 class="text-center">Admin Page</h3>
+  Main Admin page
+</div>
+
+
+<ng-template #noAccess>
+  <p>You have no access to this page</p>
+</ng-template>
+

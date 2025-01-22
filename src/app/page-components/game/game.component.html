@@ -25,6 +25,7 @@
             <span *ngFor="let language of game.languages" class="label secondary">{{ language.name }}</span>
           </ng-container>
         </div>
+      <br />
         <div style="flex-grow: 1">
             {{ (game$ | async)?.description }}
         </div>
