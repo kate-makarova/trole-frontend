@@ -1,5 +1,6 @@
 <ng-container *ngIf="episode$ | async as episode; else loading" >
-<div class="row column">
+    <div [style]="episodeContentStyle">
+<div id="episode-content" class="row column">
     <h4 style="margin: 0;" class="text-center">{{ episode.name }}</h4>
 </div>
 
@@ -64,7 +65,12 @@
             [characters]="getMyCharacters()"
             (postAdded)="onPostAdded($event)"
     ></app-post-editor>
+    <button (click)="splitScreen()"></button>
 </div>
+    </div>
+    <div [style]="postEditorStyle" id="post-editor">
+
+    </div>
 </ng-container>
 <ng-template #loading>
   Loading...

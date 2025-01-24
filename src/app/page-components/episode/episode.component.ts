@@ -27,6 +27,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   episode$: Observable<Episode|null> = of(null);
   posts$: Observable<Post[]> = of([]);
   episodeId: number = 0;
+  episodeContentStyle: string = 'width: 100%'
+  postEditorStyle: string = 'width: 0'
+
 
   constructor(private episodeService: EpisodeService,
               private postService: PostService,
@@ -116,5 +119,10 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   editPost(post: Post) {
     post.edit = true;
     this.postService.updateListItem(post, post.id)
+  }
+
+  splitScreen() {
+    this.episodeContentStyle = 'width: 50%'
+    this.postEditorStyle = 'width: 50%'
   }
 }
