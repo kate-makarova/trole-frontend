@@ -7,9 +7,7 @@ import {AsyncPipe, NgIf} from '@angular/common';
 @Component({
   selector: 'app-language-switcher',
   imports: [
-    FormsModule,
-    AsyncPipe,
-    NgIf
+    FormsModule
   ],
   templateUrl: './language-switcher.component.html',
   styleUrl: './language-switcher.component.css'

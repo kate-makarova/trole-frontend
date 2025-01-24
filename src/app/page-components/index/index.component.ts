@@ -5,6 +5,7 @@ import {Observable, of, shareReplay} from "rxjs";
 import {NewsArticleService} from "../../services/newsarticle/newsarticle.service";
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 import { TranslateModule } from '@ngx-translate/core';
+import {SceditorComponent} from "../../sceditor/sceditor/sceditor.component";
 
 @Component({
   selector: 'app-index',
@@ -12,7 +13,8 @@ import { TranslateModule } from '@ngx-translate/core';
     SlicePipe,
     NgForOf,
     AsyncPipe,
-    TranslateModule
+    TranslateModule,
+    SceditorComponent
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
