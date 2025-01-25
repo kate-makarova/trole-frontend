@@ -11,7 +11,7 @@ export class PageService extends EntityService<Page> {
   protected override endpoints = {
     "loadList": '',
     "load": '',
-    "create": "page-create",
+    "create": "admin-page-create",
     "update": "page-edit/",
   }
 

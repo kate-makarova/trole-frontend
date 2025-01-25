@@ -17,7 +17,7 @@ import {GameSettingsCharacterSheetComponent} from './page-components/game-settin
 import {PageComponent} from "./page-components/page/page.component";
 import {CharacterSheetComponent} from './page-components/character-sheet/character-sheet.component';
 import {UserCreateComponent} from './page-components/admin/user-create/user-create.component';
-import {PageFormComponent} from './page-components/admin/page-form/page-form.component';
+import {AdminPageFormComponent} from './page-components/admin/page-form/page-form.component';
 export const routes: Routes = [
   {
     path: '',
@@ -121,6 +121,6 @@ export const routes: Routes = [
   },
   {
     path: 'admin/page-create',
-    component: PageFormComponent,
+    component: AdminPageFormComponent,
   },
 ];
