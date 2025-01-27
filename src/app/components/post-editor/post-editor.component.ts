@@ -2,15 +2,13 @@ import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/c
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
-import {SimpleEntity} from '../../entities/SimpleEntity';
 import {Observable} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 import {Post} from '../../entities/Post';
-import {EditorButtonsComponent} from "../editor-buttons/editor-buttons.component";
-import {SceditorComponent} from "../../sceditor/sceditor/sceditor.component";
-import {SCEditorModule} from "../../sceditor/sceditor.module";
+import {SceditorComponent} from "sceditor-angular/sceditor/sceditor.component";
+import {SCEditorModule} from "sceditor-angular/sceditor.module";
 
 @Component({
   selector: 'app-post-editor',
