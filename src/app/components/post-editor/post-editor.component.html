@@ -30,6 +30,7 @@
 <!--        >-->
 <!--    </textarea>-->
         <app-sceditor *ngIf="post == null"
+                [format]="'bbcode'"
                 [id]="'postEditor'"
         ></app-sceditor>
       <textarea *ngIf="post != null"
