@@ -64,20 +64,22 @@ export class PostEditorComponent implements OnInit {
 
   onSubmit() {
 
-    console.log(SCEditorModule.getValue('postEditor'))
+    const content = SCEditorModule.getValue('postEditor')
+    this.postForm.patchValue({content: content})
 
     console.log(this.postForm.value);
-    // if (this.mode == 'update' && this.post !== null) {
-    //   this.postService.update(this.post.id, this.postForm.value).subscribe(
-    //     () => {
-    //       this.postUpdated.emit(true)
-    //     }
-    //   )
-    // } else {
-    //   this.postService.create(this.postForm.value).subscribe(data => {
-    //     this.postForm.controls.content.setValue('')
-    //     this.postAdded.emit(true)
-    //   })
-    // }
+
+    if (this.mode == 'update' && this.post !== null) {
+      this.postService.update(this.post.id, this.postForm.value).subscribe(
+        () => {
+          this.postUpdated.emit(true)
+        }
+      )
+    } else {
+      this.postService.create(this.postForm.value).subscribe(data => {
+        this.postForm.controls.content.setValue('')
+        this.postAdded.emit(true)
+      })
+    }
   }
 }
