@@ -10,6 +10,7 @@ import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.
 import {Post} from '../../entities/Post';
 import {EditorButtonsComponent} from "../editor-buttons/editor-buttons.component";
 import {SceditorComponent} from "../../sceditor/sceditor/sceditor.component";
+import {SCEditorModule} from "../../sceditor/sceditor.module";
 
 @Component({
   selector: 'app-post-editor',
@@ -19,7 +20,6 @@ import {SceditorComponent} from "../../sceditor/sceditor/sceditor.component";
     NgIf,
     NgForOf,
     PlaceholderImageComponent,
-    EditorButtonsComponent,
     SceditorComponent
   ],
   templateUrl: './post-editor.component.html',
@@ -63,6 +63,9 @@ export class PostEditorComponent implements OnInit {
   }
 
   onSubmit() {
+
+    console.log(SCEditorModule.getValue('postEditor'))
+
     console.log(this.postForm.value);
     // if (this.mode == 'update' && this.post !== null) {
     //   this.postService.update(this.post.id, this.postForm.value).subscribe(

@@ -15,4 +15,9 @@ import {SceditorComponent} from "./sceditor/sceditor.component";
   ]
 })
 export class SCEditorModule {
+  public static getValue(id: string): string {
+    const textarea = document.getElementById(id);
+    // @ts-ignore
+    return sceditor.instance(textarea).val();
+  }
 }

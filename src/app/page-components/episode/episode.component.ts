@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
 import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
@@ -28,7 +28,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   posts$: Observable<Post[]> = of([]);
   episodeId: number = 0;
   episodeContentStyle: string = 'width: 100%'
-  postEditorStyle: string = 'width: 0'
+  postEditorStyle: string = 'width: 0; display: none'
 
 
   constructor(private episodeService: EpisodeService,
@@ -42,13 +42,14 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   }
 
   getMyCharacters() {
-    let t = this.episode$?.pipe(shareReplay(1)).pipe(
-      map((episode) => {
-        if (!episode) {return []}
-        return episode.characters.filter((ch) => ch.is_mine == true)
-      })
+    return this.episode$?.pipe(shareReplay(1)).pipe(
+        map((episode) => {
+          if (!episode) {
+            return []
+          }
+          return episode.characters.filter((ch) => ch.is_mine)
+        })
     );
-    return t;
   }
 
   onPostAdded(added: boolean) {
@@ -68,7 +69,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.breadcrumbsService.changeBreadcrumbs('episode', [this.episodeId]);
-    this.episodeService.load(this.episodeId);
+   // this.episodeService.load(this.episodeId);
+    this.episodeService.loadTest();
     this.episode$ = this.episodeService.get().pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
       if (!episode) {return}
@@ -102,7 +104,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
         return resolve(document.querySelector(selector));
       }
 
-      const observer = new MutationObserver(mutations => {
+      const observer = new MutationObserver(() => {
         if (document.querySelector(selector)) {
           observer.disconnect();
           resolve(document.querySelector(selector));
@@ -122,7 +124,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   }
 
   splitScreen() {
-    this.episodeContentStyle = 'width: 50%'
-    this.postEditorStyle = 'width: 50%'
+    this.episodeContentStyle = 'width: 48%; float: left'
+    this.postEditorStyle = 'width: 48%; float: right'
   }
 }

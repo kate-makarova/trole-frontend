@@ -31,7 +31,6 @@
 <!--    </textarea>-->
         <app-sceditor *ngIf="post == null"
                 [id]="'postEditor'"
-                [formControl]="postForm.controls['content']"
         ></app-sceditor>
       <textarea *ngIf="post != null"
                 style="height: 10rem"
@@ -44,7 +43,7 @@
             <button
                     class="button button-primary"
                     type="submit"
-                    [disabled]="!postForm.valid">
+            >
                 Submit
             </button>
         </div>

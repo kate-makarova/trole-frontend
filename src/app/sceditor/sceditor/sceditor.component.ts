@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {ScriptService} from "../script.service";
-import {AbstractControl, FormControl, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-sceditor',
@@ -11,7 +11,6 @@ import {AbstractControl, FormControl, ReactiveFormsModule} from "@angular/forms"
   styleUrl: './sceditor.component.css'
 })
 export class SceditorComponent implements OnInit {
-  @Input('formControl') formControl: FormControl<any> = new FormControl
   @Input('id') id: string  = ''
   private scripts: any[] = []
   private scriptService: ScriptService;
@@ -31,8 +30,9 @@ export class SceditorComponent implements OnInit {
       sceditor.create(textarea, {
         format: 'bbcode',
         style: 'https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/content/default.min.css',
-        height: 300
+        height: 300,
       });
+
     })
   }
 }

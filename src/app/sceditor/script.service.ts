@@ -16,9 +16,11 @@ export class ScriptService {
         });
     }
 
-    load(...scripts: string[]) {
+    async load(...scripts: string[]) {
         const promises: any[] = [];
-        scripts.forEach((script) => promises.push(this.loadScript(script)));
+        for (const script of scripts) {
+            await this.loadScript(script);
+        }
         return Promise.all(promises);
     }
 
