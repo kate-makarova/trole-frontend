@@ -9,17 +9,19 @@ import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 import {Post} from '../../entities/Post';
 import {EditorButtonsComponent} from "../editor-buttons/editor-buttons.component";
+import {SceditorComponent} from "../../sceditor/sceditor/sceditor.component";
 
 @Component({
   selector: 'app-post-editor',
-    imports: [
-        ReactiveFormsModule,
-        AsyncPipe,
-        NgIf,
-        NgForOf,
-        PlaceholderImageComponent,
-        EditorButtonsComponent
-    ],
+  imports: [
+    ReactiveFormsModule,
+    AsyncPipe,
+    NgIf,
+    NgForOf,
+    PlaceholderImageComponent,
+    EditorButtonsComponent,
+    SceditorComponent
+  ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
 })

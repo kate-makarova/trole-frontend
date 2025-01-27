@@ -1,13 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ScriptService} from "../script.service";
+import {AbstractControl, FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-sceditor',
-  imports: [],
+  imports: [
+    ReactiveFormsModule
+  ],
   templateUrl: './sceditor.component.html',
   styleUrl: './sceditor.component.css'
 })
 export class SceditorComponent implements OnInit {
+  @Input('formControl') formControl: FormControl<any> = new FormControl
+  @Input('id') id: string  = ''
   private scripts: any[] = []
   private scriptService: ScriptService;
 
@@ -21,7 +26,7 @@ export class SceditorComponent implements OnInit {
 
   ngOnInit() {
     this.scriptService.load('main', 'bbcodes').then(() => {
-      const textarea = document.getElementById('sceditor');
+      const textarea = document.getElementById(this.id);
       // @ts-ignore
       sceditor.create(textarea, {
         format: 'bbcode',
