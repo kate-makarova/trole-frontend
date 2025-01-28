@@ -7,8 +7,8 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 import {Post} from '../../entities/Post';
-import {SceditorComponent} from "sceditor-angular/sceditor/sceditor.component";
-import {SCEditorModule} from "sceditor-angular/sceditor.module";
+import {SceditorComponent} from "sceditor-angular";
+import {SCEditorModule} from "sceditor-angular";
 
 @Component({
   selector: 'app-post-editor',
