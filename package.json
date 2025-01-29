@@ -23,11 +23,12 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "angular-ng-autocomplete": "^2.0.12",
+    "ng2-adsense": "^14.0.0",
     "rxjs": "~7.8.0",
+    "sceditor-angular": "git+git@github.com:kate-makarova/sceditor-angular.git",
     "socket.io-client": "^4.8.1",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0",
-    "sceditor-angular": "git+git@github.com:kate-makarova/sceditor-angular.git"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.0.6",

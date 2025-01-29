@@ -4,7 +4,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {RouterModule} from '@angular/router';
 import {routes} from './app.routes';
 import {BrowserModule} from '@angular/platform-browser';
-import {SCEditorModule} from "./sceditor/sceditor.module";
+import {SCEditorModule} from "sceditor-angular";
+import {AdsenseModule} from "ng2-adsense";
 
 
 @NgModule({
@@ -12,7 +13,11 @@ import {SCEditorModule} from "./sceditor/sceditor.module";
     BrowserModule,
     ReactiveFormsModule,
     AutocompleteLibModule,
-      SCEditorModule,
+    SCEditorModule,
+      AdsenseModule.forRoot({
+        adClient: '',
+        adSlot: 0
+      }),
     RouterModule.forRoot(routes, {anchorScrolling: 'enabled'}),
   ],
 })
