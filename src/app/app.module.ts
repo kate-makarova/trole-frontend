@@ -15,8 +15,7 @@ import {AdsenseModule} from "ng2-adsense";
     AutocompleteLibModule,
     SCEditorModule,
       AdsenseModule.forRoot({
-        adClient: '',
-        adSlot: 0
+        adClient: 'ca-pub-8479722127145446',
       }),
     RouterModule.forRoot(routes, {anchorScrolling: 'enabled'}),
   ],

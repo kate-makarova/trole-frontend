@@ -32,6 +32,7 @@
         <app-sceditor *ngIf="post == null"
                 [format]="'bbcode'"
                 [id]="'postEditor'"
+                [height]="'100%'"
         ></app-sceditor>
       <textarea *ngIf="post != null"
                 style="height: 10rem"
