@@ -81,12 +81,17 @@ export class PostEditorComponent implements OnInit, OnChanges {
     if (this.mode == 'update' && this.postId !== null) {
       this.postService.update(this.postId, this.postForm.value).subscribe(
         () => {
+          this.postForm.controls.content.setValue('')
+          this.postContent = of('')
+          this.postId = null;
+          this.mode = 'create';
           this.postUpdated.emit(true)
         }
       )
     } else {
       this.postService.create(this.postForm.value).subscribe(data => {
         this.postForm.controls.content.setValue('')
+        this.postContent = of('')
         this.postAdded.emit(true)
       })
     }

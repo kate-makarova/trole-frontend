@@ -75,6 +75,7 @@
         <app-post-editor
                 [characters]="getMyCharacters()"
                 (postAdded)="onPostAdded($event)"
+                (postUpdated)="onPostUpdated($event)"
                 [post] = editedPost
         ></app-post-editor>
     </div>
