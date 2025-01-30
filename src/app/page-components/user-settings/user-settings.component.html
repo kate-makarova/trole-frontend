@@ -1,1 +1,13 @@
-<p>user-settings works!</p>
+<div class="row">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <fieldset>
+            <h3>User Settings</h3>
+            <div class="form-field">
+                <label>Theme:</label>
+                <input name="theme" formControlName="theme"  type="radio" value="light">
+                <input name="theme" formControlName="theme"  type="radio" value="dark">
+            </div>
+        </fieldset>
+        <button type="submit" class="button primary">Save</button>
+    </form>
+</div>
