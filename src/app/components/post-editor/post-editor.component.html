@@ -29,18 +29,12 @@
 <!--                formControlName="content"-->
 <!--        >-->
 <!--    </textarea>-->
-        <app-sceditor *ngIf="post == null"
+        <app-sceditor
                 [format]="'bbcode'"
                 [id]="'postEditor'"
                 [height]="'100%'"
+                [content]="postContent"
         ></app-sceditor>
-      <textarea *ngIf="post != null"
-                style="height: 10rem"
-                id="postEditor-{{post.id}}"
-                type="text"
-                formControlName="content"
-      >
-    </textarea>
         <div class="form-buttons">
             <button
                     class="button button-primary"

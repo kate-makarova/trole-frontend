@@ -10,7 +10,7 @@
             <div class="column large-4">
                 <app-placeholder-image [src]="episode.image" style="max-height: 400px"/>
             </div>
-            <div class="column large-8" style="display: flex; flex-direction: column; align-self: stretch;">
+            <div class="column large-6" style="display: flex; flex-direction: column; align-self: stretch;">
                 <div>
                     <span class="label success">{{ episode.status }}</span>&nbsp;
                     <span *ngIf="episode.language !== null" class="label primary">{{ episode.language }}</span>
@@ -19,17 +19,32 @@
                 <div style="flex-grow: 1">
                     {{ episode.description }}
                 </div>
-                <div class="footer">
-                    <ul class="menu">
-                        <li *ngFor="let character of episode.characters">
-                            <a [href]="'/character/' + character.id">{{ character.name }}</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
+          <div class="column large-2">
+            <ul>
+              <li *ngFor="let character of episode.characters">
+                <a [href]="'/character/' + character.id">{{ character.name }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <hr>
+      <hr>
+
+      <div *ngIf="episode.is_mine" class="row">
+        <div class="large-3 column">
+          <button class="button hollow expanded success" (click)="splitScreen()">{{editorButtonText}}</button>
+        </div>
+        <div class="large-3 column">
+          <a class="button hollow expanded" href="#">Drafts</a>
+        </div>
+        <div class="large-3 column">
+<!--          <a class="button hollow expanded disabled" href="#">Wanted</a>-->
+        </div>
+        <div class="large-3 column">
+<!--          <a class="button hollow expanded success disabled" href="#">Chat room</a>-->
+        </div>
+      </div>
 
 
         <br/>
@@ -50,26 +65,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="media-object-section" style="width: 100%;">
-                    <app-post-editor
-                            *ngIf="post.edit"
-                            [post]="post"
-                            (postUpdated)="onPostUpdated($event)"
-                            style="margin-top: -17px">
-                    </app-post-editor>
-                    <div *ngIf="!post.edit" [innerHTML]="post.content"></div>
+                <div [ngClass]="{'edit': post.edit}" class="media-object-section" style="width: 100%;">
+                    <div [innerHTML]="post.content"></div>
                 </div>
             </div>
-        </div>
-
-        <div *ngIf="episode.is_mine" class="row">
-            <button (click)="splitScreen()">Open Editor</button>
         </div>
     </div>
     <div [style]="postEditorStyle" id="post-editor">
         <app-post-editor
                 [characters]="getMyCharacters()"
                 (postAdded)="onPostAdded($event)"
+                [post] = editedPost
         ></app-post-editor>
     </div>
 </ng-container>
