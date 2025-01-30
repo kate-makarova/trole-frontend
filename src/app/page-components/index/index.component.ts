@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
     SlicePipe,
     NgForOf,
     AsyncPipe,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'

@@ -1,71 +1,85 @@
-<ng-container *ngIf="episode$ | async as episode; else loading" >
-<div class="row column">
-    <h4 style="margin: 0;" class="text-center">{{ episode.name }}</h4>
-</div>
+<ng-container *ngIf="episode$ | async as episode; else loading">
+    <div [style]="episodeContentStyle">
+        <div id="episode-content" class="row column">
+            <h4 style="margin: 0;" class="text-center">{{ episode.name }}</h4>
+        </div>
 
-<hr>
+        <hr>
 
-  <div class="row" style="display: flex">
-    <div class="column large-4">
-      <app-placeholder-image [src]="episode.image" style="max-height: 400px"/>
-    </div>
-    <div class="column large-8" style="display: flex; flex-direction: column; align-self: stretch;">
-      <div>
-        <span class="label success">{{ episode.status }}</span>&nbsp;
-          <span *ngIf="episode.language !== null" class="label primary">{{ episode.language }}</span>
+        <div class="row" style="display: flex">
+            <div class="column large-4">
+                <app-placeholder-image [src]="episode.image" style="max-height: 400px"/>
+            </div>
+            <div class="column large-6" style="display: flex; flex-direction: column; align-self: stretch;">
+                <div>
+                    <span class="label success">{{ episode.status }}</span>&nbsp;
+                    <span *ngIf="episode.language !== null" class="label primary">{{ episode.language }}</span>
+                    <br/>
+                </div>
+                <div style="flex-grow: 1">
+                    {{ episode.description }}
+                </div>
+            </div>
+          <div class="column large-2">
+            <ul>
+              <li *ngFor="let character of episode.characters">
+                <a [href]="'/character/' + character.id">{{ character.name }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      <hr>
+
+      <div *ngIf="episode.is_mine" class="row">
+        <div class="large-3 column">
+          <button class="button hollow expanded success" (click)="splitScreen()">{{editorButtonText}}</button>
+        </div>
+        <div class="large-3 column">
+          <a class="button hollow expanded" href="#">Drafts</a>
+        </div>
+        <div class="large-3 column">
+<!--          <a class="button hollow expanded disabled" href="#">Wanted</a>-->
+        </div>
+        <div class="large-3 column">
+<!--          <a class="button hollow expanded success disabled" href="#">Chat room</a>-->
+        </div>
+      </div>
+
+
         <br/>
-      </div>
-      <div style="flex-grow: 1">
-        {{ episode.description }}
-      </div>
-      <div class="footer">
-        <ul class="menu">
-          <li *ngFor="let character of episode.characters">
-            <a [href]="'/character/' + character.id">{{ character.name }}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
-<hr>
-
-
-<br />
-
-<div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" [attr.data-read]="post.is_read" class="row column">
-    <div class="media-object">
-        <div class="media-object-section">
-                <div class="thumbnail">
-                    <h5>{{ post.character.name }}</h5>
-                  <div style="min-height: 80px;">
-                    <app-placeholder-image style="width: 80px" [alt]="post.character.name" [src]="post.character.avatar"/>
-                  </div>
-                    <div style="line-height: 1rem">
-                  <button *ngIf="post.is_mine" (click)="editPost(post)">Edit</button>
-                  <div *ngIf="!post.is_read" class="label success">New post</div>
+        <div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" [attr.data-read]="post.is_read"
+             class="row column">
+            <div class="media-object">
+                <div class="media-object-section">
+                    <div class="thumbnail">
+                        <h5>{{ post.character.name }}</h5>
+                        <div style="min-height: 80px;">
+                            <app-placeholder-image style="width: 80px" [alt]="post.character.name"
+                                                   [src]="post.character.avatar"/>
+                        </div>
+                        <div style="line-height: 1rem">
+                            <button *ngIf="post.is_mine" (click)="editPost(post)">Edit</button>
+                            <div *ngIf="!post.is_read" class="label success">New post</div>
+                        </div>
                     </div>
                 </div>
-        </div>
-        <div class="media-object-section" style="width: 100%;">
-          <app-post-editor
-            *ngIf="post.edit"
-            [post]="post"
-            (postUpdated)="onPostUpdated($event)"
-            style="margin-top: -17px">
-          </app-post-editor>
-          <div *ngIf="!post.edit" [innerHTML]="post.content"></div>
+                <div [ngClass]="{'edit': post.edit}" class="media-object-section" style="width: 100%;">
+                    <div [innerHTML]="post.content"></div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
-<div *ngIf="episode.is_mine" class="row">
-    <app-post-editor
-            [characters]="getMyCharacters()"
-            (postAdded)="onPostAdded($event)"
-    ></app-post-editor>
-</div>
+    <div [style]="postEditorStyle" id="post-editor">
+        <app-post-editor
+                [characters]="getMyCharacters()"
+                (postAdded)="onPostAdded($event)"
+                (postUpdated)="onPostUpdated($event)"
+                [post] = editedPost
+        ></app-post-editor>
+    </div>
 </ng-container>
 <ng-template #loading>
-  Loading...
-  </ng-template>
+    Loading...
+</ng-template>

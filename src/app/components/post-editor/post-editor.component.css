@@ -1,3 +1,13 @@
+#post-editor {
+  position: fixed;
+  height: calc(100% - 12em);
+  top: 4em;
+}
+
+#post-editor>form {
+  height: calc(100% - 5em);
+}
+
 .post-form-characters {
   background: #e6e6e6;
   padding: 1rem;

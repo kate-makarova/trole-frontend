@@ -5,7 +5,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
 import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
-import {AsyncPipe, NgForOf, NgIf, ViewportScroller} from '@angular/common';
+import {AsyncPipe, NgClass, NgForOf, NgIf, ViewportScroller} from '@angular/common';
 import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
@@ -19,6 +19,8 @@ import {PlaceholderImageComponent} from '../../components/placeholder-image/plac
     NgForOf,
     NgIf,
     PlaceholderImageComponent,
+    RouterLink,
+    NgClass,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'
@@ -27,6 +29,12 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   episode$: Observable<Episode|null> = of(null);
   posts$: Observable<Post[]> = of([]);
   episodeId: number = 0;
+  episodeContentStyle: string = 'width: 100%'
+  postEditorStyle: string = 'width: 0; display: none'
+  editorButtonText: string = 'Open Editor'
+  isEditorOpen: boolean = false
+  editedPost: Observable<Post|null> = of(null)
+
 
   constructor(private episodeService: EpisodeService,
               private postService: PostService,
@@ -39,13 +47,14 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   }
 
   getMyCharacters() {
-    let t = this.episode$?.pipe(shareReplay(1)).pipe(
-      map((episode) => {
-        if (!episode) {return []}
-        return episode.characters.filter((ch) => ch.is_mine == true)
-      })
+    return this.episode$?.pipe(shareReplay(1)).pipe(
+        map((episode) => {
+          if (!episode) {
+            return []
+          }
+          return episode.characters.filter((ch) => ch.is_mine)
+        })
     );
-    return t;
   }
 
   onPostAdded(added: boolean) {
@@ -66,6 +75,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.breadcrumbsService.changeBreadcrumbs('episode', [this.episodeId]);
     this.episodeService.load(this.episodeId);
+  //  this.episodeService.loadTest();
     this.episode$ = this.episodeService.get().pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
       if (!episode) {return}
@@ -73,6 +83,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
       if (episode.is_new) {
         this.postService.setPostsRead(this.episodeId)
       }
+     // console.log(episode)
     });
     this.postService.loadList(this.episodeId, 1)
     this.posts$ = this.postService.getList().pipe(shareReplay(1));
@@ -99,7 +110,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
         return resolve(document.querySelector(selector));
       }
 
-      const observer = new MutationObserver(mutations => {
+      const observer = new MutationObserver(() => {
         if (document.querySelector(selector)) {
           observer.disconnect();
           resolve(document.querySelector(selector));
@@ -115,6 +126,22 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
 
   editPost(post: Post) {
     post.edit = true;
-    this.postService.updateListItem(post, post.id)
+    this.editedPost = of(post)
+    if(!this.isEditorOpen) {
+       this.splitScreen()
+    }
+  }
+
+  splitScreen() {
+    this.isEditorOpen = !this.isEditorOpen
+    if(this.isEditorOpen) {
+      this.episodeContentStyle = 'margin-right: min(48%, 820px);'
+      this.postEditorStyle = 'width: 48%; max-width: 820px; float: right'
+      this.editorButtonText = 'Close Editor'
+    } else {
+      this.episodeContentStyle = 'width: 100%'
+      this.postEditorStyle = 'width: 0; display: none'
+      this.editorButtonText = 'Open Editor'
+    }
   }
 }

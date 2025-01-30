@@ -1,29 +1,29 @@
-import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
-import {SimpleEntity} from '../../entities/SimpleEntity';
-import {Observable} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 import {Post} from '../../entities/Post';
-import {EditorButtonsComponent} from "../editor-buttons/editor-buttons.component";
+import {SceditorComponent} from "sceditor-angular";
+import {SCEditorModule} from "sceditor-angular";
 
 @Component({
   selector: 'app-post-editor',
-    imports: [
-        ReactiveFormsModule,
-        AsyncPipe,
-        NgIf,
-        NgForOf,
-        PlaceholderImageComponent,
-        EditorButtonsComponent
-    ],
+  imports: [
+    ReactiveFormsModule,
+    AsyncPipe,
+    NgIf,
+    NgForOf,
+    PlaceholderImageComponent,
+    SceditorComponent
+  ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
 })
-export class PostEditorComponent implements OnInit {
+export class PostEditorComponent implements OnInit, OnChanges {
 
   private formBuilder = inject(FormBuilder);
   private mode = 'create';
@@ -34,21 +34,32 @@ export class PostEditorComponent implements OnInit {
     episode: 0
   });
 
-  @Input('post') post: Post|null = null;
+  @Input('post') post: Observable<Post|null> = of(null);
   @Input('characters') characters: Observable<Character[]> | undefined;
   @Output() postAdded: EventEmitter<boolean> = new EventEmitter();
   @Output() postUpdated: EventEmitter<boolean> = new EventEmitter();
+  postId: number|null = null;
+  postContent: Observable<string|null> = of(null)
 
   constructor(private postService: PostService,
               private route: ActivatedRoute) {
     this.postForm.patchValue({episode: Number(this.route.snapshot.paramMap.get('id'))})
   }
 
-  ngOnInit() {
-    if (this.post !== null) {
-      this.postForm.controls.content.setValue(this.post.content_bb)
-      this.mode = 'update'
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['post']) {
+      this.post.subscribe((post) => {
+        if(post == null) {return}
+
+        this.postForm.controls.content.setValue(post.content_bb)
+        this.mode = 'update'
+        this.postId = post.id
+        this.postContent = of(post.content_bb)
+      });
     }
+  }
+
+  ngOnInit() {
     this.characters?.subscribe((data: Character[]) => {
       if(data !== null && data.length == 1) {
         this.postForm.controls.character.setValue(data[0].id)
@@ -61,18 +72,30 @@ export class PostEditorComponent implements OnInit {
   }
 
   onSubmit() {
+
+    const content = SCEditorModule.getValue('postEditor')
+    this.postForm.patchValue({content: content})
+
     console.log(this.postForm.value);
-    // if (this.mode == 'update' && this.post !== null) {
-    //   this.postService.update(this.post.id, this.postForm.value).subscribe(
-    //     () => {
-    //       this.postUpdated.emit(true)
-    //     }
-    //   )
-    // } else {
-    //   this.postService.create(this.postForm.value).subscribe(data => {
-    //     this.postForm.controls.content.setValue('')
-    //     this.postAdded.emit(true)
-    //   })
-    // }
+
+    if (this.mode == 'update' && this.postId !== null) {
+      this.postService.update(this.postId, this.postForm.value).subscribe(
+        () => {
+          this.postForm.controls.content.setValue('')
+          this.postContent = of('')
+          this.postId = null;
+          this.mode = 'create';
+          this.postUpdated.emit(true)
+        }
+      )
+    } else {
+      this.postService.create(this.postForm.value).subscribe(data => {
+        this.postForm.controls.content.setValue('')
+        this.postContent = of('')
+        this.postAdded.emit(true)
+      })
+    }
   }
+
+  protected readonly of = of;
 }

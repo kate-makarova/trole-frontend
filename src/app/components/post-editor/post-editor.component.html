@@ -21,26 +21,25 @@
                 </ng-template>
             </ng-container>
         </div>
-        <app-editor-buttons [control]="postForm.controls['content']" [id]="'postEditor'" />
-        <textarea *ngIf="post == null"
-                style="height: 10rem"
-                id="postEditor"
-                type="text"
-                formControlName="content"
-        >
-    </textarea>
-      <textarea *ngIf="post != null"
-                style="height: 10rem"
-                id="postEditor-{{post.id}}"
-                type="text"
-                formControlName="content"
-      >
-    </textarea>
+<!--        <app-editor-buttons [control]="postForm.controls['content']" [id]="'postEditor'" />-->
+<!--        <textarea *ngIf="post == null"-->
+<!--                style="height: 10rem"-->
+<!--                id="postEditor"-->
+<!--                type="text"-->
+<!--                formControlName="content"-->
+<!--        >-->
+<!--    </textarea>-->
+        <app-sceditor
+                [format]="'bbcode'"
+                [id]="'postEditor'"
+                [height]="'100%'"
+                [content]="postContent"
+        ></app-sceditor>
         <div class="form-buttons">
             <button
                     class="button button-primary"
                     type="submit"
-                    [disabled]="!postForm.valid">
+            >
                 Submit
             </button>
         </div>

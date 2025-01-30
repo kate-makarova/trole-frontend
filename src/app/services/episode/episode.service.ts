@@ -12,4 +12,23 @@ export class EpisodeService extends EntityService<Episode> {
     "create": "episode-create",
     "update": "episode-edit/"
   }
+
+  public loadTest()
+  {
+    this.entitySubject.next(new Episode(
+        100,
+        'Test',
+        'active',
+        true,
+        'Test episode',
+        0,
+        null,
+        null,
+        [],
+        1,
+        null,
+        false,
+        null
+    ))
+  }
 }
