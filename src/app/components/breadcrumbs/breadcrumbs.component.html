@@ -1,4 +1,4 @@
-<div class="breadcrumbs-container row">
+<div *ngIf="breadcrumbs.length" class="breadcrumbs-container row">
     <nav aria-label="You are here:" role="navigation">
         <ul class="breadcrumbs">
             <li *ngFor="let breadcrumb of breadcrumbs; last as isLast">
