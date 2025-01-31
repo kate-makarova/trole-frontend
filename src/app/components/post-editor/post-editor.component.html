@@ -1,4 +1,4 @@
-<div id="post-editor">
+<div id="post-editor" [ngClass]="{'dark': editorMode == 'dark'}">
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
         <div *ngIf="post == null" class="post-form-characters">
             <ng-container *ngIf="characters | async as charArray">
@@ -33,6 +33,7 @@
                 [format]="'bbcode'"
                 [id]="'postEditor'"
                 [height]="'100%'"
+                [mode] = "editorMode"
                 [content]="postContent"
         ></app-sceditor>
         <div class="form-buttons">

@@ -3,12 +3,13 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
 import {Observable, of, Subscription} from 'rxjs';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 import {Post} from '../../entities/Post';
 import {SceditorComponent} from "sceditor-angular";
 import {SCEditorModule} from "sceditor-angular";
+import {ThemeService} from "../../services/theme/theme.service";
 
 @Component({
   selector: 'app-post-editor',
@@ -18,7 +19,8 @@ import {SCEditorModule} from "sceditor-angular";
     NgIf,
     NgForOf,
     PlaceholderImageComponent,
-    SceditorComponent
+    SceditorComponent,
+    NgClass
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
@@ -27,6 +29,7 @@ export class PostEditorComponent implements OnInit, OnChanges {
 
   private formBuilder = inject(FormBuilder);
   private mode = 'create';
+  editorMode: string = 'light'
 
   postForm = this.formBuilder.group({
     content: ['', Validators.required],
@@ -42,8 +45,17 @@ export class PostEditorComponent implements OnInit, OnChanges {
   postContent: Observable<string|null> = of(null)
 
   constructor(private postService: PostService,
+              protected themeService: ThemeService,
               private route: ActivatedRoute) {
     this.postForm.patchValue({episode: Number(this.route.snapshot.paramMap.get('id'))})
+    this.themeService.themeName.subscribe((theme:string ) => {
+        this.editorMode = theme.substring(6)
+      if(this.editorMode == 'dark') {
+        SCEditorModule.setCSS('postEditor', 'body{background: #000; color: #fff;} p{color: #fff;}')
+      } else {
+        SCEditorModule.setCSS('postEditor', 'body{color: #111;} p{color: #111;}')
+      }
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -98,4 +110,5 @@ export class PostEditorComponent implements OnInit, OnChanges {
   }
 
   protected readonly of = of;
+  protected readonly String = String;
 }
