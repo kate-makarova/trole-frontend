@@ -17,7 +17,8 @@ import {Theme} from "./services/theme/Theme";
 export class AppComponent {
   title = 'trole-frontend';
 
-  constructor(private translate: TranslateService,
+  constructor(
+      private translate: TranslateService,
               private themeService: ThemeService,
               private sessionService: SessionService) {
     this.translate.addLangs(['ru', 'en']);

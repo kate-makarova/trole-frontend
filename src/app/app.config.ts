@@ -6,6 +6,7 @@ import { provideStore } from '@ngrx/store';
 import {HttpClient, provideHttpClient} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {AdsenseModule} from "ng2-adsense";
 
 function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './locale/', '.json');
@@ -23,6 +24,10 @@ export const appConfig: ApplicationConfig = {
         useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
-    }))
+    })),
+      importProvidersFrom( AdsenseModule.forRoot({
+        adClient: 'ca-pub-8479722127145446',
+        adSlot: 9182033673
+      }))
   ]
 };
