@@ -40,6 +40,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private titleService: Title,
               private breadcrumbsService: BreadcrumbsService,
+              private viewportScroller: ViewportScroller
               ) {
 
   }
@@ -72,8 +73,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
     this.breadcrumbsService.changeBreadcrumbs('episode', [this.episodeId]);
-   // this.episodeService.load(this.episodeId);
-    this.episodeService.loadTest();
+    this.episodeService.load(this.episodeId);
+   // this.episodeService.loadTest();
     this.episode$ = this.episodeService.get().pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
       if (!episode) {return}
@@ -88,17 +89,17 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.posts$.subscribe({
-    //   next: (data) => {
-    //     const unread_post = data.find((post) => !post.is_read)
-    //     if (unread_post) {
-    //       this.waitForElm('#p'+unread_post.id).then(() => {
-    //         this.viewportScroller.scrollToAnchor('p'+unread_post.id);
-    //       })
-    //       this.postService.setPostsRead(this.episodeId)
-    //     }
-    //   },
-    // });
+    this.posts$.subscribe({
+      next: (data) => {
+        const unread_post = data.find((post) => !post.is_read)
+        if (unread_post) {
+          this.waitForElm('#p'+unread_post.id).then(() => {
+            this.viewportScroller.scrollToAnchor('p'+unread_post.id);
+          })
+          this.postService.setPostsRead(this.episodeId)
+        }
+      },
+    });
   }
 
   waitForElm(selector: string) {
