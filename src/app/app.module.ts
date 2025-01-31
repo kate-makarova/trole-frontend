@@ -13,10 +13,6 @@ import {AdsenseModule} from "ng2-adsense";
     BrowserModule,
     ReactiveFormsModule,
     AutocompleteLibModule,
-    SCEditorModule,
-      AdsenseModule.forRoot({
-        adClient: 'ca-pub-8479722127145446',
-      }),
     RouterModule.forRoot(routes, {anchorScrolling: 'enabled'}),
   ],
 })
