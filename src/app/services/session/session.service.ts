@@ -13,17 +13,19 @@ export class SessionService {
   private refreshToken: string = '';
 
    constructor(private http: HttpClient) {
+  }
+
+  async init() {
     const session = localStorage.getItem('session')
 
     if(session) {
       const data = JSON.parse(session)
       this.accessToken = data.accessToken;
       this.refreshToken = data.refreshToken;
-      this.refresh().then((status) => {
+      const status = await this.refresh()
         if(status) {
           this.user = data.user;
         }
-      })
     }
   }
 
@@ -58,7 +60,8 @@ export class SessionService {
        localStorage.removeItem('session')
        return false;
      }
-    await fetch(environment.apiHost+'token/refresh', {
+
+    return await fetch(environment.apiHost+'token/refresh', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -72,7 +75,9 @@ export class SessionService {
       this.accessToken = data.access;
       return true;
     })
-    return false
+      .catch((er) => {
+        return false
+      })
   }
 
   login(login: string, password: string): Observable<boolean> {
