@@ -12,15 +12,18 @@ export class SessionService {
   private accessToken: string = '';
   private refreshToken: string = '';
 
-  constructor(private http: HttpClient) {
+   constructor(private http: HttpClient) {
     const session = localStorage.getItem('session')
 
     if(session) {
       const data = JSON.parse(session)
       this.accessToken = data.accessToken;
       this.refreshToken = data.refreshToken;
-      this.refresh()
-      this.user = data.user;
+      this.refresh().then((status) => {
+        if(status) {
+          this.user = data.user;
+        }
+      })
     }
   }
 
@@ -50,17 +53,26 @@ export class SessionService {
     })
   }
 
-  refresh(): Observable<boolean> {
-    return this.getAPIRefreshToken().pipe(
-      switchMap((response) => {
-        if(!response.access) {
-          return of(false);
-        } else {
-          this.accessToken = response.access;
-          this.refreshToken = response.refresh;
-          return of(true);
-        }
-      }))
+  async refresh(): Promise<boolean> {
+     if(this.refreshToken == undefined) {
+       localStorage.removeItem('session')
+       return false;
+     }
+    await fetch(environment.apiHost+'token/refresh', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        refresh: this.refreshToken
+      })
+    }).then((response) => {
+      return response.json()
+    }).then((data) => {
+      this.accessToken = data.access;
+      return true;
+    })
+    return false
   }
 
   login(login: string, password: string): Observable<boolean> {
@@ -69,7 +81,6 @@ export class SessionService {
         if(!response.access) {
           return of(false);
         }
-        console.log('First request successful', response);
         this.accessToken = response.access;
         this.refreshToken = response.refresh;
         return this.getUserByUserName(login).pipe(
@@ -80,7 +91,8 @@ export class SessionService {
             this.user = secondResponse.data;
             localStorage.setItem("session", JSON.stringify({
               "user": this.user,
-              "accessToken": this.accessToken
+              "accessToken": this.accessToken,
+              "refreshToken": this.refreshToken
             }))
             return of(true);
           })

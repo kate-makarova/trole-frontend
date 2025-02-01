@@ -8,7 +8,7 @@ export class User {
   is_admin: boolean = false;
   language: string = 'en'
   characters: Character[] = []
-  theme: Theme = Theme.getDefault()
+  theme: string = Theme.getDefault().themeCSSID
 
   constructor(id: number,
               username: string,
@@ -16,7 +16,7 @@ export class User {
               is_admin: boolean = false,
               language: string = 'en',
               characters: Character[] = [],
-              theme: Theme|null = null) {
+              theme: string|null = null) {
     this.id = id;
     this.username = username;
     this.avatar = avatar;

@@ -18,6 +18,7 @@ import {PageComponent} from "./page-components/page/page.component";
 import {CharacterSheetComponent} from './page-components/character-sheet/character-sheet.component';
 import {UserCreateComponent} from './page-components/admin/user-create/user-create.component';
 import {AdminPageFormComponent} from './page-components/admin/page-form/page-form.component';
+import {UserSettingsComponent} from './page-components/user-settings/user-settings.component';
 export const routes: Routes = [
   {
     path: '',
@@ -110,6 +111,10 @@ export const routes: Routes = [
   {
     path: 'page/:path',
     component: PageComponent,
+  },
+  {
+    path: 'user-settings',
+    component: UserSettingsComponent,
   },
   {
     path: 'admin',
