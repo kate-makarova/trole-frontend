@@ -18,4 +18,8 @@ export class UserService extends APIService {
     return this.postData('admin-user-create', formData);
   }
 
+  userSettingsUpdate(user_id: number, formData: any): Observable<boolean> {
+    return this.postData('user-settings-update/'+user_id, formData)
+  }
+
 }

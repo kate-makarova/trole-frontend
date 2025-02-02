@@ -24,17 +24,18 @@ export class AppComponent {
     this.translate.setDefaultLang('en');
 
     this.sessionService.init().then(() => {
+
       const user: User | null = this.sessionService.getUser();
+
       let locale = 'en'
-      let theme: Theme = Theme.getDefault()
+      let theme: string = Theme.getDefault().themeCSSID
+
       if (user != null && user.language != null) {
         locale = user.language
       }
+
       if (user != null && user.theme != null) {
-        const find: Theme | undefined = Theme.getAll().find((theme) => theme.themeCSSID == user.theme)
-        if (find != undefined) {
-          theme = find
-        }
+        theme = user.theme
       }
 
       this.translate.use(locale);

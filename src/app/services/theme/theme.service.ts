@@ -9,7 +9,7 @@ import {BehaviorSubject, Observable, of} from "rxjs";
 export class ThemeService {
   private style: HTMLLinkElement|undefined;
   private renderer2: Renderer2
-  private currentTheme: Theme
+  private currentTheme: Theme|null = null
   private themeNameSubject: BehaviorSubject<string> = new BehaviorSubject<string>('style-default');
   // Expose the observable part of the BehaviorSubject
   public themeName: Observable<string> = this.themeNameSubject.asObservable();
@@ -19,13 +19,18 @@ export class ThemeService {
       rendererFactory: RendererFactory2
   ) {
     this.renderer2 = rendererFactory.createRenderer(null, null);
-    this.currentTheme =   {
-      cssFile: 'https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css',
-      themeCSSID: 'style-default'
-    };
+    // this.currentTheme =   {
+    //   cssFile: 'https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css',
+    //   themeCSSID: 'style-default'
+    // };
   }
 
-  setTheme(theme: Theme) {
+  setTheme(themeId: string) {
+    const theme: Theme|undefined = Theme.getAll().find((theme) => theme.themeCSSID == themeId)
+    if (theme == undefined) {return}
+
+
+
     // Create a link element via Angular's renderer to avoid SSR troubles
     this.style = this.renderer2.createElement('link') as HTMLLinkElement;
 
@@ -36,12 +41,20 @@ export class ThemeService {
 
     // Add the style to the head section
     this.renderer2.appendChild(this.document.head, this.style);
+    const previousTheme = this.getCurrentTheme()
+    if(previousTheme != null) {
+      this.removeTheme(previousTheme.themeCSSID)
+    }
     this.currentTheme = theme;
     this.themeNameSubject.next(theme.themeCSSID);
   }
 
-  removeCurrentTheme() {
-    const themeIDHTMlElem = this.document.getElementById(this.currentTheme.themeCSSID);
+  getCurrentTheme(): Theme|null {
+    return this.currentTheme
+  }
+
+  removeTheme(themeCSSID: string) {
+    const themeIDHTMlElem = this.document.getElementById(themeCSSID);
     if (themeIDHTMlElem) {
       this.renderer2.removeChild(this.document.head, themeIDHTMlElem);
     }

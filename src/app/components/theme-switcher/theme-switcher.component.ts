@@ -17,9 +17,6 @@ export class ThemeSwitcherComponent {
              ) {}
 
   themeChange(themeId: string) {
-    const theme: Theme|undefined = Theme.getAll().find((theme) => theme.themeCSSID == themeId)
-    if (theme == undefined) {return}
-    this.themeService.removeCurrentTheme()
-    this.themeService.setTheme(theme)
+    this.themeService.setTheme(themeId)
   }
 }

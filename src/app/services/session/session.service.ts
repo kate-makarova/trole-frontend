@@ -33,6 +33,22 @@ export class SessionService {
     return this.user;
   }
 
+  updateUser(patch: object): boolean {
+     if(this.user == null) {
+       return false;
+     }
+    for (const property in patch) {
+      // @ts-ignore
+      this.user[property] = patch[property]
+    }
+    localStorage.setItem("session", JSON.stringify({
+      "user": this.user,
+      "accessToken": this.accessToken,
+      "refreshToken": this.refreshToken
+    }))
+    return true;
+  }
+
   getToken(): string {
     return this.accessToken;
   }
