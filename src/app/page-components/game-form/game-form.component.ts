@@ -31,8 +31,8 @@ export class GameFormComponent implements OnInit {
     image: ['', Validators.required],
     description: ['', Validators.required],
     fandoms: this.formBuilder.array([]),
-    genres: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
-    languages: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
+    genres: this.formBuilder.array([this.formBuilder.control(0)]),
+    languages: this.formBuilder.array([this.formBuilder.control(0)]),
     rating: [0, Validators.required],
     access_level: [0, Validators.required],
     status: [0, Validators.required],
@@ -96,20 +96,20 @@ export class GameFormComponent implements OnInit {
             this.form.controls.fandoms.push(this.formBuilder.control(new SimpleEntity(0, '')))
           }
 
-          let genres: SimpleEntity[] = []
+          let genres: number[] = []
           for (let genre of game.genres) {
-            genres.push({id: genre.id, name: genre.name})
+            genres.push(genre.id)
           }
           for (let i = 1; i<genres.length; i++) {
-            this.form.controls.genres.push(this.formBuilder.control(new SimpleEntity(0, '')))
+            this.form.controls.genres.push(this.formBuilder.control(0))
           }
 
-          let languages: SimpleEntity[] = []
+          let languages: number[] = []
           for (let language of game.languages) {
-            languages.push({id: language.id, name: language.name})
+            languages.push(language.id)
           }
           for (let i = 1; i<genres.length; i++) {
-            this.form.controls.languages.push(this.formBuilder.control(new SimpleEntity(0, '')))
+            this.form.controls.languages.push(this.formBuilder.control(0))
           }
 
           this.apiservice.getData<SimpleEntity[]>('static-list/Rating', null).subscribe(data => {
