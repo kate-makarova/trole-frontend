@@ -19,6 +19,7 @@ import {CharacterSheetComponent} from './page-components/character-sheet/charact
 import {UserCreateComponent} from './page-components/admin/user-create/user-create.component';
 import {AdminPageFormComponent} from './page-components/admin/page-form/page-form.component';
 import {UserSettingsComponent} from './page-components/user-settings/user-settings.component';
+import {GameEditComponent} from './page-components/game-settings/game-edit/game-edit.component';
 export const routes: Routes = [
   {
     path: '',
@@ -49,6 +50,11 @@ export const routes: Routes = [
     path: 'game-create',
     title: 'Create Game',
     component: GameFormComponent,
+  },
+  {
+    path: 'game-settings/game-edit/:game_id',
+    title: 'Game Settings - Edit Game',
+    component: GameEditComponent,
   },
   {
     path: 'game-settings/character-sheet/:game_id',

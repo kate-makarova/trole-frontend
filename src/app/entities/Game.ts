@@ -7,6 +7,9 @@ import {SimpleEntity} from './SimpleEntity';
 export class Game {
   id: number;
   name: string;
+  status: SimpleEntity;
+  access_level: SimpleEntity;
+  rating: SimpleEntity;
   total_episodes: number;
   total_posts: number;
   total_characters: number;
@@ -35,7 +38,10 @@ export class Game {
               media: Media[],
               is_mine: boolean,
               can_admin: boolean,
-              image: string | null = null) {
+              status: SimpleEntity,
+              access_level: SimpleEntity,
+              rating: SimpleEntity,
+              image: string | null = null,) {
     this.id = id;
     this.name = name;
     this.total_episodes = totalEpisodeCount;
@@ -51,5 +57,8 @@ export class Game {
     this.media = media;
     this.is_mine = is_mine;
     this.can_admin = can_admin;
+    this.status = status;
+    this.access_level = access_level;
+    this.rating = rating;
   }
 }

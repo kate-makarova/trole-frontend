@@ -1,5 +1,7 @@
+<div class="row">
 <ul class="tabs" data-tab>
-    <li [ngClass]="['tabs-title', tabId=='game-edit' ? 'active' : '']"><a href="#panel1">Edit</a></li>
-    <li [ngClass]="['tabs-title', tabId=='character-sheet' ? 'active' : '']"><a href="#panel2">Character Sheet</a></li>
-    <li [ngClass]="['tabs-title', tabId=='user-management' ? 'active' : '']"><a href="#panel3">Users/Characters</a></li>
+    <li [ngClass]="['tabs-title', tabId=='game-edit' ? 'active' : '']"><a [routerLink]="'/game-settings/game-edit/'+gameId">Edit</a></li>
+    <li [ngClass]="['tabs-title', tabId=='character-sheet' ? 'active' : '']"><a [routerLink]="'/game-settings/character-sheet/'+gameId">Character Sheet</a></li>
+<!--    <li [ngClass]="['tabs-title', tabId=='user-management' ? 'active' : '']"><a href="#panel3">Users/Characters</a></li>-->
 </ul>
+</div>
