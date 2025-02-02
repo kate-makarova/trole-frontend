@@ -45,7 +45,8 @@ export class EpisodeFormComponent implements OnInit {
     description: [''],
     characters: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
     language: [''],
-    game: 0
+    game: 0,
+    id: 0
   });
 
   constructor(private episodeService: EpisodeService,
@@ -99,14 +100,19 @@ export class EpisodeFormComponent implements OnInit {
         if(data == null) {
           return;
         }
+        this.gameId = data.game_id;
         this.episodeName = data.name;
         let chars = []
         for (let char of data.characters) {
           chars.push({id: char.id, name: char.name})
         }
+        for (let i = 1; i<chars.length; i++) {
+          this.episodeForm.controls.characters.push(this.formBuilder.control(new SimpleEntity(0, '')))
+        }
         this.episodeForm.setValue({
-          name: data.name,
+          id: data.id,
           game: data.game_id,
+          name: data.name,
           image: data.image,
           language: data.language,
           description: data.description,
@@ -122,7 +128,7 @@ export class EpisodeFormComponent implements OnInit {
     if (this.mode === 'edit') {
       this.breadcrumbsService.changeBreadcrumbs('episode-edit', [this.episodeId])
       this.episodeService.update(this.episodeId, this.episodeForm.value).subscribe(data => {
-        this.router.navigateByUrl('/episode/' + data);
+      //  this.router.navigateByUrl('/episode/' + data);
       })
     } else {
       this.breadcrumbsService.changeBreadcrumbs('episode-create', [this.gameId])

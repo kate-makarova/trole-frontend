@@ -10,6 +10,8 @@ import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
+import {TopButton} from '../../entities/TopButton';
+import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 
 @Component({
   selector: 'app-episode',
@@ -20,6 +22,7 @@ import {PlaceholderImageComponent} from '../../components/placeholder-image/plac
     NgIf,
     PlaceholderImageComponent,
     NgClass,
+    TopButtonsComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css'
@@ -33,6 +36,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   editorButtonText: string = 'Open Editor'
   isEditorOpen: boolean = false
   editedPost: Observable<Post|null> = of(null)
+  topButtons: TopButton[] = []
 
 
   constructor(private episodeService: EpisodeService,
@@ -82,6 +86,14 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
       if (episode.is_new) {
         this.postService.setPostsRead(this.episodeId)
       }
+      if(episode.can_edit) {
+          this.topButtons.push({
+            path: '/episode-edit/'+this.episodeId,
+            name: 'Edit Episode',
+            class: 'button primary',
+            id: 'top-button-edit-episode',
+            click: null
+      })}
      // console.log(episode)
     });
     this.postService.loadList(this.episodeId, 1)

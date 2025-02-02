@@ -1,4 +1,5 @@
 <ng-container *ngIf="episode$ | async as episode; else loading">
+  <app-top-buttons [buttons]="topButtons"></app-top-buttons>
     <div [style]="episodeContentStyle">
         <div id="episode-content" class="row column">
             <h4 style="margin: 0;" class="text-center">{{ episode.name }}</h4>
