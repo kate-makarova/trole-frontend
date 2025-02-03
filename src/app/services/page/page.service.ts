@@ -20,4 +20,8 @@ export class PageService extends EntityService<Page> {
       this.entitySubject.next(data);
     })
   }
+
+  loadPageTest(path: string) {
+    this.entitySubject.next(new Page(1, 'Test', {"id": 1, "name": "test"}, new Date(), "test page", "test page"))
+  }
 }

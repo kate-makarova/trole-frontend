@@ -110,10 +110,10 @@ export const routes: Routes = [
     path: 'article-edit/:game_id/:id',
     component: ArticleFormComponent,
   },
-  {
-    path: 'page/:category/:path',
-    component: PageComponent,
-  },
+  // {
+  //   path: 'page/:category/:path',
+  //   component: PageComponent,
+  // },
   {
     path: 'page/:path',
     component: PageComponent,

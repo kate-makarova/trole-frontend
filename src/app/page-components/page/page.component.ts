@@ -28,13 +28,14 @@ export class PageComponent implements OnInit {
   ngOnInit() {
     this.category = this.route.snapshot.paramMap.get('category');
     this.path = this.route.snapshot.paramMap.get('path');
+    let path = '404'
     if(this.path !== null) {
-      let path = this.path
+      path = this.path
       if (this.category !== null) {
         path = this.category + '/' + path;
       }
-      this.pageService.loadPageByPath(path)
     }
+    this.pageService.loadPageByPath(path)
     this.page$ = this.pageService.get().pipe(shareReplay(1));
     this.page$.subscribe(page => {
       if(page == null){return}
