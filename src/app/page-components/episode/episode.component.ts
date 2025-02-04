@@ -103,9 +103,15 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.posts$.subscribe({
       next: (data) => {
-        for (const post of data) {
-          post.content = this.replace_tags(post.content)
-        }
+        this.waitForElm('.media-object').then(() => {
+          const elems = document.querySelectorAll('.media-object-section span[data-replace]')
+          for (const elem of elems) {
+            const value = elem.getAttribute('data-replace')
+            if (value) {
+              elem.setAttribute('style', value)
+            }
+          }
+        })
         const unread_post = data.find((post) => !post.is_read)
         if (unread_post) {
           this.waitForElm('#p'+unread_post.id).then(() => {
