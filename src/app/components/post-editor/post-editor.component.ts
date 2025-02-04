@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, Simpl
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
-import {Observable, of, Subscription} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
@@ -84,7 +84,6 @@ export class PostEditorComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-
     const content = SCEditorModule.getValue('postEditor')
     this.postForm.patchValue({content: content})
 
@@ -97,6 +96,7 @@ export class PostEditorComponent implements OnInit, OnChanges {
           this.postContent = of('')
           this.postId = null;
           this.mode = 'create';
+          SCEditorModule.setValue('postEditor', '')
           this.postUpdated.emit(true)
         }
       )
@@ -104,11 +104,9 @@ export class PostEditorComponent implements OnInit, OnChanges {
       this.postService.create(this.postForm.value).subscribe(data => {
         this.postForm.controls.content.setValue('')
         this.postContent = of('')
+        SCEditorModule.setValue('postEditor', '')
         this.postAdded.emit(true)
       })
     }
   }
-
-  protected readonly of = of;
-  protected readonly String = String;
 }
