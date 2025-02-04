@@ -12,6 +12,7 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
 import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
 import {TopButton} from '../../entities/TopButton';
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
+import {SafeHtmlPipe} from "../../pipes/SafeHtmlPipe";
 
 @Component({
   selector: 'app-episode',
@@ -23,6 +24,7 @@ import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.comp
     PlaceholderImageComponent,
     NgClass,
     TopButtonsComponent,
+    SafeHtmlPipe,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -103,15 +105,6 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.posts$.subscribe({
       next: (data) => {
-        this.waitForElm('.media-object').then(() => {
-          const elems = document.querySelectorAll('.media-object-section span[data-replace]')
-          for (const elem of elems) {
-            const value = elem.getAttribute('data-replace')
-            if (value) {
-              elem.setAttribute('style', value)
-            }
-          }
-        })
         const unread_post = data.find((post) => !post.is_read)
         if (unread_post) {
           this.waitForElm('#p'+unread_post.id).then(() => {
@@ -162,9 +155,5 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
       this.postEditorStyle = 'width: 0; display: none'
       this.editorButtonText = 'Open Editor'
     }
-  }
-
-  replace_tags(text: string) {
-    return text.replace('data-replace', 'style')
   }
 }

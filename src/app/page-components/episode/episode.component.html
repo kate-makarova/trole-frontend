@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div [ngClass]="{'edit': post.edit}" class="media-object-section" style="width: 100%;">
-                    <div [innerHTML]="post.content"></div>
+                    <div [innerHTML]="post.content|safeHtml"></div>
                 </div>
             </div>
         </div>
