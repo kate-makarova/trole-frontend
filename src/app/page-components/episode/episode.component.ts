@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
@@ -25,7 +25,7 @@ import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.comp
     TopButtonsComponent,
   ],
   templateUrl: './episode.component.html',
-  styleUrl: './episode.component.css'
+  styleUrl: './episode.component.css',
 })
 export class EpisodeComponent implements OnInit, AfterViewInit {
   episode$: Observable<Episode|null> = of(null);
@@ -103,6 +103,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.posts$.subscribe({
       next: (data) => {
+        for (const post of data) {
+          post.content = this.replace_tags(post.content)
+        }
         const unread_post = data.find((post) => !post.is_read)
         if (unread_post) {
           this.waitForElm('#p'+unread_post.id).then(() => {
@@ -153,5 +156,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
       this.postEditorStyle = 'width: 0; display: none'
       this.editorButtonText = 'Open Editor'
     }
+  }
+
+  replace_tags(text: string) {
+    return text.replace('data-replace', 'style')
   }
 }
