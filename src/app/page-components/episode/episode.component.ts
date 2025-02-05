@@ -83,6 +83,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
    // this.episodeService.loadTest();
     this.episode$ = this.episodeService.get().pipe(shareReplay(1));
     this.episode$.subscribe(episode => {
+      this.topButtons = []
       if (!episode) {return}
       this.titleService.setTitle(episode.name)
       if (episode.is_new) {
