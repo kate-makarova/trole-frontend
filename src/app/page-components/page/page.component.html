@@ -3,7 +3,7 @@
     <h4 style="margin: 0;" class="text-center">{{page.name}}</h4>
 </div>
     <hr />
-    <div class="row" [innerHTML]="page.content">
+    <div class="row" id="page-content" [innerHTML]="page.content">
     </div>
 </ng-container>
 <ng-template #loading>

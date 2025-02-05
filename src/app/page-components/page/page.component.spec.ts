@@ -3,10 +3,11 @@ import { PageComponent } from './page.component';
 import { PageService } from '../../services/page/page.service';
 import { BreadcrumbsService } from '../../services/breadcrubs/breadcrumbs.service';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import {delay, of} from 'rxjs';
 import { SimpleEntity } from '../../entities/SimpleEntity';
 import { Page } from '../../entities/Page';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {By} from "@angular/platform-browser";
 
 describe('PageComponent', () => {
   let component: PageComponent;
@@ -102,5 +103,51 @@ describe('PageComponent', () => {
     // Assert
     expect(pageServiceSpy.loadPageByPath).toHaveBeenCalledWith('404');
     expect(breadcrumbsServiceSpy.changeBreadcrumbs).toHaveBeenCalledWith('page', [null, null]);
+  });
+
+  it('should display the page name and content when page data is available', () => {
+    // Arrange: Create a mock page
+    const mockPage = new Page(1, 'Test Page', new SimpleEntity(1, 'Author'), new Date(), 'Test content', 'BBContent');
+    pageServiceSpy.get.and.returnValue(of(mockPage));
+
+    // Act: Trigger ngOnInit to load page
+    component.ngOnInit();
+    fixture.detectChanges();  // Trigger change detection
+
+    // Assert: Check if the page name and content are displayed correctly in the template
+    const pageName = fixture.debugElement.query(By.css('h4')).nativeElement.textContent;
+   const pageContent = fixture.debugElement.query(By.css('#page-content')).nativeElement.innerHTML;
+
+    expect(pageName).toBe('Test Page');
+    expect(pageContent).toContain('Test content');
+  });
+
+  it('should display "Loading..." when page data is still loading', () => {
+    // Arrange: Page service returns observable that doesn't emit yet (simulate loading state)
+    pageServiceSpy.get.and.returnValue(of(null).pipe(delay(500)));  // simulate a delay
+
+    // Act: Trigger ngOnInit to load page
+    component.ngOnInit();
+    fixture.detectChanges();  // Trigger change detection
+
+    // Assert: Check if loading state is displayed
+    const loadingText = fixture.debugElement.nativeElement.textContent.trim();
+    expect(loadingText).toBe('Loading...');
+  });
+
+  it('should handle null page and not display page name or content', () => {
+    // Arrange: Simulate page$ being null
+    pageServiceSpy.get.and.returnValue(of(null));
+
+    // Act: Trigger ngOnInit to load page
+    component.ngOnInit();
+    fixture.detectChanges();  // Trigger change detection
+
+    // Assert: Check that no page name or content is rendered
+    const pageName = fixture.debugElement.query(By.css('h4'));
+    const pageContent = fixture.debugElement.query(By.css('.row[innerHTML]'));
+
+    expect(pageName).toBeNull();
+    expect(pageContent).toBeNull();
   });
 });
