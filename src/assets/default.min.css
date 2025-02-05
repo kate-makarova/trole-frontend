@@ -214,9 +214,7 @@ div.sceditor-grip {
 
 .sceditor-container iframe, .sceditor-container textarea {
     -webkit-box-flex: 1;
-    background: #fff;
     border: 0;
-    color: #111;
     display: block;
     -ms-flex: 1 1 0%;
     flex: 1 1 0%;
