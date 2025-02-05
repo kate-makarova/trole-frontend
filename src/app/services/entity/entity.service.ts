@@ -1,9 +1,9 @@
-import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {SessionService} from './session/session.service';
-import {Router} from '@angular/router';
-import {APIService} from './apiservice/apiservice.service';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import {APIService} from "../apiservice/apiservice.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {SessionService} from "../session/session.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'

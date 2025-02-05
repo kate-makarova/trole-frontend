@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Game} from '../../entities/Game';
 import {Observable} from 'rxjs';
-import {EntityService} from '../EntityService';
+import {EntityService} from "../entity/entity.service";
 
 @Injectable({
   providedIn: 'root'

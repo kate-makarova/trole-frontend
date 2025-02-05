@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Article} from "../../entities/Article";
-import {EntityService} from '../EntityService';
+import {EntityService} from "../entity/entity.service";
 
 @Injectable({
   providedIn: 'root'

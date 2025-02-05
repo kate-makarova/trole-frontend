@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {EntityService} from "../EntityService";
+import {EntityService} from "../entity/entity.service";
 import {CharacterSheetTemplate} from "../../entities/CharacterSheetTemplate";
 import {BehaviorSubject, Observable} from 'rxjs';
 import {CharacterSheetTemplateField} from '../../entities/CharacterSheetTemplateField';

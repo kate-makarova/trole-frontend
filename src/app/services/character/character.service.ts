@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Character} from '../../entities/Character';
 import {Observable} from 'rxjs';
 import {SimpleEntity} from '../../entities/SimpleEntity';
-import {EntityService} from '../EntityService';
+import {EntityService} from "../entity/entity.service";
 
 @Injectable({
   providedIn: 'root'

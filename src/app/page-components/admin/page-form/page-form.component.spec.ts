@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageFormComponent } from './page-form.component';
+import { AdminPageFormComponent } from './page-form.component';
 
-describe('PageFormComponent', () => {
-  let component: PageFormComponent;
-  let fixture: ComponentFixture<PageFormComponent>;
+describe('AdminPageFormComponent', () => {
+  let component: AdminPageFormComponent;
+  let fixture: ComponentFixture<AdminPageFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageFormComponent]
+      imports: [AdminPageFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PageFormComponent);
+    fixture = TestBed.createComponent(AdminPageFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
