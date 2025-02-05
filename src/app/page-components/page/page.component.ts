@@ -16,7 +16,7 @@ import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service"
   styleUrl: './page.component.css'
 })
 export class PageComponent implements OnInit {
-  protected page$: Observable<Page | null> = of(null);
+  page$: Observable<Page | null> = of(null);
   private path: string|null = null;
   private category: string|null = null;
 

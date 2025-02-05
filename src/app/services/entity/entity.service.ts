@@ -62,6 +62,10 @@ export abstract class EntityService<T> extends APIService {
     return this.entity$;
   }
 
+  set(data:T|null): void {
+    this.entitySubject.next(data)
+  }
+
   create(formData: any): Observable<number> {
     return this.postData(this.endpoints.create, formData);
   }
