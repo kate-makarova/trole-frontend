@@ -44,7 +44,7 @@ export class EpisodeFormComponent implements OnInit {
     image: [''],
     description: [''],
     characters: this.formBuilder.array([this.formBuilder.control(new SimpleEntity(0, ''))]),
-    language: [''],
+    language: [0],
     game: 0,
     id: 0
   });
@@ -56,8 +56,6 @@ export class EpisodeFormComponent implements OnInit {
               private breadcrumbsService:BreadcrumbsService,
               private location: Location,
               private languageService: LanguageService) {
-    this.gameId = Number(this.route.snapshot.paramMap.get('id'))
-    this.episodeForm.patchValue({game: this.gameId})
     this.path = this.location.path().split('/')[1];
   }
 
@@ -89,8 +87,6 @@ export class EpisodeFormComponent implements OnInit {
   // }
 
   ngOnInit() {
-    this.languageService.loadGameLanguagesList(this.gameId)
-    this.languages$ = this.languageService.getList().pipe(shareReplay(1))
     if (this.path === 'episode-edit') {
       this.mode = 'edit';
       this.episodeId = Number(this.route.snapshot.paramMap.get('id'));
@@ -102,6 +98,8 @@ export class EpisodeFormComponent implements OnInit {
         }
         this.gameId = data.game_id;
         this.episodeName = data.name;
+        this.languageService.loadGameLanguagesList(this.gameId)
+        this.languages$ = this.languageService.getList().pipe(shareReplay(1))
         let chars = []
         for (let char of data.characters) {
           chars.push({id: char.id, name: char.name})
@@ -114,12 +112,16 @@ export class EpisodeFormComponent implements OnInit {
           game: data.game_id,
           name: data.name,
           image: data.image,
-          language: data.language,
+          language: data.language ? data.language.id : 0,
           description: data.description,
           characters: chars
         })
       })
     } else {
+      this.gameId = Number(this.route.snapshot.paramMap.get('id'))
+      this.episodeForm.patchValue({game: this.gameId})
+      this.languageService.loadGameLanguagesList(this.gameId)
+      this.languages$ = this.languageService.getList().pipe(shareReplay(1))
       this.breadcrumbsService.changeBreadcrumbs('episode-create', [this.gameId])}
   }
 
