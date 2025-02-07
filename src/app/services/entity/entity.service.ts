@@ -18,7 +18,8 @@ export abstract class EntityService<T> extends APIService {
     "loadList": "",
     "load": "",
     "create": "",
-    "update": ""
+    "update": "",
+    "delete": ""
   }
 
   constructor(http: HttpClient, sessionService: SessionService, router: Router) {
@@ -72,5 +73,9 @@ export abstract class EntityService<T> extends APIService {
 
   update(id: number, formData: any): Observable<T> {
     return this.postData(this.endpoints.update + id, formData);
+  }
+
+  delete(id: number): Observable<T> {
+    return this.postData(this.endpoints.update + id, []);
   }
 }

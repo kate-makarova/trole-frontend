@@ -50,6 +50,8 @@
 
         <br/>
 
+        <app-pagination [currentPage]="pageNumber" [totalItems]="episode.total_posts" (pageChanged)="reloadPage($event)"></app-pagination>
+
         <div *ngFor="let post of (posts$ | async)" [id]="'p'+post.id" [attr.data-read]="post.is_read"
              class="row column">
             <div class="media-object">
@@ -62,6 +64,7 @@
                         </div>
                         <div style="line-height: 1rem">
                             <button *ngIf="post.is_mine" (click)="editPost(post)">Edit</button>
+                            <button *ngIf="post.is_mine" (click)="deletePost(post)">Delete</button>
                             <div *ngIf="!post.is_read" class="label success">New post</div>
                         </div>
                     </div>

@@ -13,6 +13,7 @@ import {PlaceholderImageComponent} from '../../components/placeholder-image/plac
 import {TopButton} from '../../entities/TopButton';
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 import {SafeHtmlPipe} from "../../pipes/SafeHtmlPipe";
+import {PaginationComponent} from "../../components/pagination/pagination.component";
 
 @Component({
   selector: 'app-episode',
@@ -25,6 +26,7 @@ import {SafeHtmlPipe} from "../../pipes/SafeHtmlPipe";
     NgClass,
     TopButtonsComponent,
     SafeHtmlPipe,
+    PaginationComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -39,6 +41,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   isEditorOpen: boolean = false
   editedPost: Observable<Post|null> = of(null)
   topButtons: TopButton[] = []
+  pageNumber: number = 1;
 
 
   constructor(private episodeService: EpisodeService,
@@ -99,7 +102,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
       })}
      // console.log(episode)
     });
-    this.postService.loadList(this.episodeId, 1)
+    this.postService.loadList(this.episodeId, this.pageNumber)
     this.posts$ = this.postService.getList().pipe(shareReplay(1));
   }
 
@@ -143,6 +146,19 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     if(!this.isEditorOpen) {
        this.splitScreen()
     }
+  }
+
+  deletePost(post: Post) {
+    this.postService.delete(post.id).subscribe(() => {
+      this.postService.loadList(this.episodeId, this.pageNumber)
+      this.posts$ = this.postService.getList().pipe(shareReplay(1));
+    })
+  }
+
+  reloadPage(pageNumber: number) {
+    this.pageNumber = pageNumber;
+    this.postService.loadList(this.episodeId, this.pageNumber)
+    this.posts$ = this.postService.getList().pipe(shareReplay(1));
   }
 
   splitScreen() {

@@ -1,5 +1,19 @@
-<div class="pagination">
-  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-  <span>Page {{ currentPage }} of {{ totalPages }}</span>
-  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
-</div>
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        <li class="pagination-previous">
+            <button (click)="changePage(currentPage - 1)"
+                    [disabled]="currentPage === 1"
+                    aria-label="Previous page">Previous <span class="show-for-sr">page</span>
+            </button>
+        </li>
+
+        <li><span>Page {{ currentPage }} of {{ totalPages }}</span></li>
+
+        <li class="pagination-next">
+            <button (click)="changePage(currentPage + 1)"
+                    [disabled]="currentPage === totalPages"
+                    aria-label="Next page">Next <span class="show-for-sr">page</span>
+            </button>
+        </li>
+</ul>
+</nav>
