@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';

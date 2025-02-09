@@ -12,15 +12,15 @@
             <span class="badge success">R</span>
         </h5>
         <p>
-      <span><i class="fi-fandom">
+      <span>
         <a *ngFor="let fandom of game.fandoms" [href]="'/fandom/' + fandom.id">{{ fandom.name }}</a>
-      </i>&nbsp;&nbsp;</span>
-            <span><i class="fi-comments">
+      &nbsp;&nbsp;</span>
+            <span>
         <a *ngFor="let genre of game.genres" [href]="'/fandom/' + genre.id">{{ genre.name }}</a>
-      </i>&nbsp;&nbsp;</span>
-            <span><i class="fi-media">
+      &nbsp;&nbsp;</span>
+            <span>
         <a *ngFor="let media of game.media" [href]="'/fandom/' + media.id">{{ media.name }}</a>
-      </i>&nbsp;&nbsp;</span>
+      &nbsp;&nbsp;</span>
         </p>
         <p>{{ game.description }}</p>
     </div>
