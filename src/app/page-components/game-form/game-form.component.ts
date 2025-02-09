@@ -146,6 +146,22 @@ export class GameFormComponent implements OnInit {
     } else {
       this.breadcrumbsService.changeBreadcrumbs('game-create', [])
       this.form.controls.fandoms.push(this.formBuilder.control(new SimpleEntity(0, '')))
+      this.apiservice.getData<SimpleEntity[]>('static-list/Rating', null).subscribe(data => {
+        this.dataRating = data;
+      })
+      this.apiservice.getData<SimpleEntity[]>('static-list/GameStatus', null).subscribe(data => {
+        this.dataStatus = data;
+      })
+      this.apiservice.getData<SimpleEntity[]>('static-list/GamePermissions', null).subscribe(data => {
+        this.dataAccessLevel = data;
+      })
+      this.apiservice.getData<SimpleEntity[]>('static-list/Genre', null).subscribe(data => {
+        this.dataGenre = data;
+      })
+      this.languageService.loadList();
+      this.languageService.getList().subscribe(data => {
+        this.dataLanguage = data;
+      })
     }
   }
 
