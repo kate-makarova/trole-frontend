@@ -39,7 +39,7 @@ export class EpisodeListComponent implements OnInit {
   }
 
   fetchCharacters(): void {
-    this.characterService.loadList(this.gameId, 1)
+    this.characterService.loadList(this.gameId, 0)
     this.characters$ = this.characterService.getList().pipe(shareReplay(1));
   }
 
@@ -60,7 +60,7 @@ export class EpisodeListComponent implements OnInit {
 
   ngOnInit() {
     this.gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.fetchData(1);
+    this.fetchData(0);
     this.fetchCharacters();
   }
 }
