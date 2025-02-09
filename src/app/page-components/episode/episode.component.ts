@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Episode} from '../../entities/Episode';
 import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute} from '@angular/router';
@@ -67,14 +67,14 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
 
   onPostAdded(added: boolean) {
     if (added) {
-      this.postService.loadList(this.episodeId, 1)
+      this.postService.loadList(this.episodeId, this.pageNumber)
       this.posts$ = this.postService.getList().pipe(shareReplay(1));
     }
   }
 
   onPostUpdated(updated: boolean) {
     if (updated) {
-      this.postService.loadList(this.episodeId, 1)
+      this.postService.loadList(this.episodeId, this.pageNumber)
       this.posts$ = this.postService.getList().pipe(shareReplay(1));
     }
   }

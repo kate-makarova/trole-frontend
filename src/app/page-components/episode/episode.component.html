@@ -63,8 +63,8 @@
                                                    [src]="post.character.avatar"/>
                         </div>
                         <div style="line-height: 1rem">
-                            <button *ngIf="post.is_mine" (click)="editPost(post)">Edit</button>
-                            <button *ngIf="post.is_mine" (click)="deletePost(post)">Delete</button>
+                            <button *ngIf="post.is_mine" (click)="editPost(post)"><i class="fi-pencil"></i></button>
+                            <button *ngIf="post.is_mine" style="float: right" (click)="deletePost(post)"><i class="fi-trash"></i></button>
                             <div *ngIf="!post.is_read" class="label success">New post</div>
                         </div>
                     </div>

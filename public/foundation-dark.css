@@ -4798,14 +4798,15 @@ table.hover tr:nth-of-type(even):hover {
 }
 
 .thumbnail {
-    border: 4px solid #fefefe;
+    border: 4px solid #3d3c3c;
     box-shadow: 0 0 0 1px hsla(0, 0%, 4%, .2);
     display: inline-block;
     line-height: 0;
     max-width: 100%;
     transition: box-shadow .2s ease-out;
     border-radius: 2px;
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
+    padding: 4px;
 }
 
 .thumbnail:focus, .thumbnail:hover {

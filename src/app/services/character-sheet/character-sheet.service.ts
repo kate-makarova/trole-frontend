@@ -4,7 +4,6 @@ import {CharacterSheetTemplate} from "../../entities/CharacterSheetTemplate";
 import {BehaviorSubject, Observable} from 'rxjs';
 import {CharacterSheetTemplateField} from '../../entities/CharacterSheetTemplateField';
 import {CharacterSheet} from '../../entities/CharacterSheet';
-import {Character} from '../../entities/Character';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,8 @@ export class CharacterSheetService extends EntityService<CharacterSheetTemplate>
     "loadList": "", //not in use
     "load": "character-sheet/",
     "create": "character-sheet-create",
-    "update": "character-sheet-edit/"
+    "update": "character-sheet-edit/",
+    "delete": ""
   }
 
   loadCharacterSheet(characterId: number) {

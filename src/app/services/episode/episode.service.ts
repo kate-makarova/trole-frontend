@@ -11,7 +11,8 @@ export class EpisodeService extends EntityService<Episode> {
     "loadList": "episode-list/",
     "load": "episode/",
     "create": "episode-create",
-    "update": "episode-update/"
+    "update": "episode-update/",
+    "delete": ""
   }
 
   public loadTest()

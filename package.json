@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
     "@ngrx/store": "^19.0.0",
-    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^7.0.0",
     "angular-ng-autocomplete": "^2.0.12",
     "ng2-adsense": "^14.0.0",

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {EntityService} from "../entity/entity.service";
 import {Page} from "../../entities/Page";
-import {Article} from "../../entities/Article";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,7 @@ export class PageService extends EntityService<Page> {
     "load": '',
     "create": "admin-page-create",
     "update": "page-edit/",
+    "delete": ""
   }
 
   loadPageByPath(path: string) {

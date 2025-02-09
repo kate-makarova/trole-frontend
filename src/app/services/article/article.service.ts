@@ -11,7 +11,8 @@ export class ArticleService extends EntityService<Article> {
     "loadList": "article-list/",
     "load": "article/",
     "create": "article-create",
-    "update": "article-edit/"
+    "update": "article-edit/",
+    "delete": ""
   }
 
   loadByGameAndId(gameId: number, id: number): void {

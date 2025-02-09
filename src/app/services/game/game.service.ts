@@ -12,7 +12,8 @@ export class GameService extends EntityService<Game> {
     "loadList": "", //not used
     "load": "game/",
     "create": "game-create",
-    "update": "game-update/"
+    "update": "game-update/",
+    "delete": ""
   }
 
   join(id: number): Observable<boolean> {

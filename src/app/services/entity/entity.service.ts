@@ -26,8 +26,12 @@ export abstract class EntityService<T> extends APIService {
     super(http, sessionService, router);
   }
 
-  loadList(episodeId: number, page: number): void {
-    this.getData<any>(this.endpoints.loadList+episodeId).subscribe((data: T[]) => {
+  loadList(episodeId: number, page: number = 0): void {
+    let endpoint = this.endpoints.loadList+episodeId
+    if(page != 0) {
+      endpoint = this.endpoints.loadList+episodeId + '/' + page
+    }
+    this.getData<any>(endpoint).subscribe((data: T[]) => {
       this.entityListSubject.next(data);
     })
   }
@@ -76,6 +80,6 @@ export abstract class EntityService<T> extends APIService {
   }
 
   delete(id: number): Observable<T> {
-    return this.postData(this.endpoints.update + id, []);
+    return this.postData(this.endpoints.delete + id, []);
   }
 }
