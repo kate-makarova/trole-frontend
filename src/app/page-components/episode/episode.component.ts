@@ -42,6 +42,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   editedPost: Observable<Post|null> = of(null)
   topButtons: TopButton[] = []
   pageNumber: number = 1;
+  deleteAlert: boolean = false;
+  postToDelete: Post|null = null;
 
 
   constructor(private episodeService: EpisodeService,
@@ -67,6 +69,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
 
   onPostAdded(added: boolean) {
     if (added) {
+      this.episodeService.addPost()
+      this.pageNumber = -1; // last page
       this.postService.loadList(this.episodeId, this.pageNumber)
       this.posts$ = this.postService.getList().pipe(shareReplay(1));
     }
@@ -148,10 +152,22 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deletePost(post: Post) {
-    this.postService.delete(post.id).subscribe(() => {
+  postAlertDelete(post: Post) {
+    this.postToDelete = post;
+    this.deleteAlert = true;
+  }
+
+  postAlertDeleteCancel() {
+    this.postToDelete = null;
+    this.deleteAlert = false;
+  }
+
+  deletePost() {
+    if (this.postToDelete == null) {return}
+    this.postService.delete(this.postToDelete.id).subscribe(() => {
       this.postService.loadList(this.episodeId, this.pageNumber)
       this.posts$ = this.postService.getList().pipe(shareReplay(1));
+      this.postToDelete = null;
     })
   }
 
