@@ -9,7 +9,9 @@
 
 <!--        <li><span>Page {{ currentPage }} of {{ totalPages }}</span></li>-->
         <li *ngFor="let page of pagesToRender">
-                <button *ngIf="page.page !== null" (click)="changePage(page.page)">{{page.name}}</button>
+                <button *ngIf="page.page !== null"
+                        [ngClass]="{current: page.page == currentPage}"
+                        (click)="changePage(page.page)">{{page.name}}</button>
                 <span *ngIf="page.page == null">{{page.name}}</span>
         </li>
 
