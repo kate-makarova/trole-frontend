@@ -7,7 +7,11 @@
             </button>
         </li>
 
-        <li><span>Page {{ currentPage }} of {{ totalPages }}</span></li>
+<!--        <li><span>Page {{ currentPage }} of {{ totalPages }}</span></li>-->
+        <li *ngFor="let page of pagesToRender">
+                <button *ngIf="page.page !== null" (click)="changePage(page.page)">{{page.name}}</button>
+                <span *ngIf="page.page == null">{{page.name}}</span>
+        </li>
 
         <li class="pagination-next">
             <button (click)="changePage(currentPage + 1)"
