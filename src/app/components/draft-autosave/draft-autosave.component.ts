@@ -23,6 +23,7 @@ export class DraftAutosaveComponent implements OnChanges {
   timerValue: number = -1;
   init: Boolean = true;
   mode: string = 'Stop';
+  manualMode: string = 'save';
 
   @Input('sceditorId') sceditorId: string = '';
   @Input('episodeId') episodeId: number = 0;
@@ -36,7 +37,9 @@ export class DraftAutosaveComponent implements OnChanges {
     this.dateInitiate = new Date();
     this.draft = new Draft(0, this.episodeId, {id: this.characterId, name: ""}, this.dateInitiate, true, false, null)
     this.saveInterval = setInterval(() => {
-      this.save()
+      this.save().subscribe(() => {
+        console.log('saved')
+      })
     }, this.minutes * 60000)
     this.timerValue = this.minutes * 60
     this.timerInterval = setInterval(() => {
@@ -50,14 +53,28 @@ export class DraftAutosaveComponent implements OnChanges {
     }, 1000)
   }
 
+  saveManually() {
+    // this.save().subscribe(() => {
+    //   this.manualMode = 'saved'
+    //   setTimeout(() => {
+    //     this.manualMode = 'save'
+    //   }, 2000)
+    // })
+    this.manualMode = 'wait'
+    setTimeout(() => {
+      this.manualMode = 'saved'
+      setTimeout(() => {
+        this.manualMode = 'save'
+      }, 2000)
+    }, 2000)
+  }
+
   save() {
-    this.draftService.create({
+    return this.draftService.create({
       "episode": this.episodeId,
       "character": this.characterId,
       "autosave": true,
       "date_initiate": this.dateInitiate
-    }).subscribe(() => {
-      console.log('saved')
     })
   }
 
@@ -73,7 +90,9 @@ export class DraftAutosaveComponent implements OnChanges {
   restartAutosave() {
     this.autosaveOn = true;
     this.saveInterval = setInterval(() => {
-      this.save()
+      this.save().subscribe(() => {
+        console.log('saved')
+      })
     }, this.minutes * 60000)
 
     this.timerValue = this.minutes * 60

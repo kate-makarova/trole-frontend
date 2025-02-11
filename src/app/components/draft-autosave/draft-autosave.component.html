@@ -9,5 +9,9 @@
     <button style="margin-bottom: 0" class="tiny hollow button"
             [ngClass]="{alert: mode == 'Stop', 'success': mode == 'Restart'}"
             (click)="toggleAutosave()">{{mode}}</button>
-    <button style="margin-bottom: 0" class="tiny hollow button primary" (click)="save()">Save manually</button>
+    <button style="margin-bottom: 0" class="tiny hollow button primary" (click)="saveManually()">
+        <ng-container *ngIf="manualMode == 'wait'"><i class="fi-loop"></i> Saving</ng-container>
+        <ng-container *ngIf="manualMode == 'saved'"><i class="fi-check"></i> Saved</ng-container>
+        <ng-container *ngIf="manualMode == 'save'">Save manually</ng-container>
+    </button>
 </div>
