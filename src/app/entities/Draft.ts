@@ -2,6 +2,7 @@ import {SimpleEntity} from "./SimpleEntity";
 
 export class Draft {
     id: number;
+    episodeId: number;
     character: SimpleEntity;
     date_time: Date;
     auto: Boolean;
@@ -11,6 +12,7 @@ export class Draft {
     content: string = '';
 
     constructor(id: number,
+    episodeId: number,
     character: SimpleEntity,
     date_time: Date,
     auto: Boolean,
@@ -19,6 +21,7 @@ export class Draft {
     content_bb: string = '',
     content: string = '') {
         this.id = id;
+        this.episodeId = episodeId;
         this.character = character;
         this.date_time = date_time;
         this.auto = auto;
