@@ -1,13 +1,14 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Draft} from "../../entities/Draft";
-import {DecimalPipe, NgIf} from "@angular/common";
+import {DecimalPipe, NgClass, NgIf} from "@angular/common";
 import {DraftService} from "../../services/draft/draft.service";
 
 @Component({
   selector: 'app-draft-autosave',
   imports: [
     NgIf,
-    DecimalPipe
+    DecimalPipe,
+    NgClass
   ],
   templateUrl: './draft-autosave.component.html',
   styleUrl: './draft-autosave.component.css'
@@ -21,6 +22,7 @@ export class DraftAutosaveComponent implements OnChanges {
   protected minutes = 1;
   timerValue: number = -1;
   init: Boolean = true;
+  mode: string = 'Stop';
 
   @Input('sceditorId') sceditorId: string = '';
   @Input('episodeId') episodeId: number = 0;
@@ -62,12 +64,43 @@ export class DraftAutosaveComponent implements OnChanges {
   stopAutosave() {
     if(this.saveInterval == null) {return}
     this.autosaveOn = false;
-    this.draft = null;
     clearInterval(this.saveInterval)
     clearInterval(this.timerInterval)
+    this.timerValue = 0
+    this.init = true
+  }
+
+  restartAutosave() {
+    this.autosaveOn = true;
+    this.saveInterval = setInterval(() => {
+      this.save()
+    }, this.minutes * 60000)
+
+    this.timerValue = this.minutes * 60
+
+    this.timerInterval = setInterval(() => {
+      this.timerValue -= 1
+      if (this.timerValue == 0) {
+        this.timerValue = this.minutes * 60
+      }
+    }, 1000)
+    setTimeout(() => {
+      this.init = false;
+    }, 1000)
+  }
+
+  toggleAutosave() {
+    if(this.mode == 'Stop') {
+      this.stopAutosave()
+      this.mode = 'Restart'
+    } else {
+      this.restartAutosave()
+      this.mode = 'Stop'
+    }
   }
 
   ngOnChanges(changes:SimpleChanges) {
+    //todo save before character switch
     if(this.autosaveOn) {
       this.stopAutosave()
     }
