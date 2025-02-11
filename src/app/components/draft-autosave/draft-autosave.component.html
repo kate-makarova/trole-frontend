@@ -1,4 +1,6 @@
-<div id="draft-autosave">
+<div id="draft-autosave" style="text-align: center">
+    <div style=" color: grey;
+    font-size: 0.6em;">You draft will be saved automatically every minute unless you press "stop"</div>
     <div style="display: inline-block; width: 100px">
     <i class="fi-clock" style="margin-right: 5px"></i>
     <span *ngIf="timerValue !== (this.minutes * 60)">0:{{ timerValue | number : '2.'}}</span>
@@ -7,5 +9,5 @@
     <button style="margin-bottom: 0" class="tiny hollow button"
             [ngClass]="{alert: mode == 'Stop', 'success': mode == 'Restart'}"
             (click)="toggleAutosave()">{{mode}}</button>
-    <button style="margin-bottom: 0" class="tiny hollow button primary" (click)="save()">Save</button>
+    <button style="margin-bottom: 0" class="tiny hollow button primary" (click)="save()">Save manually</button>
 </div>
