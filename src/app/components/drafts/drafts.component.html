@@ -1,0 +1,17 @@
+<ng-container *ngIf="drafts$ | async as drafts; else loading">
+<ul>
+    <li *ngFor="let draft of drafts">
+        <span (click)="useDraft(draft.id)">
+        {{draft.character.name}} - {{draft.date_time}} -
+        <ng-container *ngIf="draft.published">published</ng-container>
+        <ng-container *ngIf="!draft.published">draft</ng-container>
+        -
+        <ng-container *ngIf="draft.auto">autosave</ng-container>
+        <ng-container *ngIf="!draft.auto">manual</ng-container>
+        </span>
+    </li>
+</ul>
+</ng-container>
+<ng-template #loading>
+    Loading...
+</ng-template>
