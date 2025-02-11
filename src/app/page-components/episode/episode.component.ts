@@ -163,11 +163,16 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   }
 
   deletePost() {
-    if (this.postToDelete == null) {return}
+    if (this.postToDelete == null) {
+      this.deleteAlert = false;
+      return;
+    }
     this.postService.delete(this.postToDelete.id).subscribe(() => {
+      this.episodeService.deletePost()
       this.postService.loadList(this.episodeId, this.pageNumber)
       this.posts$ = this.postService.getList().pipe(shareReplay(1));
       this.postToDelete = null;
+      this.deleteAlert = false;
     })
   }
 

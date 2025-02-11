@@ -85,9 +85,10 @@
     </div>
 
 
-    <div id="post-delete-alert" *ngIf="deleteAlert" class="tiny reveal" data-reveal>
+    <div id="post-delete-alert" *ngIf="deleteAlert" class="reveal" data-reveal>
         <p>Are you sure you want to delete this post?</p>
-        <button class="button secondary" (click)="postAlertDeleteCancel()">Cancel</button> <button class="button danger" (click)="deletePost()">OK</button>
+        <button class="button secondary float-left" (click)="postAlertDeleteCancel()">Cancel</button>
+        <button class="button alert float-right" (click)="deletePost()">OK</button>
     </div>
 
 </ng-container>

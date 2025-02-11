@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
@@ -11,7 +11,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.css'
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnChanges {
   @Input() currentPage: number = 1;
   @Input() itemsPerPage: number = 10;
   @Input() totalItems: number = 10;
@@ -19,12 +19,16 @@ export class PaginationComponent {
   pagesToRender: [{name: string, page: number|null}]
 
   constructor() {
+    this.pagesToRender = [{name: '1', page: 1}]
+  }
+
+  ngOnChanges() {
     if (this.currentPage == -1) {
       this.currentPage = this.totalPages;
     }
 
     this.pagesToRender = [{name: '1', page: 1}]
-    if (this.currentPage > 4) {
+    if (this.currentPage > 3) {
       this.pagesToRender.push({name: '...', page: null})
     }
     if (this.currentPage > 2) {
@@ -34,10 +38,10 @@ export class PaginationComponent {
       this.pagesToRender.push({name: this.currentPage.toString(), page: this.currentPage})
     }
 
-    if(this.currentPage < this.totalPages - 2) {
+    if(this.totalPages - this.currentPage > 1) {
       this.pagesToRender.push({name: (this.currentPage + 1).toString(), page: this.currentPage + 1})
     }
-    if (this.totalPages - this.currentPage > 3) {
+    if (this.totalPages - this.currentPage > 2) {
       this.pagesToRender.push({name: '...', page: null})
     }
     if(this.totalPages > this.currentPage) {
