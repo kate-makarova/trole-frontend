@@ -1,1 +1,5 @@
-<p>draft-autosave works!</p>
+<div id="draft-autosave">
+    <i class="fi-clock" style="margin-right: 5px"></i>
+    <span *ngIf="timerValue !== (this.minutes * 60)">0:{{ timerValue | number : '2.'}}</span>
+    <span *ngIf="timerValue == (this.minutes * 60) && autosaveOn && !init">Saved!</span>
+</div>
