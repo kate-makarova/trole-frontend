@@ -16,7 +16,6 @@ import {of} from 'rxjs';
   styleUrl: './draft-autosave.component.css'
 })
 export class DraftAutosaveComponent implements OnChanges {
-  protected saveInterval: any = null;
   protected timerInterval: any = null;
   protected autosaveOn: Boolean = false;
   protected draft: Draft|null = null;
@@ -82,9 +81,8 @@ export class DraftAutosaveComponent implements OnChanges {
   }
 
   stopAutosave() {
-    if(this.saveInterval == null) {return}
+    if(this.timerInterval == null) {return}
     this.autosaveOn = false;
-    clearInterval(this.saveInterval)
     clearInterval(this.timerInterval)
     this.timerValue = 0
     this.init = true

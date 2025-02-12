@@ -61,8 +61,10 @@ export class PostEditorComponent implements OnInit, OnChanges {
         if(post == null) {return}
 
         this.postForm.controls.content.setValue(post.content_bb)
-        this.mode = 'update'
-        this.postId = post.id
+        if(post.id !== 0) {
+          this.mode = 'update'
+          this.postId = post.id
+        }
         this.postContent = of(post.content_bb)
       });
     }

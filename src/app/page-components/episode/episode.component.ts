@@ -16,7 +16,7 @@ import {SafeHtmlPipe} from "../../pipes/SafeHtmlPipe";
 import {PaginationComponent} from "../../components/pagination/pagination.component";
 import {DraftService} from "../../services/draft/draft.service";
 import {Draft} from "../../entities/Draft";
-import {SCEditorModule} from "sceditor-angular";
+import {Character} from "../../entities/Character";
 
 @Component({
   selector: 'app-episode',
@@ -214,16 +214,19 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     this.draftService.load(id)
     this.draftService.get().pipe(shareReplay(1)).subscribe((draft: Draft|null) => {
       if (draft == null) {return}
-      // this.editedPost = of(new Post(
-      //     0,
-      //     this.episodeId,
-      //     false,
-      //     new Date(),
-      //
-      // ))
       if(!this.isEditorOpen) {
         this.splitScreen()
       }
+      this.editedPost = of(new Post(
+          0,
+          this.episodeId,
+          false,
+          (new Date()).toString(),
+          new Character(0, '', true),
+          draft.content,
+          draft.content_bb,
+          true
+      ))
     })
   }
 }
