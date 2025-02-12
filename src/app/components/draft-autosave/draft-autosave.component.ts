@@ -2,6 +2,8 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Draft} from "../../entities/Draft";
 import {DecimalPipe, NgClass, NgIf} from "@angular/common";
 import {DraftService} from "../../services/draft/draft.service";
+import {SCEditorModule} from 'sceditor-angular';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-draft-autosave',
@@ -24,6 +26,7 @@ export class DraftAutosaveComponent implements OnChanges {
   init: Boolean = true;
   mode: string = 'Stop';
   manualMode: string = 'save';
+  empty: Boolean = true;
 
   @Input('sceditorId') sceditorId: string = '';
   @Input('episodeId') episodeId: number = 0;
@@ -36,15 +39,13 @@ export class DraftAutosaveComponent implements OnChanges {
     this.autosaveOn = true;
     this.dateInitiate = new Date();
     this.draft = new Draft(0, this.episodeId, {id: this.characterId, name: ""}, this.dateInitiate, true, false, null)
-    this.saveInterval = setInterval(() => {
-      this.save().subscribe(() => {
-        console.log('saved')
-      })
-    }, this.minutes * 60000)
     this.timerValue = this.minutes * 60
     this.timerInterval = setInterval(() => {
       this.timerValue -= 1
       if (this.timerValue == 0) {
+        this.save().subscribe(() => {
+          console.log('saved')
+        })
         this.timerValue = this.minutes * 60
       }
     }, 1000)
@@ -54,28 +55,30 @@ export class DraftAutosaveComponent implements OnChanges {
   }
 
   saveManually() {
-    // this.save().subscribe(() => {
-    //   this.manualMode = 'saved'
-    //   setTimeout(() => {
-    //     this.manualMode = 'save'
-    //   }, 2000)
-    // })
     this.manualMode = 'wait'
-    setTimeout(() => {
+    this.save().subscribe(() => {
       this.manualMode = 'saved'
       setTimeout(() => {
         this.manualMode = 'save'
       }, 2000)
-    }, 2000)
+    })
   }
 
   save() {
-    return this.draftService.create({
-      "episode": this.episodeId,
-      "character": this.characterId,
-      "autosave": true,
-      "date_initiate": this.dateInitiate
-    })
+    const value = SCEditorModule.getValue(this.sceditorId)
+    if (value.length) {
+      this.empty = false
+      return this.draftService.create({
+        "episode": this.episodeId,
+        "character": this.characterId,
+        "autosave": true,
+        "initiated": this.dateInitiate,
+        "content": value
+      })
+    } else {
+      this.empty = true
+      return of(0)
+    }
   }
 
   stopAutosave() {
@@ -89,17 +92,15 @@ export class DraftAutosaveComponent implements OnChanges {
 
   restartAutosave() {
     this.autosaveOn = true;
-    this.saveInterval = setInterval(() => {
-      this.save().subscribe(() => {
-        console.log('saved')
-      })
-    }, this.minutes * 60000)
 
     this.timerValue = this.minutes * 60
 
     this.timerInterval = setInterval(() => {
       this.timerValue -= 1
       if (this.timerValue == 0) {
+        this.save().subscribe(() => {
+          console.log('saved')
+        })
         this.timerValue = this.minutes * 60
       }
     }, 1000)
@@ -125,4 +126,6 @@ export class DraftAutosaveComponent implements OnChanges {
     }
     this.startAutosave()
   }
+
+  protected readonly encodeURI = encodeURI;
 }

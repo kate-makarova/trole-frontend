@@ -4,7 +4,10 @@
     <div style="display: inline-block; width: 100px">
     <i class="fi-clock" style="margin-right: 5px"></i>
     <span *ngIf="timerValue !== (this.minutes * 60)">0:{{ timerValue | number : '2.'}}</span>
-    <span *ngIf="timerValue == (this.minutes * 60) && autosaveOn && !init">Saved!</span>
+    <span *ngIf="timerValue == (this.minutes * 60) && autosaveOn && !init">
+      <ng-container *ngIf="empty">Empty</ng-container>
+      <ng-container *ngIf="!empty">Saved</ng-container>
+    </span>
     </div>
     <button style="margin-bottom: 0" class="tiny hollow button"
             [ngClass]="{alert: mode == 'Stop', 'success': mode == 'Restart'}"

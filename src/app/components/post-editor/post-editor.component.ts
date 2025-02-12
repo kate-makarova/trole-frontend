@@ -10,6 +10,7 @@ import {Post} from '../../entities/Post';
 import {SceditorComponent} from "sceditor-angular";
 import {SCEditorModule} from "sceditor-angular";
 import {ThemeService} from "../../services/theme/theme.service";
+import {DraftAutosaveComponent} from '../draft-autosave/draft-autosave.component';
 
 @Component({
   selector: 'app-post-editor',
@@ -20,7 +21,8 @@ import {ThemeService} from "../../services/theme/theme.service";
     NgForOf,
     PlaceholderImageComponent,
     SceditorComponent,
-    NgClass
+    NgClass,
+    DraftAutosaveComponent
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
@@ -30,6 +32,7 @@ export class PostEditorComponent implements OnInit, OnChanges {
   private formBuilder = inject(FormBuilder);
   private mode = 'create';
   editorMode: string = 'light'
+  episodeId: number = 0
 
   postForm = this.formBuilder.group({
     content: ['', Validators.required],
@@ -37,6 +40,7 @@ export class PostEditorComponent implements OnInit, OnChanges {
     episode: 0
   });
 
+  @Input('opened') opened: Boolean = false;
   @Input('post') post: Observable<Post|null> = of(null);
   @Input('characters') characters: Observable<Character[]> | undefined;
   @Output() postAdded: EventEmitter<boolean> = new EventEmitter();
@@ -47,7 +51,8 @@ export class PostEditorComponent implements OnInit, OnChanges {
   constructor(private postService: PostService,
               protected themeService: ThemeService,
               private route: ActivatedRoute) {
-    this.postForm.patchValue({episode: Number(this.route.snapshot.paramMap.get('id'))})
+    this.episodeId = Number(this.route.snapshot.paramMap.get('id'))
+    this.postForm.patchValue({episode: this.episodeId})
     this.themeService.themeName.subscribe((theme:string ) => {
         this.editorMode = theme.substring(6)
       if(this.editorMode == 'dark') {
@@ -109,4 +114,6 @@ export class PostEditorComponent implements OnInit, OnChanges {
       })
     }
   }
+
+  protected readonly Number = Number;
 }

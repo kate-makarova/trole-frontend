@@ -77,6 +77,7 @@
     </div>
     <div [style]="postEditorStyle" id="post-editor">
         <app-post-editor
+                [opened]="isEditorOpen"
                 [characters]="getMyCharacters()"
                 (postAdded)="onPostAdded($event)"
                 (postUpdated)="onPostUpdated($event)"
