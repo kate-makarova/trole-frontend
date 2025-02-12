@@ -5,7 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {PostEditorComponent} from '../../components/post-editor/post-editor.component';
 import {map, Observable, of, shareReplay} from 'rxjs';
 import {PostService} from '../../services/post/post.service';
-import {AsyncPipe, NgClass, NgForOf, NgIf, ViewportScroller} from '@angular/common';
+import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, ViewportScroller} from '@angular/common';
 import {Post} from '../../entities/Post';
 import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
@@ -14,6 +14,9 @@ import {TopButton} from '../../entities/TopButton';
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 import {SafeHtmlPipe} from "../../pipes/SafeHtmlPipe";
 import {PaginationComponent} from "../../components/pagination/pagination.component";
+import {DraftService} from "../../services/draft/draft.service";
+import {Draft} from "../../entities/Draft";
+import {SCEditorModule} from "sceditor-angular";
 
 @Component({
   selector: 'app-episode',
@@ -27,6 +30,7 @@ import {PaginationComponent} from "../../components/pagination/pagination.compon
     TopButtonsComponent,
     SafeHtmlPipe,
     PaginationComponent,
+    DatePipe,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -44,6 +48,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   pageNumber: number = 1;
   deleteAlert: boolean = false;
   postToDelete: Post|null = null;
+  draftsOpen: boolean = false;
+  drafts$: Observable<Draft[]> = of([])
 
 
   constructor(private episodeService: EpisodeService,
@@ -51,7 +57,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private titleService: Title,
               private breadcrumbsService: BreadcrumbsService,
-              private viewportScroller: ViewportScroller
+              private viewportScroller: ViewportScroller,
+              private draftService: DraftService
               ) {
 
   }
@@ -108,6 +115,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     });
     this.postService.loadList(this.episodeId, this.pageNumber)
     this.posts$ = this.postService.getList().pipe(shareReplay(1));
+    this.drafts$ = this.draftService.getList().pipe(shareReplay(1));
   }
 
   ngAfterViewInit(): void {
@@ -193,5 +201,29 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
       this.postEditorStyle = 'width: 0; display: none'
       this.editorButtonText = 'Open Editor'
     }
+  }
+
+  toggleDrafts() {
+    this.draftsOpen = !this.draftsOpen
+    if (this.draftsOpen) {
+      this.draftService.loadList(this.episodeId, -1)
+    }
+  }
+
+  loadDraft(id: number) {
+    this.draftService.load(id)
+    this.draftService.get().pipe(shareReplay(1)).subscribe((draft: Draft|null) => {
+      if (draft == null) {return}
+      // this.editedPost = of(new Post(
+      //     0,
+      //     this.episodeId,
+      //     false,
+      //     new Date(),
+      //
+      // ))
+      if(!this.isEditorOpen) {
+        this.splitScreen()
+      }
+    })
   }
 }

@@ -53,14 +53,6 @@ export class PostEditorComponent implements OnInit, OnChanges {
               private route: ActivatedRoute) {
     this.episodeId = Number(this.route.snapshot.paramMap.get('id'))
     this.postForm.patchValue({episode: this.episodeId})
-    this.themeService.themeName.subscribe((theme:string ) => {
-        this.editorMode = theme.substring(6)
-      if(this.editorMode == 'dark') {
-        SCEditorModule.setCSS('postEditor', 'body{background: #000; color: #fff;} p{color: #fff;}')
-      } else {
-        SCEditorModule.setCSS('postEditor', 'body{color: #111;} p{color: #111;}')
-      }
-    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,6 +72,14 @@ export class PostEditorComponent implements OnInit, OnChanges {
     this.characters?.subscribe((data: Character[]) => {
       if(data !== null && data.length == 1) {
         this.postForm.controls.character.setValue(data[0].id)
+      }
+    })
+    this.themeService.themeName.subscribe((theme:string ) => {
+      this.editorMode = theme.substring(6)
+      if(this.editorMode == 'dark') {
+        SCEditorModule.setCSS('postEditor', 'body{background: #000; color: #fff;} p{color: #fff;}')
+      } else {
+        SCEditorModule.setCSS('postEditor', 'body{color: #111;} p{color: #111;}')
       }
     })
   }

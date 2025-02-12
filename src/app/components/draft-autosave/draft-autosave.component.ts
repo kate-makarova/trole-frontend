@@ -38,7 +38,7 @@ export class DraftAutosaveComponent implements OnChanges {
   startAutosave() {
     this.autosaveOn = true;
     this.dateInitiate = new Date();
-    this.draft = new Draft(0, this.episodeId, {id: this.characterId, name: ""}, this.dateInitiate, true, false, null)
+    this.draft = new Draft(0, this.episodeId, {id: this.characterId, name: ""}, this.dateInitiate, new Date(), true, false, null)
     this.timerValue = this.minutes * 60
     this.timerInterval = setInterval(() => {
       this.timerValue -= 1
@@ -56,7 +56,7 @@ export class DraftAutosaveComponent implements OnChanges {
 
   saveManually() {
     this.manualMode = 'wait'
-    this.save().subscribe(() => {
+    this.save(false).subscribe(() => {
       this.manualMode = 'saved'
       setTimeout(() => {
         this.manualMode = 'save'
@@ -64,14 +64,14 @@ export class DraftAutosaveComponent implements OnChanges {
     })
   }
 
-  save() {
+  save(auto=true) {
     const value = SCEditorModule.getValue(this.sceditorId)
     if (value.length) {
       this.empty = false
       return this.draftService.create({
         "episode": this.episodeId,
         "character": this.characterId,
-        "autosave": true,
+        "autosave": auto,
         "initiated": this.dateInitiate,
         "content": value
       })

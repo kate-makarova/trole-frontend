@@ -41,7 +41,7 @@
                 </ul>
             </td>
             <td>
-                {{ episode.last_post_date }} - {{ episode.last_post_author?.name }}
+                {{ episode.last_post_date | date: 'dd/MM/yyyy HH:mm:ss'}} - {{ episode.last_post_author?.name }}
             </td>
         </tr>
         </tbody>

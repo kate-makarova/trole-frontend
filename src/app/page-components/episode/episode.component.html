@@ -37,7 +37,7 @@
           <button class="button hollow expanded success" (click)="splitScreen()">{{editorButtonText}}</button>
         </div>
         <div class="large-3 column">
-          <a class="button hollow expanded" href="#">Drafts</a>
+          <a class="button hollow expanded" (click)="toggleDrafts()">Drafts</a>
         </div>
         <div class="large-3 column">
 <!--          <a class="button hollow expanded disabled" href="#">Wanted</a>-->
@@ -46,6 +46,33 @@
 <!--          <a class="button hollow expanded success disabled" href="#">Chat room</a>-->
         </div>
       </div>
+        <div *ngIf="episode.is_mine && draftsOpen" id="drafts" class="row">
+            <ng-container *ngIf="drafts$ | async as draftArray">
+                <ng-container *ngIf="draftArray.length > 0; else noDrafts">
+                    <table>
+                        <thead>
+                        <th>Load</th>
+                        <th>Character</th>
+                        <th>Initial Save</th>
+                        <th>Save time</th>
+                        <th>Mode</th>
+                        </thead>
+                        <tbody>
+                    <tr *ngFor="let draft of draftArray">
+                        <td><button (click)="loadDraft(draft.id)" class="button primary hollow">Load</button></td>
+                          <td>{{draft.character.name}}</td>
+                        <td>{{draft.init_date_time | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{draft.date_time | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                          <td>
+                              <ng-container *ngIf="draft.auto">auto</ng-container>
+                              <ng-container *ngIf="!draft.auto">manual</ng-container>
+                          </td>
+                    </tr>
+                        </tbody>
+                    </table>
+                </ng-container>
+            </ng-container>
+        </div>
 
 
         <br/>
@@ -95,4 +122,7 @@
 </ng-container>
 <ng-template #loading>
     Loading...
+</ng-template>
+<ng-template #noDrafts>
+    No drafts
 </ng-template>
