@@ -62,6 +62,13 @@
 <hr>
 
 <app-episode-list></app-episode-list>
+
+    <div id="game-leave-alert" *ngIf="leaveAlert" class="reveal" data-reveal>
+        <p>Are you sure you want to leave this game?</p>
+        <p>All you characters will become suspended, and other players will be able to take their roles.</p>
+        <button class="button secondary float-left" (click)="leaveAlertCancel()">Cancel</button>
+        <button class="button alert float-right" (click)="leaveGame()">OK</button>
+    </div>
 </ng-container>
 <ng-template #loading>
   Loading...

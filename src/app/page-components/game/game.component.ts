@@ -33,6 +33,7 @@ export class GameComponent implements OnInit {
   game$: Observable<Game|null> = of(null);
   gameId: number = 0;
   topButtons: TopButton[] = []
+  leaveAlert: boolean = false;
 
   constructor(
               private gameService: GameService,
@@ -54,6 +55,10 @@ export class GameComponent implements OnInit {
         this.setTopButtons(game)
       });
     })
+  }
+
+  gameLeaveAlert() {
+    this.leaveAlert = true;
   }
 
   setTopButtons(game: Game) {
@@ -79,13 +84,20 @@ export class GameComponent implements OnInit {
           class: 'button primary',
           id: 'top-button-character-create',
           click: null
+        },
+        {
+          path: null,
+          name: 'Leave game',
+          class: 'button danger disabled',
+          id: 'top-button-game-leave',
+          click: this.gameLeaveAlert
         }
       ]
     } else {
       this.topButtons = [
         {
           path: null,
-          name: 'Join Game',
+          name: 'Join game',
           class: 'button success',
           id: 'top-button-join-game',
           click: this.gameJoin.bind(this)
@@ -114,5 +126,13 @@ export class GameComponent implements OnInit {
       this.breadcrumbsService.changeBreadcrumbs('game', [game.id])
       this.setTopButtons(game)
     });
+  }
+
+  leaveAlertCancel() {
+    this.leaveAlert = false;
+  }
+
+  leaveGame() {
+
   }
 }
