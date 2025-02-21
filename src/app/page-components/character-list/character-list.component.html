@@ -3,12 +3,27 @@
 </div>
 <hr />
 <div class="row">
+    <h4>Active Characters</h4>
     <ul class="list">
-        <li *ngFor="let character of characters | async" class="character-list-item">
+        <li *ngFor="let character of activeCharacters | async" class="character-list-item">
           <app-placeholder-image
             style="height:40px"
             [src]="character.avatar"
             [alt]="character.name" />
+            &nbsp;<a [href]="'/character/' + character.id">{{ character.name }}</a>
+            &nbsp;<span *ngIf="character.is_mine" class="label">mine</span>
+        </li>
+    </ul>
+</div>
+
+<div *ngIf="inactiveCharacters | async as inactiveEpisodeArray" class="row">
+    <h4>Inactive Characters</h4>
+    <ul class="list">
+        <li *ngFor="let character of inactiveEpisodeArray" class="character-list-item">
+            <app-placeholder-image
+                    style="height:40px"
+                    [src]="character.avatar"
+                    [alt]="character.name" />
             &nbsp;<a [href]="'/character/' + character.id">{{ character.name }}</a>
             &nbsp;<span *ngIf="character.is_mine" class="label">mine</span>
         </li>

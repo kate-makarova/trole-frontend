@@ -133,6 +133,5 @@ export class GameComponent implements OnInit {
   }
 
   leaveGame() {
-
   }
 }
