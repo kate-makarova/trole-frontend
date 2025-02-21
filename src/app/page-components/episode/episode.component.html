@@ -24,7 +24,8 @@
           <div class="column large-2">
             <ul>
               <li *ngFor="let character of episode.characters">
-                <a [href]="'/character/' + character.id">{{ character.name }}</a>
+                <a [href]="'/character/' + character.id" [ngClass]="{inactive: character.status != 1}">{{ character.name }}</a>
+                  <span class="label secondary" *ngIf="character.status != 1">inactive</span>
               </li>
             </ul>
           </div>
