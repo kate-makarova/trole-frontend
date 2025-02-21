@@ -85,7 +85,9 @@
             <div class="media-object">
                 <div class="media-object-section">
                     <div class="thumbnail">
-                        <h5>{{ post.character.name }}</h5>
+                        <h5>{{ post.character.name }}
+                            <span class="label secondary" *ngIf="post.character.status != 1">inactive</span>
+                        </h5>
                         <div style="min-height: 80px;">
                             <app-placeholder-image style="width: 80px" [alt]="post.character.name"
                                                    [src]="post.character.avatar"/>
