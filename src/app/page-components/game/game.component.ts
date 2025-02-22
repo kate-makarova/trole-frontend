@@ -77,6 +77,13 @@ export class GameComponent implements OnInit {
         create_episode_button.class += ' disabled'
       }
       this.topButtons = [
+        {
+          path: null,
+          name: 'Leave game',
+          class: 'button alert',
+          id: 'top-button-game-leave',
+          click: this.gameLeaveAlert.bind(this)
+        },
         create_episode_button,
         {
           path: '/character-create/'+this.gameId,
@@ -84,13 +91,6 @@ export class GameComponent implements OnInit {
           class: 'button primary',
           id: 'top-button-character-create',
           click: null
-        },
-        {
-          path: null,
-          name: 'Leave game',
-          class: 'button danger disabled',
-          id: 'top-button-game-leave',
-          click: this.gameLeaveAlert
         }
       ]
     } else {

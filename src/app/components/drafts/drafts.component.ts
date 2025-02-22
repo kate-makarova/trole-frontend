@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Observable, of, shareReplay} from "rxjs";
 import {Draft} from "../../entities/Draft";
 import {DraftService} from "../../services/draft/draft.service";
@@ -15,7 +15,7 @@ import {SCEditorModule} from "sceditor-angular";
   templateUrl: './drafts.component.html',
   styleUrl: './drafts.component.css'
 })
-export class DraftsComponent implements OnChanges {
+export class DraftsComponent implements OnChanges, OnInit {
   drafts$: Observable<Draft[]> = of([])
   draft$: Observable<Draft|null> = of(null);
   @Input('episodeId') episodeId: number = 0;
@@ -23,7 +23,6 @@ export class DraftsComponent implements OnChanges {
   page: number = -1;
 
   constructor(private draftService: DraftService) {
-    this.draft$ = this.draftService.get().pipe(shareReplay(1));
   }
 
   useDraft(draftId: number) {
@@ -32,6 +31,11 @@ export class DraftsComponent implements OnChanges {
       if(draft == null) {return}
       SCEditorModule.setValue(this.sceditorId, draft.content_bb)
     })
+  }
+
+  ngOnInit() {
+    this.draftService.loadList(this.episodeId, this.page)
+    this.drafts$ = this.draftService.getList().pipe(shareReplay(1));
   }
 
   ngOnChanges() {

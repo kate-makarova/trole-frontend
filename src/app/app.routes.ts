@@ -20,6 +20,7 @@ import {UserCreateComponent} from './page-components/admin/user-create/user-crea
 import {AdminPageFormComponent} from './page-components/admin/page-form/page-form.component';
 import {UserSettingsComponent} from './page-components/user-settings/user-settings.component';
 import {GameEditComponent} from './page-components/game-settings/game-edit/game-edit.component';
+import {AdminUserListComponent} from './page-components/admin/admin-user-list/admin-user-list.component';
 export const routes: Routes = [
   {
     path: '',
@@ -133,5 +134,9 @@ export const routes: Routes = [
   {
     path: 'admin/page-create',
     component: AdminPageFormComponent,
+  },
+  {
+    path: 'admin/user-list',
+    component: AdminUserListComponent,
   }
 ];
