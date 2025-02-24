@@ -19,6 +19,15 @@ export class NewsArticleService extends APIService {
    // return this.getData<NewsArticle[]>('news-articles/latest/'+limit)
     return of([
       {
+        "id": 3,
+        "name": "Leave the Game, Suspend Characters",
+        "image": "https://designerapp.officeapps.live.com/designerapp/document.ashx?path=/19aac361-5126-4966-a199-d3c9c8470505/DallEGeneratedImages/dalle-5eb80919-462a-4459-a2e6-9cc993aab0fb0251662991205154125300.jpg&dcHint=WestUS2&fileToken=88fc0e5a-8103-4ed3-b6e6-a27abdbf2aba",
+        "content": "<p>Now you have the ability to leave a game. The game you have left will no longer appear on \"My Games\" page. All you characters will be suspended." +
+            "You can rejoin the game at any time, however the creator of the game will have to manually reactivate your characters.</p>" +
+            "<p>Additionaly, all new characters are now created as \"Peding\", and the creator of the game has the ability to activate them.</p>",
+        "date": "2025-02-25"
+      },
+      {
         "id": 2,
         "name": "Drafts and Autosave",
         "image": "https://designerapp.officeapps.live.com/designerapp/document.ashx?path=/19aac361-5126-4966-a199-d3c9c8470505/DallEGeneratedImages/dalle-5eb80919-462a-4459-a2e6-9cc993aab0fb0251662991205154125300.jpg&dcHint=WestUS2&fileToken=88fc0e5a-8103-4ed3-b6e6-a27abdbf2aba",
