@@ -7,7 +7,14 @@
         <input name="name" formControlName="name"  type="text">
       </div>
       <div class="form-field">
-        <textarea id="content" formControlName="content" style="height: 500px"></textarea>
+<!--        <textarea id="content" formControlName="content" style="height: 500px"></textarea>-->
+          <app-sceditor
+                  [format]="'bbcode'"
+                  [id]="'articleEditor'"
+                  [height]="'100%'"
+                  [mode] = "editorMode"
+                  [content]="articleContent"
+          ></app-sceditor>
       </div>
 
 
