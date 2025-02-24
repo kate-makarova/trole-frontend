@@ -12,7 +12,6 @@ import {User} from '../../../entities/User';
   imports: [
     AdminNavComponent,
     NgIf,
-    PageFormComponent,
     AsyncPipe,
     NgForOf
   ],

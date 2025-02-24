@@ -20,6 +20,10 @@ export class GameService extends EntityService<Game> {
     return this.postData('game-join', {"game": id})
   }
 
+  leave(id: number): Observable<boolean> {
+    return this.postData('game-leave', {"game": id})
+  }
+
   loadMyGames(): void{
     this.getData<Game[]>('home').subscribe(data => {
       this.entityListSubject.next(data);

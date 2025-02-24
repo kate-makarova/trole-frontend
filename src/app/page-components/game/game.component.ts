@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {EpisodeListComponent} from '../../components/episode-list/episode-list.component';
-import {Episode} from '../../entities/Episode';
-import {EpisodeService} from '../../services/episode/episode.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Game} from '../../entities/Game';
 import {GameService} from '../../services/game/game.service';
@@ -11,7 +9,6 @@ import {Title} from "@angular/platform-browser";
 import {BreadcrumbsService} from "../../services/breadcrubs/breadcrumbs.service";
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 import {TopButton} from '../../entities/TopButton';
-import {QueueAction} from 'rxjs/internal/scheduler/QueueAction';
 import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
 import {SessionService} from "../../services/session/session.service";
 
@@ -133,5 +130,9 @@ export class GameComponent implements OnInit {
   }
 
   leaveGame() {
+    this.gameService.leave(this.gameId).subscribe((response: boolean) => {
+      this.leaveAlert = false;
+      this.gameService.load(this.gameId);
+    })
   }
 }
