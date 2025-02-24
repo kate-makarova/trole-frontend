@@ -9,6 +9,8 @@ import {SessionService} from '../../services/session/session.service';
 import {CharacterSheetService} from '../../services/character-sheet/character-sheet.service';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
+import {CharacterService} from "../../services/character/character.service";
+import {Character} from "../../entities/Character";
 
 @Component({
   selector: 'app-character-sheet',
@@ -22,11 +24,13 @@ import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.comp
 })
 export class CharacterSheetComponent implements OnInit {
   characterSheet$: Observable<CharacterSheet|null> = of(null);
+  character$: Observable<Character|null> = of(null);
   characterId: number;
   characterName$: Observable<string|null> = of(null);
   avatar$: Observable<string|null> = of(null);
 
   constructor( private characterSheetService: CharacterSheetService,
+               private characterService: CharacterService,
                private route: ActivatedRoute,
                private breadcrumbService: BreadcrumbsService,
                private titleService: Title,
@@ -45,7 +49,6 @@ export class CharacterSheetComponent implements OnInit {
       this.titleService.setTitle(character_name)
       const avatar = characterSheet.fields.filter(field => field.field_name == 'avatar')[0]['value']
       this.avatar$ = of(avatar)
-
     })
   }
 }
