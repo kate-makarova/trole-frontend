@@ -13,7 +13,7 @@ export class CharacterService extends EntityService<Character> {
     "loadList": "character-list/",
     "load": "character/",
     "create": "character-create",
-    "update": "character-edit/",
+    "update": "character-update/",
     "delete": ""
   }
 
