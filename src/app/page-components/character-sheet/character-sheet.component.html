@@ -1,5 +1,5 @@
 <ng-container *ngIf="characterSheet$ | async as characterSheet; else loading">
-
+    <app-top-buttons [buttons]="topButtons"></app-top-buttons>
   <h4 style="margin: 0; text-transform: uppercase" class="text-center">{{ (characterName$ | async) }}</h4>
   <hr/>
   <div class="row">

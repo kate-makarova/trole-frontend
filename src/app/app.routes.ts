@@ -21,6 +21,9 @@ import {AdminPageFormComponent} from './page-components/admin/page-form/page-for
 import {UserSettingsComponent} from './page-components/user-settings/user-settings.component';
 import {GameEditComponent} from './page-components/game-settings/game-edit/game-edit.component';
 import {AdminUserListComponent} from './page-components/admin/admin-user-list/admin-user-list.component';
+import {
+  CharacterModerateFormComponent
+} from "./page-components/character-moderate-form/character-moderate-form.component";
 export const routes: Routes = [
   {
     path: '',
@@ -71,6 +74,11 @@ export const routes: Routes = [
     path: 'character-create/:id',
     title: 'Create Character',
     component: CharacterFormComponent,
+  },
+  {
+    path: 'character-moderate/:id',
+    title: 'Moderate Character',
+    component: CharacterModerateFormComponent,
   },
   {
     path: 'character-list/:id',

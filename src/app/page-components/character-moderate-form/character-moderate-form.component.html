@@ -1,0 +1,28 @@
+<ng-container *ngIf="character$ | async as character; else loading">
+    <div class="row">
+    <form [formGroup]="characterModerateForm" (ngSubmit)="onSubmit()">
+        <fieldset>
+            <h3>Moderate Character {{character.name}}</h3>
+            <div class="form-field">
+                <label>Status:</label>
+
+                <label><input name="status" formControlName="status"  type="radio" value="2"> Pending</label>
+                <label><input name="status" formControlName="status"  type="radio" value="1"> Active</label>
+                <label><input name="status" formControlName="status"  type="radio" value="0"> Cancelled</label>
+            </div>
+
+
+        </fieldset>
+        <div class="form-buttons">
+            <button class="button button-primary" type="submit" [disabled]="!characterModerateForm.valid">Submit</button>
+        </div>
+
+
+    </form>
+    </div>
+</ng-container>
+
+
+<ng-template #loading>
+    <p>Loading character info...</p>
+</ng-template>

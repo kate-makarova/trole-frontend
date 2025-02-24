@@ -11,26 +11,27 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
 import {CharacterService} from "../../services/character/character.service";
 import {Character} from "../../entities/Character";
+import {TopButton} from "../../entities/TopButton";
 
 @Component({
   selector: 'app-character-sheet',
   imports: [
     AsyncPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    TopButtonsComponent
   ],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css'
 })
 export class CharacterSheetComponent implements OnInit {
   characterSheet$: Observable<CharacterSheet|null> = of(null);
-  character$: Observable<Character|null> = of(null);
   characterId: number;
   characterName$: Observable<string|null> = of(null);
   avatar$: Observable<string|null> = of(null);
+  topButtons: TopButton[] = [];
 
   constructor( private characterSheetService: CharacterSheetService,
-               private characterService: CharacterService,
                private route: ActivatedRoute,
                private breadcrumbService: BreadcrumbsService,
                private titleService: Title,
@@ -49,6 +50,25 @@ export class CharacterSheetComponent implements OnInit {
       this.titleService.setTitle(character_name)
       const avatar = characterSheet.fields.filter(field => field.field_name == 'avatar')[0]['value']
       this.avatar$ = of(avatar)
+
+      if(characterSheet.can_moderate) {
+        this.topButtons.push({
+          path: '/character-moderate/'+this.characterId,
+          name: 'Moderate',
+          class: 'button primary',
+          id: 'top-button-character-moderate',
+          click: null
+        })
+      }
+      if(characterSheet.can_edit) {
+        this.topButtons.push(        {
+          path: '/character-edit/'+this.characterId,
+          name: 'Edit',
+          class: 'button primary disabled',
+          id: 'top-button-character-edit',
+          click: null
+        })
+      }
     })
   }
 }
