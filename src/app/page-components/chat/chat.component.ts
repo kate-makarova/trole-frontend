@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit {
   messages$: Observable<ChatMessage[]> = of([])
   unreads$: Array<Observable<number>> = []
   newMessage: string = ''
+  sendMessageFunc: Function = () => {}
 
   constructor(private sessionService: SessionService,
               private chatService: ChatService,
@@ -46,13 +47,14 @@ export class ChatComponent implements OnInit {
       this.chat = subscription.chat
       this.messages$ = subscription.messages$
       this.unreads$ = this.chatService.getUnreadSubscriptions()
+      this.sendMessageFunc = subscription.sendMessage
     })
 
     // @ts-ignore
     this.chatService.initiateChats(this.sessionService.getUser().id, initiated)
   }
 
-  sendMessage() {
-
+  sendMessage(text: string) {
+    this.sendMessageFunc(this.sessionService.getUser(), text)
   }
 }

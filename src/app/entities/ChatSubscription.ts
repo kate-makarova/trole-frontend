@@ -2,6 +2,7 @@ import {ChatRoom} from "./ChatRoom";
 import {BehaviorSubject, Observable} from "rxjs";
 import {SocketService} from "../services/socket/socket.service";
 import {ChatMessage} from "./ChatMessage";
+import {SimpleUser} from "./SimpleUser";
 
 export class ChatSubscription {
     id: number;
@@ -27,5 +28,9 @@ export class ChatSubscription {
             this.unread.next(this.unread.getValue() + 1)
         })
         this.messages$ = this.messagesSubjects.asObservable()
+    }
+
+    sendMessage(user: SimpleUser, message: string) {
+        this.socket.emit('message', { text: message, user: user, time: new Date().toString() });
     }
 }
