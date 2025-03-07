@@ -2,14 +2,14 @@
   <h4 style="margin: 0;" class="text-center">Chat</h4>
     <div style="text-align: center">viper, Ghil</div>
 </div>
+<ng-container *ngIf="initiated | async; else loading">
 <div class="row" style="display: flex;">
 
     <div id="left-panel" class="large-3">
         <ul class="menu icons vertical">
-            <li><a href="#"><i class="fi-list"></i> <span>viper, Ghil</span></a></li>
-            <li><a href="#"><i class="fi-list"></i> <span>viper, wolf</span></a></li>
-            <li><a href="#"><i class="fi-list"></i> <span>viper, Ghil, Mephisto</span></a></li>
-            <li><a href="#"><i class="fi-list"></i> <span>viper</span></a></li>
+            <li *ngFor="let chat of chats$"><a routerLink="/chat/{{chat.id}}"><span>{{chat.title}}</span></a>
+            <span class="badge" *ngIf="(chat.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>
+            </li>
         </ul>
     </div>
 <div class="column large-9">
@@ -36,12 +36,13 @@
 
 <div>
     <textarea [(ngModel)]="newMessage" placeholder="Enter your message"></textarea>
-    <button (click)="sendMessage()">Send</button>
+    <button (click)="sendMessage(newMessage)">Send</button>
   <div>
   </div>
 </div>
 </div>
 </div>
+</ng-container>
 
 <ng-template #loading>
     Loading chat history
