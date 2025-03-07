@@ -1,17 +1,27 @@
 <div class="row column">
   <h4 style="margin: 0;" class="text-center">Chat</h4>
+    <div style="text-align: center">viper, Ghil</div>
 </div>
 <div class="row" style="display: flex;">
 
+    <div id="left-panel" class="large-3">
+        <ul class="menu icons vertical">
+            <li><a href="#"><i class="fi-list"></i> <span>viper, Ghil</span></a></li>
+            <li><a href="#"><i class="fi-list"></i> <span>viper, wolf</span></a></li>
+            <li><a href="#"><i class="fi-list"></i> <span>viper, Ghil, Mephisto</span></a></li>
+            <li><a href="#"><i class="fi-list"></i> <span>viper</span></a></li>
+        </ul>
+    </div>
 <div class="column large-9">
   <div>
+      <ng-container *ngIf="messages$ | async as messages; else loading">
   @for ( message of messages; track $index) {
 
       <div class="media-object">
         <div class="media-object-section">
           <a href="#">
-            <div class="thumbnail">
-              <h5>{{ message.user.username }}</h5>
+            <div class="">
+              <h5>{{ message.user.name }}</h5>
               <img width="80px" src="{{message.user.avatar}}"/>
             </div>
           </a>
@@ -21,6 +31,7 @@
         </div>
       </div>
   }
+      </ng-container>
 </div>
 
 <div>
@@ -30,7 +41,8 @@
   </div>
 </div>
 </div>
-  <div id="right-panel" class="large-3">
-    something here
-  </div>
 </div>
+
+<ng-template #loading>
+    Loading chat history
+</ng-template>

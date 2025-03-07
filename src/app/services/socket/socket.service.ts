@@ -8,24 +8,17 @@ import { Observable } from 'rxjs';
 export class SocketService {
   private socket: Socket;
 
-  constructor() {
-    this.socket = io('http://localhost:3000');
+  constructor(address: string) {
+    this.socket = io(address);
   }
 
-  emit(event: string, data: any) {
+  emit<T>(event: string, data: T) {
     this.socket.emit(event, data);
   }
 
-  on(event: string): Observable<any> {
-    return new Observable((observer) => {
-      this.socket.on(event, (data) => {
-        observer.next(data);
-      });
-
-      // Handle cleanup
-      return () => {
-        this.socket.off(event);
-      };
+  on<T>(event: string, callback: Function): void {
+    this.socket.on(event, (data: T) => {
+      callback(data)
     });
   }
 }
