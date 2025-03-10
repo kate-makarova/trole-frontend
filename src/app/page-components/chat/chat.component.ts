@@ -48,6 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.init.subscribe((state: boolean) => {
       if (!state) {return}
+      console.log('here')
       const subscription: ChatSubscription|undefined = this.chatService.getChatSubscription(this.chatId)
       if(subscription == undefined) {return}
       this.chat = subscription.chat

@@ -18,6 +18,7 @@ export class ChatService extends APIService {
       for (let chat of chats) {
         this.chatSubscriptions.push(new ChatSubscription(chat))
       }
+      console.log(this.chatSubscriptions)
       this.init.next(true)
     })
   }
