@@ -34,4 +34,11 @@ export class ChatService extends APIService {
     return data
   }
 
+  stopChats() {
+    for (let [index, subscription] of this.chatSubscriptions.entries()) {
+      subscription.kill()
+      delete this.chatSubscriptions[index]
+    }
+  }
+
 }

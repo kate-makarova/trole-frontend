@@ -3,7 +3,6 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {SocketService} from "../services/socket/socket.service";
 import {ChatMessage} from "./ChatMessage";
 import {User} from "./User";
-import {ChatService} from "../services/chat/chat.service";
 
 export class ChatSubscription {
     id: number;
@@ -49,5 +48,9 @@ export class ChatSubscription {
             time: new Date().toString(),
             type: type
         });
+    }
+
+    kill() {
+        this.socket.closeConnection()
     }
 }

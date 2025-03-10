@@ -26,7 +26,7 @@ import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   chatId: number;
   chat: ChatRoom|null = null;
   messages$: Observable<ChatMessage[]> = of([])
@@ -63,5 +63,9 @@ export class ChatComponent implements OnInit {
     const user = this.sessionService.getUser()
     if (user == null) {return}
     this.chatService.getChatSubscription(this.chatId)?.sendMessage(user, text)
+  }
+
+  ngOnDestroy() {
+    this.chatService.stopChats()
   }
 }
