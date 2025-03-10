@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class SocketService {
+export class SocketService<T> {
   private socket: WebSocket | undefined;
   private messageSubject: Subject<any> = new Subject<any>();
 
@@ -19,7 +19,7 @@ export class SocketService {
       console.log('WebSocket is connected:', event);
     };
 
-    this.socket.onmessage = (event) => {
+    this.socket.onmessage = (event: MessageEvent<string>) => {
       // Push the incoming message into the observable stream
       this.messageSubject.next(event.data);
     };
@@ -35,6 +35,7 @@ export class SocketService {
 
   // Send a message to the WebSocket server
   sendMessage(message: object): void {
+    console.log(this.socket)
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify(message));
       console.log('Message sent:', message);
@@ -45,7 +46,17 @@ export class SocketService {
 
   // Receive messages as an Observable
   onMessage<T>(): Observable<T> {
-    return this.messageSubject.asObservable();
+    return new Observable<T>((observer) => {
+      this.messageSubject.asObservable().subscribe((data) => {
+        try {
+          // Assuming the data comes as a string, try to parse it
+          const parsedData: T = JSON.parse(data);
+          observer.next(parsedData);
+        } catch (error) {
+          observer.error('Failed to parse WebSocket message: ' + error);
+        }
+      });
+    });
   }
 
   // Close the WebSocket connection
