@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {ChatRoom} from "../../entities/ChatRoom";
 import {APIService} from "../apiservice/apiservice.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
-import {Observable, of} from "rxjs";
-import {SimpleEntity} from "../../entities/SimpleEntity";
+import {Observable, of, Subject} from "rxjs";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 
 @Injectable({
@@ -11,13 +10,15 @@ import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 })
 export class ChatService extends APIService {
   chatSubscriptions: ChatSubscription[] = []
+  init = new Subject<boolean>();
 
-  initiateChats(userId: number, initiated: Observable<boolean>): void {
-    this.getData<ChatRoom[]>('/active-chats/'+userId).subscribe((chats: ChatRoom[]) => {
+  initiateChats(userId: number): void {
+    console.log('Initiation')
+    this.getData<ChatRoom[]>('active-chats/'+userId).subscribe((chats: ChatRoom[]) => {
       for (let chat of chats) {
         this.chatSubscriptions.push(new ChatSubscription(chat))
       }
-      initiated = of(true)
+      this.init.next(true)
     })
   }
 

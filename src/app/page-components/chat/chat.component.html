@@ -2,13 +2,13 @@
   <h4 style="margin: 0;" class="text-center">Chat</h4>
     <div style="text-align: center">viper, Ghil</div>
 </div>
-<ng-container *ngIf="initiated | async; else loading">
+<ng-container *ngIf="init | async; else loading">
 <div class="row" style="display: flex;">
 
     <div id="left-panel" class="large-3">
         <ul class="menu icons vertical">
             <li *ngFor="let chat of chats$"><a routerLink="/chat/{{chat.id}}"><span>{{chat.title}}</span></a>
-            <span class="badge" *ngIf="(chat.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>
+<!--            <span class="badge" *ngIf="(chat?.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>-->
             </li>
         </ul>
     </div>
@@ -21,13 +21,13 @@
         <div class="media-object-section">
           <a href="#">
             <div class="">
-              <h5>{{ message.user.name }}</h5>
-              <img width="80px" src="{{message.user.avatar}}"/>
+              <h5>{{ message.user?.name }}</h5>
+              <img width="80px" src="{{message.user?.avatar}}"/>
             </div>
           </a>
         </div>
         <div class="media-object-section" style="white-space: pre-line">
-          {{ message.text }}
+          {{ message.message }}
         </div>
       </div>
   }

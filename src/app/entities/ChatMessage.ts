@@ -1,13 +1,15 @@
 import {SimpleUser} from "./SimpleUser";
 
 export class ChatMessage {
-  user: SimpleUser;
-  text: string;
-  time: string;
+  type: string;
+  user: SimpleUser|null;
+  message: string;
+  time: string|null;
 
-  constructor(user: SimpleUser, text: string, time: string) {
+  constructor(type: string, user: SimpleUser|null, message: string, time: string|null) {
+    this.type = type;
     this.user = user;
-    this.text = text;
+    this.message = message;
     this.time = time;
   }
 }

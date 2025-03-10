@@ -17,6 +17,9 @@
                         <a routerLink="/home">My Games</a>
                     </li>
                     <li>
+                        <a routerLink="/chat/1">Chat</a>
+                    </li>
+                    <li>
                         <a routerLink="/user-settings">Settings</a>
                     </li>
                     <li *ngIf="sessionService.getUser()?.is_admin">

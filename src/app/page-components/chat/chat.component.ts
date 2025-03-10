@@ -32,22 +32,30 @@ export class ChatComponent implements OnInit {
   messages$: Observable<ChatMessage[]> = of([])
   chats$: Array<ChatSubscriptionSimple> = []
   newMessage: string = ''
-  initiated: Observable<boolean> = of(false);
   sendMessageFunc: Function = () => {}
+  init: Observable<boolean> = of(false)
 
   constructor(private sessionService: SessionService,
-              private chatService: ChatService,
+              protected chatService: ChatService,
               private route: ActivatedRoute) {
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit() {
-    if(this.sessionService.getUser() === null) {return}
+    console.log(1)
+    if(this.sessionService.getUser() === null) {
+      console.log('What?')
+      return}
 
-    this.initiated.subscribe((state: boolean) => {
+    this.init = this.chatService.init.asObservable()
+
+    this.init.subscribe((state: boolean) => {
+      console.log(4)
       if (!state) {return}
       const subscription: ChatSubscription|undefined = this.chatService.getChatSubscription(this.chatId)
+      console.log(5)
       if(subscription == undefined) {return}
+      console.log(6)
       this.chat = subscription.chat
       this.messages$ = subscription.messages$
       this.chats$ = this.chatService.getChats()
@@ -55,7 +63,7 @@ export class ChatComponent implements OnInit {
     })
 
     // @ts-ignore
-    this.chatService.initiateChats(this.sessionService.getUser().id, initiated)
+    this.chatService.initiateChats(this.sessionService.getUser().id)
   }
 
   sendMessage(text: string) {
