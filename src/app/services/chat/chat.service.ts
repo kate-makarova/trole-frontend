@@ -15,7 +15,7 @@ export class ChatService extends APIService {
   initiateChats(userId: number): void {
     this.getData<ChatRoom[]>('active-chats/'+userId).subscribe((chats: ChatRoom[]) => {
       for (let chat of chats) {
-        this.chatSubscriptions.push(new ChatSubscription(chat))
+        this.chatSubscriptions.push(new ChatSubscription(this.sessionService, chat))
       }
       this.init.next(true)
     })

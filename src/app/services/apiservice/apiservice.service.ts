@@ -13,7 +13,7 @@ import {SimpleEntity} from "../../entities/SimpleEntity";
 export class APIService {
 
   constructor(private http: HttpClient,
-              private sessionService: SessionService,
+              protected sessionService: SessionService,
               private router: Router) {
   }
 

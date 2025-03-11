@@ -4,6 +4,7 @@ import {SocketService} from "../services/socket/socket.service";
 import {ChatMessage} from "./ChatMessage";
 import {User} from "./User";
 import {SimpleUser} from "./SimpleUser";
+import {SessionService} from "../services/session/session.service";
 
 export class ChatSubscription {
     id: number;
@@ -14,13 +15,14 @@ export class ChatSubscription {
     protected unread: BehaviorSubject<number>;
     unread$:Observable<number>
 
-    constructor(chat: ChatRoom
+    constructor(private sessionService: SessionService,
+        chat: ChatRoom
                 ) {
         this.id = chat.id;
         this.chat = chat;
         this.messagesSubjects = new BehaviorSubject<ChatMessage[]>([])
         this.socket = new SocketService<ChatMessage>()
-        this.socket.connect('http://127.0.0.1:8001/ws/chat/'+chat.id+'/')
+        this.socket.connect('http://127.0.0.1:8001/ws/chat/'+chat.id+'/?token='+this.sessionService.getToken())
         this.unread = new BehaviorSubject(this.chat.unread)
         this.unread$ = this.unread.asObservable()
         this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
