@@ -35,7 +35,6 @@ export class SocketService<T> {
 
   // Send a message to the WebSocket server
   sendMessage(message: object): void {
-    console.log(this.socket)
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify(message));
       console.log('Message sent:', message);

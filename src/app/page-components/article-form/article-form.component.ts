@@ -60,7 +60,6 @@ export class ArticleFormComponent implements OnInit {
       this.breadcrumbsService.changeBreadcrumbs('article-edit', [this.articleId])
       this.articleService.loadByGameAndId(this.gameId, this.articleId);
       this.articleService.get().subscribe(data => {
-        console.log(data)
         if(data == null) {return}
         this.articleForm.controls.name.setValue(data.name);
         this.articleContent = of(data.content_bb);

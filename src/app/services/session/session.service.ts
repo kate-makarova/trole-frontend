@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {User} from '../../entities/User';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map, Observable, of, switchMap} from 'rxjs';
+import {catchError, map, Observable, of, Subject, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {SimpleUser} from "../../entities/SimpleUser";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,10 @@ export class SessionService {
   private user: User|null = null;
   private accessToken: string = '';
   private refreshToken: string = '';
+  public initialized: Subject<boolean> = new Subject<boolean>();
 
    constructor(private http: HttpClient) {
+     this.initialized.next(false);
   }
 
   async init() {
@@ -27,10 +30,16 @@ export class SessionService {
           this.user = data.user;
         }
     }
+    this.initialized.next(true);
   }
 
   getUser(): User|null {
     return this.user;
+  }
+
+  getSimpleUser(): SimpleUser|null {
+     if (this.user == null) {return null}
+     return new SimpleUser(this.user.id, this.user.username, this.user.avatar)
   }
 
   updateUser(patch: object): boolean {

@@ -13,6 +13,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ChatRoom} from "../../entities/ChatRoom";
 import {SimpleEntity} from "../../entities/SimpleEntity";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
+import {SessionInitComponent} from "../../components/session-init/session-init.component";
 
 @Component({
   selector: 'app-chat',
@@ -26,7 +27,7 @@ import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent extends SessionInitComponent implements OnInit, OnDestroy {
   chatId: number;
   chat: ChatRoom|null = null;
   messages$: Observable<ChatMessage[]> = of([])
@@ -34,21 +35,20 @@ export class ChatComponent implements OnInit, OnDestroy {
   newMessage: string = ''
   init: Observable<boolean> = of(false)
 
-  constructor(private sessionService: SessionService,
+  constructor(sessionService: SessionService,
               protected chatService: ChatService,
               private route: ActivatedRoute) {
+    super(sessionService);
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
-  ngOnInit() {
-    if(this.sessionService.getUser() === null) {
-      return}
+  onSessionInit() {
+    if(this.sessionService.getUser() === null) {return}
 
     this.init = this.chatService.init.asObservable()
 
     this.init.subscribe((state: boolean) => {
       if (!state) {return}
-      console.log('here')
       const subscription: ChatSubscription|undefined = this.chatService.getChatSubscription(this.chatId)
       if(subscription == undefined) {return}
       this.chat = subscription.chat
@@ -61,9 +61,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(text: string) {
-    const user = this.sessionService.getUser()
+    const user = this.sessionService.getSimpleUser()
     if (user == null) {return}
-    this.chatService.getChatSubscription(this.chatId)?.sendMessage(user, text)
+    try {
+      this.chatService.getChatSubscription(this.chatId)?.sendMessage(user, text)
+      this.newMessage = ''
+    } catch(e) {
+
+    }
   }
 
   ngOnDestroy() {

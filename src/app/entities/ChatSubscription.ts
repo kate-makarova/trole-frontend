@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {SocketService} from "../services/socket/socket.service";
 import {ChatMessage} from "./ChatMessage";
 import {User} from "./User";
+import {SimpleUser} from "./SimpleUser";
 
 export class ChatSubscription {
     id: number;
@@ -24,7 +25,6 @@ export class ChatSubscription {
         this.unread$ = this.unread.asObservable()
         this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
             let messages = this.messagesSubjects.getValue()
-            console.log(data)
             if (data.type !== 'heartbeat') {
                 messages.push(data)
                 this.messagesSubjects.next(messages)
@@ -34,14 +34,13 @@ export class ChatSubscription {
         this.messages$ = this.messagesSubjects.asObservable()
     }
 
-    sendMessage(user: User, message: string, type = 'chat_message') {
+    sendMessage(user: SimpleUser, message: string, type = 'chat_message') {
         console.log({
             text: message,
             user: user,
             time: new Date().toString(),
             type: type
         })
-        console.log(this.socket)
         this.socket.sendMessage({
             text: message,
             user: user,
