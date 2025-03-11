@@ -30,6 +30,7 @@ import {SessionInitComponent} from "../../components/session-init/session-init.c
 export class ChatComponent extends SessionInitComponent implements OnInit, OnDestroy {
   chatId: number;
   chat: ChatRoom|null = null;
+  oldMessages$: Observable<ChatMessage[]> = of([])
   messages$: Observable<ChatMessage[]> = of([])
   chats$: Array<ChatSubscriptionSimple> = []
   newMessage: string = ''
@@ -40,6 +41,11 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
               private route: ActivatedRoute) {
     super(sessionService);
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
+  }
+
+  override ngOnInit() {
+    super.ngOnInit();
+    this.oldMessages$ = this.chatService.getMessages(this.chatId)
   }
 
   onSessionInit() {
@@ -57,7 +63,7 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
     })
 
     // @ts-ignore
-    this.chatService.initiateChats(this.sessionService.getUser().id)
+    this.chatService.initiateChats()
   }
 
   sendMessage(text: string) {

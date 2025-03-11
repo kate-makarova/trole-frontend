@@ -14,6 +14,25 @@
     </div>
 <div class="column large-9">
   <div>
+      <ng-container *ngIf="oldMessages$ | async as messages; else loading">
+          @for ( message of messages; track $index) {
+
+              <div class="media-object">
+                  <div class="media-object-section">
+                      <a href="#">
+                          <div class="">
+                              <h5>{{ message.user?.name }}</h5>
+                              <img width="80px" src="{{message.user?.avatar}}"/>
+                          </div>
+                      </a>
+                  </div>
+                  <div class="media-object-section" style="white-space: pre-line">
+                      {{ message.text }}
+                  </div>
+              </div>
+          }
+      </ng-container>
+
       <ng-container *ngIf="messages$ | async as messages; else loading">
   @for ( message of messages; track $index) {
 

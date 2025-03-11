@@ -4,6 +4,7 @@ import {APIService} from "../apiservice/apiservice.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
 import {Subject} from "rxjs";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
+import {ChatMessage} from "../../entities/ChatMessage";
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,17 @@ export class ChatService extends APIService {
   chatSubscriptions: ChatSubscription[] = []
   init = new Subject<boolean>();
 
-  initiateChats(userId: number): void {
-    this.getData<ChatRoom[]>('active-chats/'+userId).subscribe((chats: ChatRoom[]) => {
+  initiateChats(): void {
+    this.getData<ChatRoom[]>('active-chats').subscribe((chats: ChatRoom[]) => {
       for (let chat of chats) {
         this.chatSubscriptions.push(new ChatSubscription(this.sessionService, chat))
       }
       this.init.next(true)
     })
+  }
+
+  getMessages(id: number, page: number = 1) {
+    return this.getData<ChatMessage[]>('private-chat-messages/'+id+'/'+page)
   }
 
   getChatSubscription(id: number): ChatSubscription|undefined {
