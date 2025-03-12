@@ -1,1 +1,45 @@
-<p>chat-form works!</p>
+<div class="row">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <fieldset>
+            <h3>New Chat</h3>
+            <div class="form-field">
+                <label>Name:</label>
+                <input name="name" formControlName="name"  type="text">
+            </div>
+
+
+            <div class="form-field" formArrayName="users">
+                <h5>Users:</h5>
+                <div *ngFor="let user of users.controls; let i=index">
+                    <ng-autocomplete
+                            [formControlName]="i"
+                            [data]="dataUser"
+                            [searchKeyword]="keywordUser"
+                            placeholder="Select user"
+                            (selected)='selectUserEvent($event)'
+                            (inputChanged)='onChangeUserSearch($event)'
+                            [itemTemplate]="itemTemplate"
+                            [notFoundTemplate]="notFoundTemplate">
+                    </ng-autocomplete>
+                </div>
+            </div>
+
+
+            <div class="form-control">
+                <button type="button" (click)="addUser()">+ Add fandom</button>
+            </div>
+
+
+        </fieldset>
+        <ng-template #itemTemplate let-item>
+            <a [innerHTML]="item.name"></a>
+        </ng-template>
+
+        <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+        </ng-template>
+        <div class="form-buttons">
+            <button class="button button-primary" type="submit" [disabled]="!form.valid">Submit</button>
+        </div>
+    </form>
+</div>

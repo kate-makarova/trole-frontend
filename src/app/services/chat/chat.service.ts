@@ -49,4 +49,8 @@ export class ChatService extends APIService {
     }
   }
 
+  create(formData: any): Observable<number> {
+    return this.postData('chat/create', formData);
+  }
+
 }
