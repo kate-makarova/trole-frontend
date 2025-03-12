@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {ChatRoom} from "../../entities/ChatRoom";
 import {APIService} from "../apiservice/apiservice.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {ChatMessage} from "../../entities/ChatMessage";
 
@@ -20,6 +20,10 @@ export class ChatService extends APIService {
       }
       this.init.next(true)
     })
+  }
+
+  getChat(id: number): Observable<ChatRoom|null> {
+    return this.getData<ChatRoom>('private-chat/'+id)
   }
 
   getMessages(id: number, page: number = 1) {

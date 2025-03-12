@@ -14,6 +14,7 @@ import {ChatRoom} from "../../entities/ChatRoom";
 import {SimpleEntity} from "../../entities/SimpleEntity";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {SessionInitComponent} from "../../components/session-init/session-init.component";
+import {ChatFormComponent} from "../../components/chat-form/chat-form.component";
 
 @Component({
   selector: 'app-chat',
@@ -23,18 +24,20 @@ import {SessionInitComponent} from "../../components/session-init/session-init.c
     NgIf,
     NgForOf,
     RouterLink,
+    ChatFormComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
 export class ChatComponent extends SessionInitComponent implements OnInit, OnDestroy {
   chatId: number;
-  chat: ChatRoom|null = null;
+  chat$: Observable<ChatRoom|null> = of(null);
   oldMessages$: Observable<ChatMessage[]> = of([])
   messages$: Observable<ChatMessage[]> = of([])
   chats$: Array<ChatSubscriptionSimple> = []
   newMessage: string = ''
   init: Observable<boolean> = of(false)
+  createNewChatOpen: boolean = false
 
   constructor(sessionService: SessionService,
               protected chatService: ChatService,
@@ -46,6 +49,7 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
   override ngOnInit() {
     super.ngOnInit();
     this.oldMessages$ = this.chatService.getMessages(this.chatId)
+    this.chat$ = this.chatService.getChat(this.chatId)
   }
 
   onSessionInit() {
@@ -57,7 +61,6 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
       if (!state) {return}
       const subscription: ChatSubscription|undefined = this.chatService.getChatSubscription(this.chatId)
       if(subscription == undefined) {return}
-      this.chat = subscription.chat
       this.messages$ = subscription.messages$
       this.chats$ = this.chatService.getChats()
     })

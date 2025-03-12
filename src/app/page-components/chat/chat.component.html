@@ -1,11 +1,20 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">Chat</h4>
-    <div style="text-align: center">viper, Ghil</div>
+    <ng-container *ngIf="chat$ | async as chat; else header">
+  <h4 style="margin: 0;" class="text-center">{{ chat?.title }}</h4>
+    <div style="text-align: center">
+        <span *ngFor="let p of chat?.users">
+            {{p.name}}
+        </span>
+    </div>
+    </ng-container>
 </div>
 <ng-container *ngIf="init | async; else loading">
 <div class="row" style="display: flex;">
 
     <div id="left-panel" class="large-3">
+        <div id="panel">
+            <button class="hollow success">Start chat</button>
+        </div>
         <ul class="menu icons vertical">
             <li *ngFor="let chat of chats$"><a routerLink="/chat/{{chat.id}}"><span>{{chat.title}}</span></a>
 <!--            <span class="badge" *ngIf="(chat?.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>-->
@@ -26,8 +35,7 @@
                           </div>
                       </a>
                   </div>
-                  <div class="media-object-section" style="white-space: pre-line">
-                      {{ message.text }}
+                  <div class="media-object-section" style="white-space: pre-line" [innerHTML]="message.text">
                   </div>
               </div>
           }
@@ -45,8 +53,7 @@
             </div>
           </a>
         </div>
-        <div class="media-object-section" style="white-space: pre-line">
-          {{ message.text }}
+        <div class="media-object-section" style="white-space: pre-line" [innerHTML]="message.text">
         </div>
       </div>
   }
@@ -61,8 +68,19 @@
 </div>
 </div>
 </div>
+
+
+<div id="create-new-chat" *ngIf="createNewChatOpen" class="reveal" data-reveal>
+    <app-chat-form></app-chat-form>
+</div>
+
 </ng-container>
 
 <ng-template #loading>
     Loading chat history
+</ng-template>
+
+<ng-template #header>
+    <h4 style="margin: 0;" class="text-center">Chat</h4>
+    <div style="text-align: center">...</div>
 </ng-template>
