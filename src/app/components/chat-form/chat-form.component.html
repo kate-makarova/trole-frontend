@@ -7,7 +7,6 @@
                 <input name="name" formControlName="name"  type="text">
             </div>
 
-
             <div class="form-field" formArrayName="users">
                 <h5>Users:</h5>
                 <div *ngFor="let user of users.controls; let i=index">
@@ -24,11 +23,9 @@
                 </div>
             </div>
 
-
             <div class="form-control">
-                <button type="button" (click)="addUser()">+ Add fandom</button>
+                <button type="button" (click)="addUser()">+ Add user</button>
             </div>
-
 
         </fieldset>
         <ng-template #itemTemplate let-item>
@@ -39,7 +36,8 @@
             <div [innerHTML]="notFound"></div>
         </ng-template>
         <div class="form-buttons">
-            <button class="button button-primary" type="submit" [disabled]="!form.valid">Submit</button>
+            <button class="button primary" type="submit" [disabled]="!form.valid">Submit</button>
+            <button class="button alert" (click)="cancel()">Cancel</button>
         </div>
     </form>
 </div>

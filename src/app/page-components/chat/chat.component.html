@@ -13,7 +13,7 @@
 
     <div id="left-panel" class="large-3">
         <div id="panel">
-            <button class="hollow success">Start chat</button>
+            <button class="button hollow success" (click)="startChatFormOpen()">Start chat</button>
         </div>
         <ul class="menu icons vertical">
             <li *ngFor="let chat of chats$"><a routerLink="/chat/{{chat.id}}"><span>{{chat.title}}</span></a>
@@ -70,7 +70,12 @@
 </div>
 
 
-<div id="create-new-chat" *ngIf="createNewChatOpen" class="reveal" data-reveal>
+<div id="create-new-chat"
+     *ngIf="createNewChatOpen"
+     (close)="onNewChatClose()"
+     (submit)="onNewChatCreate()"
+     style="top: 50px!important"
+     class="reveal" data-reveal>
     <app-chat-form></app-chat-form>
 </div>
 

@@ -83,4 +83,18 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
   ngOnDestroy() {
     this.chatService.stopChats()
   }
+
+  startChatFormOpen() {
+    this.createNewChatOpen = !this.createNewChatOpen
+  }
+
+  protected readonly onsubmit = onsubmit;
+
+  onNewChatClose() {
+    this.createNewChatOpen = false;
+  }
+
+  onNewChatCreate() {
+    this.createNewChatOpen = false;
+  }
 }

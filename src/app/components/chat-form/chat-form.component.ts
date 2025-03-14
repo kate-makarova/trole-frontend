@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {NgForOf} from "@angular/common";
 import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -24,6 +24,8 @@ export class ChatFormComponent {
         name: ['', Validators.required],
         users: this.formBuilder.array([]),
     });
+    @Output('close') closeEmitter: EventEmitter<boolean> = new EventEmitter();
+    @Output('submit') submitEmitter: EventEmitter<boolean> = new EventEmitter();
 
     constructor(private apiService: APIService,
                 private chatService: ChatService,
@@ -57,6 +59,11 @@ export class ChatFormComponent {
     onSubmit() {
         this.chatService.create(this.form.value).subscribe(data => {
            console.log('added')
+            this.submitEmitter.emit(true)
         })
+    }
+
+    cancel() {
+        this.closeEmitter.emit(true)
     }
 }
