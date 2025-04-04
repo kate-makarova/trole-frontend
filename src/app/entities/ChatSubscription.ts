@@ -22,7 +22,7 @@ export class ChatSubscription {
         this.chat = chat;
         this.messagesSubjects = new BehaviorSubject<ChatMessage[]>([])
         this.socket = new SocketService<ChatMessage>()
-        this.socket.connect('https://api.trole.online/ws/chat/'+chat.id+'/?token='+this.sessionService.getToken())
+        this.socket.connect('http://api.trole.online/ws/chat/'+chat.id+'/?token='+this.sessionService.getToken())
         this.unread = new BehaviorSubject(this.chat.unread)
         this.unread$ = this.unread.asObservable()
         this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
