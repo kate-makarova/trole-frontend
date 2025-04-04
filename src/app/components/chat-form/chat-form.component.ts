@@ -3,7 +3,6 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {NgForOf} from "@angular/common";
 import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SimpleEntity} from "../../entities/SimpleEntity";
-import {UserService} from "../../services/user/user.service";
 import {APIService} from "../../services/apiservice/apiservice.service";
 import {ChatService} from "../../services/chat/chat.service";
 import {Router} from "@angular/router";
