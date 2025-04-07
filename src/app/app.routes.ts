@@ -24,6 +24,8 @@ import {AdminUserListComponent} from './page-components/admin/admin-user-list/ad
 import {
   CharacterModerateFormComponent
 } from "./page-components/character-moderate-form/character-moderate-form.component";
+import {InvitationComponent} from "./page-components/invitation/invitation.component";
+import {SendInvitationComponent} from "./page-components/send-invitation/send-invitation.component";
 export const routes: Routes = [
   {
     path: '',
@@ -146,5 +148,13 @@ export const routes: Routes = [
   {
     path: 'admin/user-list',
     component: AdminUserListComponent,
+  },
+  {
+    path: 'invitation',
+    component: InvitationComponent,
+  },
+  {
+    path: 'send-invitation',
+    component: SendInvitationComponent,
   }
 ];
