@@ -1,7 +1,10 @@
 <div class="row">
     <p>Trole Online is an invitation-only space. Every member can invite as many people as they want.</p>
-    <p>If you want to send an invitation, click a button below, and you will get an invitation link. Each link is
-    valid for thirty days and can be only used once.</p>
-    <div class="referral-link"></div>
-    <div class="text-center"><button class="button-large button-primary">Generate a Link</button></div>
+    <p>If you want to send an invitation, put in the email of the person you want to invite, and we will send
+    them a link to register on the site.</p>
+    <p>Invitations are valid for thirty days.</p>
+    <div class="text-center">
+        <input type="text" [(ngModel)]="email" />
+        <button (click)="sendInvitation()" class="button button-primary">Invite</button>
+    </div>
 </div>
