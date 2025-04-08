@@ -7,7 +7,7 @@
 <div class="row" *ngIf="!(canRegister|async)">You have no access to this page.</div>
 
 <div class="row" *ngIf="(canRegister|async)">
-    <p>Welcome to Trole Online! You have been invited by {{ (invitation|async)?.sender?.name }}. Please, feel the form below to register.</p>
+    <p>Welcome to Trole Online! You have been invited by <b>{{ (invitation|async)?.sender?.name }}</b>. Please, fill the form below to register.</p>
 </div>
 
 <ng-container *ngIf="(canRegister|async)">
