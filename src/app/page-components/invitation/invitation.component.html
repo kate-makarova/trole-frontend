@@ -4,8 +4,12 @@
 
 <hr>
 
-<div class="row">
-    Welcome to Trole Online! You have been invited by {{ referer }}. Please, feel the form below to register.
+<div class="row" *ngIf="!(canRegister|async)">You have no access to this page.</div>
+
+<div class="row" *ngIf="(canRegister|async)">
+    <p>Welcome to Trole Online! You have been invited by {{ (invitation|async)?.sender?.name }}. Please, feel the form below to register.</p>
 </div>
 
+<ng-container *ngIf="(canRegister|async)">
 <app-register-form></app-register-form>
+</ng-container>

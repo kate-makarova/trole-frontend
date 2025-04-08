@@ -17,6 +17,11 @@ export class APIService {
               private router: Router) {
   }
 
+  private static isValidDate(value: string): boolean {
+    const parsedDate = new Date(value);
+    return !isNaN(parsedDate.getTime());
+  }
+
   getData<T>(endpoint: string, params: object|null = null): Observable<T> {
     const apiHost = environment.apiHost;
 
@@ -30,9 +35,22 @@ export class APIService {
       }
     }
 
+    type FieldTypes<T> = {
+      [K in keyof T]: T[K];
+    };
+
     return this.http.get<ApiResponse>(apiHost+endpoint, {params: p, headers: h})
       .pipe(switchMap((resp: ApiResponse) => {
-      return of(resp.data as T);
+        const data = resp["data"];
+
+            for (const key in data) {
+              const value = data[key];
+                if (typeof value === 'string' && APIService.isValidDate(value)) {
+                  data[key] = new Date(value);
+                }
+            }
+
+      return of(data as T);
       }),
         catchError((error) => {
           // Handle error if any request fails
@@ -56,8 +74,16 @@ export class APIService {
 
     return this.http.post<ApiResponse>(apiHost+endpoint, body, {headers: h})
         .pipe(switchMap((resp: ApiResponse) => {
+              const data = resp["data"];
 
-              return of(resp.data as T);
+              for (const key in data) {
+                const value = data[key];
+                if (typeof value === 'string' && APIService.isValidDate(value)) {
+                  data[key] = new Date(value);
+                }
+              }
+
+              return of(data as T);
             }),
             catchError((error) => {
               // Handle error if any request fails

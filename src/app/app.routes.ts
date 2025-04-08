@@ -150,7 +150,7 @@ export const routes: Routes = [
     component: AdminUserListComponent,
   },
   {
-    path: 'invitation',
+    path: 'invitation/:key',
     component: InvitationComponent,
   },
   {
