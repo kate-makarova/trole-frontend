@@ -1,0 +1,25 @@
+We are introducing a new test feature: D&D style character system and fights. You can turn this feature on for the
+whole game, set up your classes and skills, and then you will be able to have D&D-style turn-based fights right in
+your episodes. Your characters will gain experience with each won fight and gradually progress though levels acquiring
+new skills and improving their stats.
+However, before turning on the leveling system, you need to consider that it will put some restrictions on your
+playing style. The leveling system is designed for D&D-like play style, where you have a specific campaign, and your
+team can only progress forwards in chronological order through it. You cannot do flashbacks and you cannot change the
+order of your game episodes, because character experience can only grow from episode to episode, and you cannot
+set up an episode in the past and scale characters' levels down.
+While we are implementing the D&D system specifically, trying to mimic its mechanics, classes
+and skills, you are not limited to this system. You can choose to create your own, with your own classes, spells
+and progression system. Be worn however that it will take you some time to put down every description of every spell
+and every number for every class level.
+
+Key Differences Between Our System And D&D
+-------------------------------------------
+
+One important difference of the system we have implemented is the number of action points ach character has per turn.
+Since play-by-post are significantly slower than the traditional D&D sessions, we want to fit more action in each
+turn. So, instead of 1-2 action points per turn, each character will have 5-10. We trust players to still make it
+entertaining though additional textual descriptions they can add to their turns.
+
+Another significant difference is that we only track attacks through the fight system. You do not need to spend points
+on walking, jumping or crouching. This is a deliberate decision we made because it gives players more freedom in their
+posts. We are a roll playing game first and foremost after all.
