@@ -3,6 +3,7 @@ import {LanguageSwitcherComponent} from '../language-switcher/language-switcher.
 import {AdsenseModule} from "ng2-adsense";
 import {ThemeSwitcherComponent} from "../theme-switcher/theme-switcher.component";
 import {RouterLink} from "@angular/router";
+import {AnalyticsService} from "../../services/analytics/analytics.service";
 
 @Component({
   selector: 'app-footer',
@@ -15,5 +16,12 @@ import {RouterLink} from "@angular/router";
   templateUrl: './app-footer.component.html',
   styleUrl: './app-footer.component.css'
 })
-export class AppFooterComponent {
+export class AppFooterComponent implements OnInit {
+
+    constructor(private analyticsService: AnalyticsService) {
+    }
+
+    ngOnInit() {
+        this.analyticsService.trackEvent('footer loaded', 'footer loaded into view', 'load');
+    }
 }
