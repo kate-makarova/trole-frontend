@@ -18,6 +18,7 @@ import {DraftService} from "../../services/draft/draft.service";
 import {Draft} from "../../entities/Draft";
 import {Character} from "../../entities/Character";
 import {Fight} from "../../entities/Fight";
+import {FightCharacter} from "../../entities/FightCharacter";
 
 @Component({
   selector: 'app-episode',
@@ -64,6 +65,11 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
               private draftService: DraftService
               ) {
 
+    this.fight = new Fight([
+        new FightCharacter(1, 'Raphael', 666, 500, 'Bard', 12, false),
+        new FightCharacter(2, 'Antilia', 300, 278, 'Bard', 14, false),
+        new FightCharacter(3, 'Mephistopheles', 500, 450, 'Bard', 20, false)
+    ])
   }
 
   getMyCharacters() {
@@ -234,6 +240,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   }
 
   toggleFight() {
-
+    this.fightOpen = !this.fightOpen
   }
+
+  protected readonly Math = Math;
 }

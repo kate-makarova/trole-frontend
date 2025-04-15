@@ -42,13 +42,29 @@
                 <a class="button hollow expanded" (click)="toggleDrafts()">Drafts</a>
             </div>
             <div class="large-3 column">
-                <a *ngIf="fight" class="button hollow expanded danger" (click)="toggleFight()">⚔️Fight</a>
+                <a *ngIf="fight" class="button hollow expanded alert" (click)="toggleFight()">⚔️ Fight</a>
             </div>
             <div class="large-3 column">
                 <!--          <a class="button hollow expanded success disabled" href="#">Chat room</a>-->
             </div>
         </div>
-        <div *ngIf="fightOpen" id="fight" class="row"></div>
+
+        <div *ngIf="fightOpen" id="fight" class="row">
+            <div *ngIf="fight != null" id="fight-characters" style="display: flex; gap: 1em">
+                <div *ngFor="let character of fight.characters" class="fight-character-card card">
+                    <div class="card-section">
+                        <h5>{{ character.characterName }}</h5>
+                        <h6>{{ character.characterClass }} {{ character.level }}</h6>
+                        <div class="hp-bar">
+                            <div style="width: {{ Math.ceil(character.currentHealth / character.totalHealth * 100) }}%"
+                                 class="hp-fill">{{ character.currentHealth }} / {{ character.totalHealth }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div *ngIf="episode.is_mine && draftsOpen" id="drafts" class="row">
             <ng-container *ngIf="drafts$ | async as draftArray">
                 <ng-container *ngIf="draftArray.length > 0; else noDrafts">
