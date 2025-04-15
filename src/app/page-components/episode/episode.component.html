@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div *ngIf="fightOpen" id="fight" class="row">
+        <div *ngIf="fightOpen" id="fight" class="row" style="padding: 10px">
             <div *ngIf="fight != null" id="fight-characters" style="display: flex; gap: 1em">
                 <div *ngFor="let character of fight.characters" class="fight-character-card card">
                     <div class="card-section">
@@ -76,9 +76,22 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="currentFightLogEntry">
+            <div *ngIf="currentFightLogEntry" id="current-turn">
                 <h5>Your current turn</h5>
-                {{ currentFightLogEntry.text }}
+                <ul>
+                    <li> <span style="color: #881288"><b>Antillia</b></span> hits <b>Angel Virtuous</b> with <a><b>Vicious Mockery</b></a>
+                        <span style="font-style: italic"> [Dealt <span style="color: violet">Psychic damage</span> 20].</span>
+                    </li>
+                    <li> <b>Angel Virtuous</b> reflects damage at <span style="color: #881288"><b>Antillia</b></span> with <a><b>Heavenly Vengeance</b></a>
+                        <span style="font-style: italic"> [Dealt <span style="color: darkgoldenrod">Radiant damage</span> 5].</span>
+                    </li>
+                    <li> <span style="color: #881288"><b>Antillia</b></span> hits <b>Angel Virtuous</b> with <a><b>Fireball</b></a>
+                        <span style="font-style: italic"> [Dealt <span style="color: orangered">Fire damage</span> 10].</span>
+                    </li>
+                    <li> <span style="color: #881288"><b>Antillia</b></span> hits <b>Angel Splendid</b> with <a><b>Fireball</b></a>
+                        <span style="font-style: italic"> [Dealt <span style="color: orangered">Fire damage</span> 8].</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
