@@ -1,5 +1,6 @@
 import {Character} from './Character';
 import {Game} from './Game';
+import {FightLogEntry} from "./FightLogEntry";
 
 export class Post {
   id: number;
@@ -11,6 +12,7 @@ export class Post {
   content_bb: string|null = null;
   is_mine: boolean;
   edit: boolean = false;
+  fightLogEntry: FightLogEntry|null = null;
 
   constructor(id: number,
               episodeId: number,
@@ -20,6 +22,7 @@ export class Post {
               content: string,
               contentBB: string|null = null,
               is_mine: boolean,
+              fightLogEntry: null = null
   ) {
     this.id = id;
    this.is_read = isRead;
@@ -29,5 +32,6 @@ export class Post {
    this.content = content;
    this.content_bb = contentBB;
    this.is_mine = is_mine;
+   this.fightLogEntry = fightLogEntry
   }
 }

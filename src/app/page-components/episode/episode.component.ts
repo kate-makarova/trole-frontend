@@ -17,6 +17,7 @@ import {PaginationComponent} from "../../components/pagination/pagination.compon
 import {DraftService} from "../../services/draft/draft.service";
 import {Draft} from "../../entities/Draft";
 import {Character} from "../../entities/Character";
+import {Fight} from "../../entities/Fight";
 
 @Component({
   selector: 'app-episode',
@@ -50,6 +51,8 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   postToDelete: Post|null = null;
   draftsOpen: boolean = false;
   drafts$: Observable<Draft[]> = of([])
+  fight: Fight|null = null;
+  fightOpen: boolean = false;
 
 
   constructor(private episodeService: EpisodeService,
@@ -228,5 +231,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
           true
       ))
     })
+  }
+
+  toggleFight() {
+
   }
 }
