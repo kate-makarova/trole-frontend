@@ -21,3 +21,10 @@
     border: 1px solid #881288;
     border-radius: 3px;
 }
+
+.fight-mob-card {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 3px;
+}

@@ -56,12 +56,29 @@
                         <h5>{{ character.characterName }}</h5>
                         <h6>{{ character.characterClass }} {{ character.level }}</h6>
                         <div class="hp-bar">
-                            <div style="width: {{ Math.ceil(character.currentHealth / character.totalHealth * 100) }}%"
+                            <div style="width: {{ Math.floor(character.currentHealth / character.totalHealth * 100) }}%"
                                  class="hp-fill">{{ character.currentHealth }} / {{ character.totalHealth }}
                             </div>
                         </div>
                     </div>
                 </div>
+                </div>
+            <div *ngIf="fight != null" id="fight-mobs" style="display: flex; gap: 1em; margin-top: 20px">
+                <div *ngFor="let mob of fight.mobs" class="fight-mob-card card">
+                    <div class="card-section">
+                        <h5>{{ mob.mobName }}</h5>
+                        <h6>{{ mob.mobClass }} {{ mob.level }}</h6>
+                        <div class="hp-bar">
+                            <div style="width: {{ Math.ceil(mob.currentHealth / mob.totalHealth * 100) }}%"
+                                 class="hp-fill">{{ mob.currentHealth }} / {{ mob.totalHealth }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="currentFightLogEntry">
+                <h5>Your current turn</h5>
+                {{ currentFightLogEntry.text }}
             </div>
         </div>
 

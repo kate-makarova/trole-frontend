@@ -19,6 +19,8 @@ import {Draft} from "../../entities/Draft";
 import {Character} from "../../entities/Character";
 import {Fight} from "../../entities/Fight";
 import {FightCharacter} from "../../entities/FightCharacter";
+import {FightMob} from "../../entities/FightMob";
+import {FightLogEntry} from "../../entities/FightLogEntry";
 
 @Component({
   selector: 'app-episode',
@@ -54,7 +56,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   drafts$: Observable<Draft[]> = of([])
   fight: Fight|null = null;
   fightOpen: boolean = false;
-
+  currentFightLogEntry: FightLogEntry | null = null;
 
   constructor(private episodeService: EpisodeService,
               private postService: PostService,
@@ -68,8 +70,15 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     this.fight = new Fight([
         new FightCharacter(1, 'Raphael', 666, 500, 'Bard', 12, false),
         new FightCharacter(2, 'Antilia', 300, 278, 'Bard', 14, false),
-        new FightCharacter(3, 'Mephistopheles', 500, 450, 'Bard', 20, false)
-    ])
+        new FightCharacter(3, 'Mephistopheles', 450, 550, 'Bard', 20, false)
+    ],
+        [
+          new FightMob(1, 'Angel Splendid', 500, 100, 'Paladin', 12, false),
+          new FightMob(2, 'Angel Righteous', 500, 0, 'Paladin', 12, true),
+          new FightMob(3, 'Angel Virtuous', 500, 500, 'Paladin', 12, false)
+        ])
+
+    this.currentFightLogEntry = new FightLogEntry(0, "Angel Splendid is hit with Vicious Mockery for 20hp")
   }
 
   getMyCharacters() {
@@ -203,7 +212,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     this.isEditorOpen = !this.isEditorOpen
     if(this.isEditorOpen) {
       this.episodeContentStyle = 'margin-right: min(48%, 820px);'
-      this.postEditorStyle = 'width: 48%; max-width: 820px; float: right'
+      this.postEditorStyle = 'max-width: 820px; float: right'
       this.editorButtonText = 'Close Editor'
     } else {
       this.episodeContentStyle = 'width: 100%'
