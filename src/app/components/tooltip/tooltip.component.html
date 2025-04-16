@@ -2,7 +2,12 @@
      [style.top.px]="top"
      [style.visibility]="visible"
      class="tooltip"
-     [innerHTML]="content">
+>
+    <!-- Static string content -->
+    <ng-container *ngIf="!contentComponent">
+        <div [innerHTML]="content"></div>
+    </ng-container>
+
     <ng-container *ngIf="ready && contentComponent">
         <ng-container *ngComponentOutlet="contentComponent; inputs: componentInputs"></ng-container>
     </ng-container>

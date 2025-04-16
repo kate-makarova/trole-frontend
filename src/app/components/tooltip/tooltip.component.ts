@@ -31,9 +31,9 @@ export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.cdr.detectChanges(); // 👈 This forces Angular to update the view
     this.target.addEventListener('mouseenter', this.onMouseEnter);
     this.target.addEventListener('mouseleave', this.onMouseLeave);
-    this.cdr.detectChanges(); // 👈 This forces Angular to update the view
   }
 
   ngOnDestroy() {
