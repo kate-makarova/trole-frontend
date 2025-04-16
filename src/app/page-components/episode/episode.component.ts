@@ -24,6 +24,7 @@ import {FightLogEntry} from "../../entities/FightLogEntry";
 import {FightLogEntryComponent} from "../../components/fight-log-entry/fight-log-entry.component";
 import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
 import {FightComponent} from "../../components/fight/fight.component";
+import {Skill} from "../../entities/Skill";
 
 @Component({
   selector: 'app-episode',
@@ -83,7 +84,16 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
           new FightMob(3, 'Angel Virtuous', 500, 500, 'Paladin', 12, false)
         ],
         1, 1,
-        [],
+        [
+            new Skill(1, 'Fireball', 'A ball of fire', 'Magic attack', 'Fire', 5, 6, 1, 1,
+                '/assets/dice-icons-set-1/burning-dot.svg'),
+          new Skill(2, 'Fire Breath', 'Too much hot food', 'Magic attack', 'Fire', 5, 6, 1, 1,
+              '/assets/dice-icons-set-1/dragon-breath.svg'),
+          new Skill(3, 'Flaming Claws', 'Devil claws, baby', 'Magic attack', 'Fire', 5, 6, 1, 1,
+              '/assets/dice-icons-set-1/flaming-claw.svg'),
+          new Skill(4, 'Flaming Trident', "Mephistopheles's favourite", 'Magic attack', 'Fire', 5, 6, 1, 1,
+              '/assets/dice-icons-set-1/flaming-trident.svg'),
+        ],
         new FightLogEntry(0, [
           new FightLogEntryLine(
               new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),

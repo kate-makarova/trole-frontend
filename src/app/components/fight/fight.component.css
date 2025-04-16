@@ -34,3 +34,10 @@
     padding: 10px;
     background: #282828;
 }
+
+.skill-icon {
+    height: 60px;
+    width: 60px;
+    border: 2px #ccc double;
+    border-radius: 4px;
+}

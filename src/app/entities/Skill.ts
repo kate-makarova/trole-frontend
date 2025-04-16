@@ -8,6 +8,7 @@ export class Skill {
     diceType: number;
     actionPointType: number;
     actionPointTypeCost: number;
+    icon: string;
 
     constructor(
         id: number,
@@ -18,7 +19,8 @@ export class Skill {
         baseDamage: number,
         diceType: number,
         actionPointType: number,
-        actionPointTypeCost: number
+        actionPointTypeCost: number,
+        icon: string
     ) {
         this.id = id;
         this.name = name;
@@ -29,5 +31,6 @@ export class Skill {
         this.diceType = diceType;
         this.actionPointType = actionPointType;
         this.actionPointTypeCost = actionPointTypeCost;
+        this.icon = icon
     }
 }
