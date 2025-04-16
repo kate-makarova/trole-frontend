@@ -1,28 +1,39 @@
 import {
-  AfterViewInit,
-  Component, ElementRef,
-  Input, OnDestroy,
+  AfterViewInit, ChangeDetectorRef,
+  Component, ElementRef, Injector,
+  Input, OnDestroy, OnInit, Type,
 } from '@angular/core';
+import {NgComponentOutlet, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-tooltip',
   imports: [
+    NgComponentOutlet,
+    NgIf
   ],
   templateUrl: './tooltip.component.html',
   styleUrl: './tooltip.component.css'
 })
-export class TooltipComponent implements AfterViewInit, OnDestroy {
+export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() target!: HTMLElement;
   @Input('content') content: string = '';
+  @Input() contentComponent!: any; // Component class
+  @Input() componentInputs: Record<string, any> = {};
   visible: string = 'hidden';
   top: number = 0;
   left: number = 0;
+  ready: boolean = false;
 
-  constructor(private elRef: ElementRef) {
+  constructor(private elRef: ElementRef, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.ready = true;
   }
+
   ngAfterViewInit() {
     this.target.addEventListener('mouseenter', this.onMouseEnter);
     this.target.addEventListener('mouseleave', this.onMouseLeave);
+    this.cdr.detectChanges(); // 👈 This forces Angular to update the view
   }
 
   ngOnDestroy() {
@@ -33,10 +44,12 @@ export class TooltipComponent implements AfterViewInit, OnDestroy {
   onMouseEnter = () => {
     this.setPosition()
     this.visible = 'visible';
+    this.cdr.detectChanges();
   };
 
   onMouseLeave = () => {
    this.visible = 'hidden';
+    this.cdr.detectChanges();
   };
 
   setPosition() {

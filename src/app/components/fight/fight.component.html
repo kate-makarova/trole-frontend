@@ -31,7 +31,9 @@
         <div style="display: flex; gap: 1em; margin-top: 20px">
             <div *ngFor="let skill of fight.skills" class="skill-icon">
                 <img #imgRef [src]="skill.icon" alt="{{skill.name}}"/>
-                <app-tooltip [target]="imgRef" content="{{skill.description}}"></app-tooltip>
+                <app-tooltip [target]="imgRef"
+                             [contentComponent]="SkillCardComponent"
+                             [componentInputs]="{ skill: skill }"></app-tooltip>
             </div>
         </div>
 

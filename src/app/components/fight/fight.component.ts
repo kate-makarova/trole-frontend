@@ -1,9 +1,11 @@
-import {Component, Input, input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Fight} from "../../entities/Fight";
 import {FightLogEntryComponent} from "../fight-log-entry/fight-log-entry.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {SessionService} from "../../services/session/session.service";
 import {TooltipComponent} from "../tooltip/tooltip.component";
+import {SkillCardComponent} from "../skill-card/skill-card.component";
+import {Skill} from "../../entities/Skill";
 
 @Component({
   selector: 'app-fight',
@@ -26,4 +28,10 @@ export class FightComponent {
       this.usersTurn = true;
     }
   }
+
+  getSkillCard(skill: Skill) {
+    return SkillCardComponent;
+  }
+
+  protected readonly SkillCardComponent = SkillCardComponent;
 }

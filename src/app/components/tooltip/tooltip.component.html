@@ -3,4 +3,7 @@
      [style.visibility]="visible"
      class="tooltip"
      [innerHTML]="content">
+    <ng-container *ngIf="ready && contentComponent">
+        <ng-container *ngComponentOutlet="contentComponent; inputs: componentInputs"></ng-container>
+    </ng-container>
 </div>
