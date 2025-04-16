@@ -23,6 +23,7 @@ import {FightMob} from "../../entities/FightMob";
 import {FightLogEntry} from "../../entities/FightLogEntry";
 import {FightLogEntryComponent} from "../../components/fight-log-entry/fight-log-entry.component";
 import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
+import {FightComponent} from "../../components/fight/fight.component";
 
 @Component({
   selector: 'app-episode',
@@ -38,6 +39,7 @@ import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
     PaginationComponent,
     DatePipe,
     FightLogEntryComponent,
+    FightComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -79,7 +81,20 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
           new FightMob(1, 'Angel Splendid', 500, 100, 'Paladin', 12, false),
           new FightMob(2, 'Angel Righteous', 500, 0, 'Paladin', 12, true),
           new FightMob(3, 'Angel Virtuous', 500, 500, 'Paladin', 12, false)
+        ],
+        1, 1,
+        [],
+        new FightLogEntry(0, [
+          new FightLogEntryLine(
+              new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),
+              new FightMob(1, 'Angel', 500, 200, 'Paladin', 11, false),
+              'hits',
+              'psychic',
+              20,
+              'Vicious Mockery'
+          )
         ])
+        )
 
     this.currentFightLogEntry = new FightLogEntry(0, [
       new FightLogEntryLine(

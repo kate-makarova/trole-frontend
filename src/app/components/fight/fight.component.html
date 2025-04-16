@@ -1,1 +1,32 @@
-<p>fight works!</p>
+<ng-container *ngIf="fight != null">
+    <div id="fight-characters" style="display: flex; gap: 1em">
+        <div *ngFor="let character of fight.characters" class="fight-character-card card">
+            <div class="card-section">
+                <h5>{{ character.name }}</h5>
+                <h6>{{ character.characterClass }} {{ character.level }}</h6>
+                <div class="hp-bar">
+                    <div style="width: {{ Math.floor(character.currentHealth / character.totalHealth * 100) }}%"
+                         class="hp-fill">{{ character.currentHealth }} / {{ character.totalHealth }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="fight != null" id="fight-mobs" style="display: flex; gap: 1em; margin-top: 20px">
+        <div *ngFor="let mob of fight.mobs" class="fight-mob-card card">
+            <div class="card-section">
+                <h5>{{ mob.name }}</h5>
+                <h6>{{ mob.mobClass }} {{ mob.level }}</h6>
+                <div class="hp-bar">
+                    <div style="width: {{ Math.ceil(mob.currentHealth / mob.totalHealth * 100) }}%"
+                         class="hp-fill">{{ mob.currentHealth }} / {{ mob.totalHealth }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="fight.currentFightLogEntry !== null" id="current-turn">
+        <h5>Your current turn</h5>
+        <app-fight-log-entry [entry]="fight.currentFightLogEntry"></app-fight-log-entry>
+    </div>
+</ng-container>
