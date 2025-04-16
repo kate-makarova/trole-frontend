@@ -1,9 +1,11 @@
+import {FightLogEntryLine} from "./FightLogEntryLine";
+
 export class FightLogEntry{
     afterPost: number;
-    text: string;
+    lines: FightLogEntryLine[] = []
 
-    constructor(afterPost: number, text: string) {
+    constructor(afterPost: number, lines: FightLogEntryLine[] = []) {
         this.afterPost = afterPost;
-        this.text = text;
+        this.lines = lines;
     }
 }

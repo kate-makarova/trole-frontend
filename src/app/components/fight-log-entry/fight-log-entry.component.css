@@ -1,0 +1,20 @@
+.fightcharacter {
+    color: #881288;
+    font-weight: bold;
+}
+
+.fightmob {
+    font-weight: bold;
+}
+
+.damage.radiant {
+    color: darkgoldenrod
+}
+
+.damage.psychic {
+    color: violet
+}
+
+.damage.fire {
+    color: orangered
+}

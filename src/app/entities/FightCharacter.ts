@@ -1,6 +1,6 @@
 export class FightCharacter {
     characterId: number;
-    characterName: string;
+    name: string;
     totalHealth: number;
     currentHealth: number;
     characterClass: string;
@@ -9,7 +9,7 @@ export class FightCharacter {
 
     constructor (
         characterId: number,
-    characterName: string,
+    name: string,
     totalHealth: number,
     currentHealth: number,
     characterClass: string,
@@ -17,7 +17,7 @@ export class FightCharacter {
     isDown: boolean = false
     ) {
     this.characterId = characterId;
-    this.characterName = characterName;
+    this.name = name;
     this.totalHealth = totalHealth;
     this.currentHealth = currentHealth;
     this.characterClass = characterClass;

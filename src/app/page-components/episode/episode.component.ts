@@ -21,6 +21,8 @@ import {Fight} from "../../entities/Fight";
 import {FightCharacter} from "../../entities/FightCharacter";
 import {FightMob} from "../../entities/FightMob";
 import {FightLogEntry} from "../../entities/FightLogEntry";
+import {FightLogEntryComponent} from "../../components/fight-log-entry/fight-log-entry.component";
+import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
 
 @Component({
   selector: 'app-episode',
@@ -35,6 +37,7 @@ import {FightLogEntry} from "../../entities/FightLogEntry";
     SafeHtmlPipe,
     PaginationComponent,
     DatePipe,
+    FightLogEntryComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -78,7 +81,16 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
           new FightMob(3, 'Angel Virtuous', 500, 500, 'Paladin', 12, false)
         ])
 
-    this.currentFightLogEntry = new FightLogEntry(0, "Angel Splendid is hit with Vicious Mockery for 20hp")
+    this.currentFightLogEntry = new FightLogEntry(0, [
+      new FightLogEntryLine(
+          new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),
+          new FightMob(1, 'Angel', 500, 200, 'Paladin', 11, false),
+          'hits',
+          'psychic',
+          20,
+          'Vicious Mockery'
+      )
+    ])
   }
 
   getMyCharacters() {

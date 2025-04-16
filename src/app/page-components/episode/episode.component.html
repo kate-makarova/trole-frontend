@@ -53,7 +53,7 @@
             <div *ngIf="fight != null" id="fight-characters" style="display: flex; gap: 1em">
                 <div *ngFor="let character of fight.characters" class="fight-character-card card">
                     <div class="card-section">
-                        <h5>{{ character.characterName }}</h5>
+                        <h5>{{ character.name }}</h5>
                         <h6>{{ character.characterClass }} {{ character.level }}</h6>
                         <div class="hp-bar">
                             <div style="width: {{ Math.floor(character.currentHealth / character.totalHealth * 100) }}%"
@@ -66,7 +66,7 @@
             <div *ngIf="fight != null" id="fight-mobs" style="display: flex; gap: 1em; margin-top: 20px">
                 <div *ngFor="let mob of fight.mobs" class="fight-mob-card card">
                     <div class="card-section">
-                        <h5>{{ mob.mobName }}</h5>
+                        <h5>{{ mob.name }}</h5>
                         <h6>{{ mob.mobClass }} {{ mob.level }}</h6>
                         <div class="hp-bar">
                             <div style="width: {{ Math.ceil(mob.currentHealth / mob.totalHealth * 100) }}%"
@@ -78,20 +78,7 @@
             </div>
             <div *ngIf="currentFightLogEntry" id="current-turn">
                 <h5>Your current turn</h5>
-                <ul>
-                    <li> <span style="color: #881288"><b>Antillia</b></span> hits <b>Angel Virtuous</b> with <a><b>Vicious Mockery</b></a>
-                        <span style="font-style: italic"> [Dealt <span style="color: violet">Psychic damage</span> 20].</span>
-                    </li>
-                    <li> <b>Angel Virtuous</b> reflects damage at <span style="color: #881288"><b>Antillia</b></span> with <a><b>Heavenly Vengeance</b></a>
-                        <span style="font-style: italic"> [Dealt <span style="color: darkgoldenrod">Radiant damage</span> 5].</span>
-                    </li>
-                    <li> <span style="color: #881288"><b>Antillia</b></span> hits <b>Angel Virtuous</b> with <a><b>Fireball</b></a>
-                        <span style="font-style: italic"> [Dealt <span style="color: orangered">Fire damage</span> 10].</span>
-                    </li>
-                    <li> <span style="color: #881288"><b>Antillia</b></span> hits <b>Angel Splendid</b> with <a><b>Fireball</b></a>
-                        <span style="font-style: italic"> [Dealt <span style="color: orangered">Fire damage</span> 8].</span>
-                    </li>
-                </ul>
+                <app-fight-log-entry></app-fight-log-entry>
             </div>
         </div>
 
@@ -158,7 +145,7 @@
             </div>
 
             <div class="row column" *ngIf="post.fightLogEntry">
-                {{ post.fightLogEntry.text }}
+                ---
             </div>
         </ng-container>
 

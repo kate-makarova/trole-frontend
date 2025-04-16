@@ -1,0 +1,15 @@
+<ul *ngIf="entry !== null">
+    <li *ngFor="let line of entry.lines">
+        <span [class]="{
+        fightcharacter: line.attacker_is_character,
+        fightmob: !line.attacker_is_character
+        }">{{line.attacker.name}}</span> {{line.action}}
+        <span [class]="{
+        fightcharacter: line.target_is_character,
+        fightmob: !line.target_is_character
+        }">{{line.target.name}}</span> with
+        <a><b>{{line.skill}}</b></a>
+        <span style="font-style: italic">
+            [Dealt <span class="damage" [class]="line.damageType">{{line.damageType}} damage</span> {{line.damageValue}}].</span>
+    </li>
+</ul>
