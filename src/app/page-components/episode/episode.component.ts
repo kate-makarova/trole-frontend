@@ -39,7 +39,6 @@ import {Skill} from "../../entities/Skill";
     SafeHtmlPipe,
     PaginationComponent,
     DatePipe,
-    FightLogEntryComponent,
     FightComponent,
   ],
   templateUrl: './episode.component.html',

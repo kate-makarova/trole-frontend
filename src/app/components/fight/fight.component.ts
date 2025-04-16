@@ -1,9 +1,9 @@
 import {Component, Input, input} from '@angular/core';
 import {Fight} from "../../entities/Fight";
-import {FightLogEntry} from "../../entities/FightLogEntry";
 import {FightLogEntryComponent} from "../fight-log-entry/fight-log-entry.component";
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {SessionService} from "../../services/session/session.service";
+import {TooltipComponent} from "../tooltip/tooltip.component";
 
 @Component({
   selector: 'app-fight',
@@ -11,7 +11,7 @@ import {SessionService} from "../../services/session/session.service";
     FightLogEntryComponent,
     NgForOf,
     NgIf,
-    NgOptimizedImage
+    TooltipComponent,
   ],
   templateUrl: './fight.component.html',
   styleUrl: './fight.component.css'

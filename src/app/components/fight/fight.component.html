@@ -29,7 +29,10 @@
 
     <ng-container *ngIf="usersTurn">
         <div style="display: flex; gap: 1em; margin-top: 20px">
-            <div *ngFor="let skill of fight.skills" class="skill-icon"><img [src]="skill.icon" alt="{{skill.name}}"/></div>
+            <div *ngFor="let skill of fight.skills" class="skill-icon">
+                <img #imgRef [src]="skill.icon" alt="{{skill.name}}"/>
+                <app-tooltip [target]="imgRef" content="{{skill.description}}"></app-tooltip>
+            </div>
         </div>
 
         <div style="display: flex; gap: 1em; margin-top: 20px">
