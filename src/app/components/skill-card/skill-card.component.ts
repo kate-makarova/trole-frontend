@@ -1,4 +1,4 @@
-import {Component, Input, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Skill} from "../../entities/Skill";
 import {NgIf} from "@angular/common";
 
@@ -12,9 +12,5 @@ import {NgIf} from "@angular/common";
 })
 export class SkillCardComponent {
   @Input() skill: Skill | undefined;
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('Skill input changed:', changes);
-  }
 }
 
