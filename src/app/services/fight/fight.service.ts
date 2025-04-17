@@ -10,6 +10,7 @@ import {FightCharacter} from "../../entities/FightCharacter";
 import {FightMob} from "../../entities/FightMob";
 import {Skill} from "../../entities/Skill";
 import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
+import {FightAction} from "../../entities/FightAction";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class FightService extends APIService {
           new Skill(4, 'Flaming Trident', "Mephistopheles's favourite", 'Magic attack', 'Fire', 5, 6, 1, 1,
               '/assets/dice-icons-set-1/flaming-trident.svg'),
         ],
-        new FightLogEntry(0, [
+        new FightLogEntry(1, 0, [
           new FightLogEntryLine(
               new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),
               new FightMob(1, 'Angel', 500, 200, 'Paladin', 11, false),
@@ -56,10 +57,18 @@ export class FightService extends APIService {
    // return this.getData<Fight>('/fight/'+id)
   }
 
+  loadFightLogEntry(id: number): Observable<FightLogEntry> {
+    return this.getData<FightLogEntry>('/fight-log-entry/'+id)
+  }
+
+  sendAction(entryId: number, action: FightAction): Observable<FightLogEntry> {
+    return this.postData<FightLogEntry>('/fight-log-entry/add-line', {entry_id: entryId, action: action})
+  }
+
   loadFightLogEntries(id: number): Observable<FightLogEntry[]> {
   //  return this.getData<FightLogEntry[]>('/fight-log-entry/list/'+id)
 
-    return of(    [new FightLogEntry(8, [
+    return of(    [new FightLogEntry(1, 8, [
       new FightLogEntryLine(
           new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),
           new FightMob(1, 'Angel', 500, 200, 'Paladin', 11, false),

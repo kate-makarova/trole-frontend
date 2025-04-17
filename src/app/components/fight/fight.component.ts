@@ -5,6 +5,10 @@ import {NgForOf, NgIf} from "@angular/common";
 import {SessionService} from "../../services/session/session.service";
 import {TooltipComponent} from "../tooltip/tooltip.component";
 import {SkillCardComponent} from "../skill-card/skill-card.component";
+import {FightAction} from "../../entities/FightAction";
+import {FightService} from "../../services/fight/fight.service";
+import {Observable, of, shareReplay} from "rxjs";
+import {FightLogEntry} from "../../entities/FightLogEntry";
 
 @Component({
   selector: 'app-fight',
@@ -23,10 +27,12 @@ export class FightComponent {
   usersTurn: boolean = true;
   chosenSkillId: number = 0;
   chosenMobId: number = 0;
+  currentEntry$: Observable<FightLogEntry|null> = of(null)
 
-  constructor(private sessionService: SessionService) {
-    if(this.fight?.activeUserId == this.sessionService.getUser()?.id) {
+  constructor(private sessionService: SessionService, private fightService: FightService) {
+    if(this.fight && this.fight.activeUserId == this.sessionService.getUser()?.id) {
       this.usersTurn = true;
+      this.currentEntry$ = of(this.fight.currentFightLogEntry)
     }
   }
 
@@ -52,5 +58,11 @@ export class FightComponent {
     } else {
       this.chosenMobId = mobId;
     }
+  }
+
+  sendLine() {
+    if (this.fight == null || this.fight.currentFightLogEntry == null) {return}
+    const action = new FightAction(this.fight.activeCharacterId, this.chosenSkillId, this.chosenMobId)
+    this.currentEntry$ = this.fightService.sendAction(this.fight.currentFightLogEntry.id, action).pipe(shareReplay(1))
   }
 }
