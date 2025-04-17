@@ -5,7 +5,6 @@ import {NgForOf, NgIf} from "@angular/common";
 import {SessionService} from "../../services/session/session.service";
 import {TooltipComponent} from "../tooltip/tooltip.component";
 import {SkillCardComponent} from "../skill-card/skill-card.component";
-import {Skill} from "../../entities/Skill";
 
 @Component({
   selector: 'app-fight',
@@ -23,7 +22,6 @@ export class FightComponent {
   protected readonly Math = Math;
   usersTurn: boolean = true;
   chosenSkillId: number = 0;
-  chosenTargetId: number = 0;
   chosenMobId: number = 0;
 
   constructor(private sessionService: SessionService) {

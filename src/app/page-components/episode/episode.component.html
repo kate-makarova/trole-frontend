@@ -42,7 +42,7 @@
                 <a class="button hollow expanded" (click)="toggleDrafts()">Drafts</a>
             </div>
             <div class="large-3 column">
-                <a *ngIf="fight" class="button hollow expanded alert" (click)="toggleFight()">⚔️ Fight</a>
+                <a *ngIf="(fight$|async)" class="button hollow expanded alert" (click)="toggleFight()">⚔️ Fight</a>
             </div>
             <div class="large-3 column">
                 <!--          <a class="button hollow expanded success disabled" href="#">Chat room</a>-->
@@ -50,7 +50,7 @@
         </div>
 
         <div *ngIf="fightOpen" id="fight" class="row" style="padding: 10px">
-            <app-fight [fight]="fight"></app-fight>
+            <app-fight [fight]="(fight$|async)"></app-fight>
         </div>
 
         <div *ngIf="episode.is_mine && draftsOpen" id="drafts" class="row">
@@ -115,10 +115,15 @@
                 </div>
             </div>
 
-            <div class="row column" *ngIf="post.fightLogEntry">
-                ---
-            </div>
+            <ng-container *ngIf="logEntryDict$ | async as logEntryDict">
+                <div class="row column" *ngIf="logEntryDict[post.id]">
+                    <app-fight-log-entry [entry]="logEntryDict[post.id]"></app-fight-log-entry>
+                </div>
+            </ng-container>
+
         </ng-container>
+
+
 
         <div [style]="postEditorStyle" id="post-editor">
             <app-post-editor

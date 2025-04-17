@@ -25,6 +25,7 @@ import {FightLogEntryComponent} from "../../components/fight-log-entry/fight-log
 import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
 import {FightComponent} from "../../components/fight/fight.component";
 import {Skill} from "../../entities/Skill";
+import {FightService} from "../../services/fight/fight.service";
 
 @Component({
   selector: 'app-episode',
@@ -40,6 +41,7 @@ import {Skill} from "../../entities/Skill";
     PaginationComponent,
     DatePipe,
     FightComponent,
+    FightLogEntryComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -59,9 +61,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   postToDelete: Post|null = null;
   draftsOpen: boolean = false;
   drafts$: Observable<Draft[]> = of([])
-  fight: Fight|null = null;
+  fight$: Observable<Fight|null> = of(null);
   fightOpen: boolean = false;
-  currentFightLogEntry: FightLogEntry | null = null;
+  logEntryDict$: Observable<any> = of({})
 
   constructor(private episodeService: EpisodeService,
               private postService: PostService,
@@ -69,52 +71,9 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
               private titleService: Title,
               private breadcrumbsService: BreadcrumbsService,
               private viewportScroller: ViewportScroller,
-              private draftService: DraftService
+              private draftService: DraftService,
+              private fightService: FightService
               ) {
-
-    this.fight = new Fight([
-        new FightCharacter(1, 'Raphael', 666, 500, 'Bard', 12, false),
-        new FightCharacter(2, 'Antilia', 300, 278, 'Bard', 14, false),
-        new FightCharacter(3, 'Mephistopheles', 450, 550, 'Bard', 20, false)
-    ],
-        [
-          new FightMob(1, 'Angel Splendid', 500, 100, 'Paladin', 12, false),
-          new FightMob(2, 'Angel Righteous', 500, 0, 'Paladin', 12, true),
-          new FightMob(3, 'Angel Virtuous', 500, 500, 'Paladin', 12, false)
-        ],
-        1, 1,
-        [
-            new Skill(1, 'Fireball', 'A ball of fire', 'Magic attack', 'Fire', 5, 6, 1, 1,
-                '/assets/dice-icons-set-1/burning-dot.svg'),
-          new Skill(2, 'Fire Breath', 'Too much hot food', 'Magic attack', 'Fire', 5, 6, 1, 1,
-              '/assets/dice-icons-set-1/dragon-breath.svg'),
-          new Skill(3, 'Flaming Claws', 'Devil claws, baby', 'Magic attack', 'Fire', 5, 6, 1, 1,
-              '/assets/dice-icons-set-1/flaming-claw.svg'),
-          new Skill(4, 'Flaming Trident', "Mephistopheles's favourite", 'Magic attack', 'Fire', 5, 6, 1, 1,
-              '/assets/dice-icons-set-1/flaming-trident.svg'),
-        ],
-        new FightLogEntry(0, [
-          new FightLogEntryLine(
-              new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),
-              new FightMob(1, 'Angel', 500, 200, 'Paladin', 11, false),
-              'hits',
-              'psychic',
-              20,
-              'Vicious Mockery'
-          )
-        ])
-        )
-
-    this.currentFightLogEntry = new FightLogEntry(0, [
-      new FightLogEntryLine(
-          new FightCharacter(1, 'Antilia', 400, 300, 'Bard', 14, false),
-          new FightMob(1, 'Angel', 500, 200, 'Paladin', 11, false),
-          'hits',
-          'psychic',
-          20,
-          'Vicious Mockery'
-      )
-    ])
   }
 
   getMyCharacters() {
@@ -170,6 +129,14 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
     this.postService.loadList(this.episodeId, this.pageNumber)
     this.posts$ = this.postService.getList().pipe(shareReplay(1));
     this.drafts$ = this.draftService.getList().pipe(shareReplay(1));
+    this.fight$ = this.fightService.loadFight(this.episodeId).pipe(shareReplay(1))
+
+    this.fight$.subscribe((fight: Fight|null) => {
+      if(fight == null) {
+        return;
+      }
+      this.logEntryDict$ = this.fightService.loadFightLogEntriesAsDict(this.episodeId).pipe(shareReplay(1))
+    })
   }
 
   ngAfterViewInit(): void {
