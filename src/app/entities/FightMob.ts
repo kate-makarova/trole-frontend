@@ -1,5 +1,5 @@
 export class FightMob {
-    mobId: number;
+    id: number;
     name: string;
     totalHealth: number;
     currentHealth: number;
@@ -8,7 +8,7 @@ export class FightMob {
     isDown: boolean;
 
     constructor (
-        mobId: number,
+        id: number,
         name: string,
         totalHealth: number,
         currentHealth: number,
@@ -16,7 +16,7 @@ export class FightMob {
         level: number,
         isDown: boolean = false
     ) {
-        this.mobId = mobId;
+        this.id = id;
         this.name = name;
         this.totalHealth = totalHealth;
         this.currentHealth = currentHealth;

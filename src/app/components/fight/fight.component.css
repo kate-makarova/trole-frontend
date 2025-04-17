@@ -24,9 +24,12 @@
 
 .fight-mob-card {
     width: 200px;
-    padding: 10px;
-    border: 1px solid red;
+    border: 1px #5e0000 solid;
     border-radius: 3px;
+}
+
+.fight-mob-card .card-section {
+    padding: 10px;
 }
 
 #current-turn {
@@ -40,4 +43,8 @@
     width: 60px;
     border: 2px #ccc double;
     border-radius: 4px;
+}
+
+.chosenSkill, .chosenMob {
+    border: 1px red solid;
 }

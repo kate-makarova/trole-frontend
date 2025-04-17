@@ -15,6 +15,7 @@
 
     <div id="fight-mobs" style="display: flex; gap: 1em; margin-top: 20px">
         <div *ngFor="let mob of fight.mobs" class="fight-mob-card card">
+            <div #mobRef [class]="{chosenMob: chosenMobId == mob.id}"  (click)="chooseMob(mob.id, mobRef)">
             <div class="card-section">
                 <h5>{{ mob.name }}</h5>
                 <h6>{{ mob.mobClass }} {{ mob.level }}</h6>
@@ -23,6 +24,7 @@
                          class="hp-fill">{{ mob.currentHealth }} / {{ mob.totalHealth }}
                     </div>
                 </div>
+                </div>
             </div>
         </div>
     </div>
@@ -30,15 +32,23 @@
     <ng-container *ngIf="usersTurn">
         <div style="display: flex; gap: 1em; margin-top: 20px">
             <div *ngFor="let skill of fight.skills" class="skill-icon">
-                <img #imgRef [src]="skill.icon" alt="{{skill.name}}"/>
+                <img #imgRef
+                     [src]="skill.icon"
+                     alt="{{skill.name}}"
+                     (click)="chooseSkill(skill.id, imgRef)"
+                     [class]="{chosenSkill: chosenSkillId == skill.id}"
+                />
                 <app-tooltip [target]="imgRef"
                              [contentComponent]="SkillCardComponent"
                              [componentInputs]="{ skill: skill }"></app-tooltip>
             </div>
+            <div class="skill-icon">
+                <button class="button primary expand" style="height: 56px">Fire</button>
+            </div>
         </div>
 
         <div style="display: flex; gap: 1em; margin-top: 20px">
-            <div>You have 16/16 action points left.</div>
+            <div>You have 14/16 action points left.</div>
             <div>
                 <button class="button button-primary large">End Turn</button>
             </div>

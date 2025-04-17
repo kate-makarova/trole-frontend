@@ -1,7 +1,7 @@
 import {
   AfterViewInit, ChangeDetectorRef,
-  Component, ElementRef, Injector,
-  Input, OnDestroy, OnInit, Type,
+  Component, ElementRef,
+  Input, OnDestroy, OnInit,
 } from '@angular/core';
 import {NgComponentOutlet, NgIf} from "@angular/common";
 

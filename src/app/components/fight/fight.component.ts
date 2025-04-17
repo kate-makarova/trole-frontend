@@ -22,6 +22,9 @@ export class FightComponent {
   @Input('fight') fight: Fight|null = null;
   protected readonly Math = Math;
   usersTurn: boolean = true;
+  chosenSkillId: number = 0;
+  chosenTargetId: number = 0;
+  chosenMobId: number = 0;
 
   constructor(private sessionService: SessionService) {
     if(this.fight?.activeUserId == this.sessionService.getUser()?.id) {
@@ -29,9 +32,27 @@ export class FightComponent {
     }
   }
 
-  getSkillCard(skill: Skill) {
-    return SkillCardComponent;
+  protected readonly SkillCardComponent = SkillCardComponent;
+
+  chooseSkill(skillId: number, imgRef: HTMLImageElement) {
+    if(!this.usersTurn) {
+      return;
+    }
+    if(this.chosenSkillId == skillId) {
+      this.chosenSkillId = 0;
+    } else {
+      this.chosenSkillId = skillId;
+    }
   }
 
-  protected readonly SkillCardComponent = SkillCardComponent;
+  chooseMob(mobId: number, mobRef: HTMLDivElement) {
+    if(!this.usersTurn) {
+      return;
+    }
+    if(this.chosenMobId == mobId) {
+      this.chosenMobId = 0;
+    } else {
+      this.chosenMobId = mobId;
+    }
+  }
 }
