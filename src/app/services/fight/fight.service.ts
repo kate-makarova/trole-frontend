@@ -21,7 +21,10 @@ export class FightService extends APIService {
     super(http, sessionService, router);
   }
 
-  loadFight(id: number): Observable<Fight> {
+  loadFight(id: number): Observable<Fight|null> {
+      if(id != 7) {
+          return of(null);
+      }
     return of(new Fight([
           new FightCharacter(1, 'Raphael', 666, 500, 'Bard', 12, false),
           new FightCharacter(2, 'Antilia', 300, 278, 'Bard', 14, false),
