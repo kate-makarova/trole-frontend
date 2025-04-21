@@ -34,8 +34,8 @@
 
 #current-turn {
     margin-top: 10px;
-    padding: 10px;
-    background: #282828;
+    padding: 10px 10px 10px 30px;
+    background: #e8e8e8;
 }
 
 .skill-icon {
