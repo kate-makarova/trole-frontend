@@ -1,3 +1,7 @@
+#site-logo {
+    filter: invert();
+}
+
 .slide-in-down.mui-enter {
     transition-duration: .5s;
     transition-timing-function: linear;

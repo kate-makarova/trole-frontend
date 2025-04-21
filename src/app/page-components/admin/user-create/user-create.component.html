@@ -1,7 +1,7 @@
 <div class="row" *ngIf="this.sessionService.getUser()?.is_admin; else noAccess">
   <app-admin-nav [tabId]="gameSettingsTabId"></app-admin-nav>
   <h3 class="text-center">Add User</h3>
-  <app-register-form></app-register-form>
+  <app-register-form [page]="'admin'"></app-register-form>
 </div>
 
 

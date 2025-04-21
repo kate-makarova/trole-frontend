@@ -33,6 +33,18 @@ export class SessionService {
     this.initialized.next(true);
   }
 
+  updateSession(user: User, accessToken: string, refreshToken: string) {
+    this.user = user;
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.initialized.next(true);
+    localStorage.setItem("session", JSON.stringify({
+      "user": this.user,
+      "accessToken": this.accessToken,
+      "refreshToken": this.refreshToken
+    }))
+  }
+
   getUser(): User|null {
     return this.user;
   }
