@@ -33,7 +33,6 @@ export class GameComponent implements OnInit {
   gameId: number = 0;
   topButtons: TopButton[] = []
   leaveAlert: boolean = false;
-
   errorCode: Observable<number>;
 
   constructor(

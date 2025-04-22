@@ -26,6 +26,7 @@ import {FightLogEntryLine} from "../../entities/FightLogEntryLine";
 import {FightComponent} from "../../components/fight/fight.component";
 import {Skill} from "../../entities/Skill";
 import {FightService} from "../../services/fight/fight.service";
+import {HttpErrorsComponent} from "../../components/http-errors/http-errors.component";
 
 @Component({
   selector: 'app-episode',
@@ -42,6 +43,7 @@ import {FightService} from "../../services/fight/fight.service";
     DatePipe,
     FightComponent,
     FightLogEntryComponent,
+    HttpErrorsComponent,
   ],
   templateUrl: './episode.component.html',
   styleUrl: './episode.component.css',
@@ -64,6 +66,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
   fight$: Observable<Fight|null> = of(null);
   fightOpen: boolean = false;
   logEntryDict$: Observable<any> = of({})
+  errorCode: Observable<number>;
 
   constructor(private episodeService: EpisodeService,
               private postService: PostService,
@@ -74,6 +77,7 @@ export class EpisodeComponent implements OnInit, AfterViewInit {
               private draftService: DraftService,
               private fightService: FightService
               ) {
+    this.errorCode = this.episodeService.httpStatus.asObservable();
   }
 
   getMyCharacters() {

@@ -145,7 +145,8 @@
 
 </ng-container>
 <ng-template #loading>
-    Loading...
+    <app-http-errors *ngIf="(errorCode | async) !== 0" [code]="errorCode"></app-http-errors>
+    <div class="text-center" *ngIf="(errorCode | async) == 0">Loading...</div>
 </ng-template>
 <ng-template #noDrafts>
     No drafts
