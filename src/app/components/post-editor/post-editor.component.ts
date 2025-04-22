@@ -11,6 +11,7 @@ import {SceditorComponent} from "sceditor-angular";
 import {SCEditorModule} from "sceditor-angular";
 import {ThemeService} from "../../services/theme/theme.service";
 import {DraftAutosaveComponent} from '../draft-autosave/draft-autosave.component';
+import {WordCounterComponent} from "../word-counter/word-counter.component";
 
 @Component({
   selector: 'app-post-editor',
@@ -22,7 +23,8 @@ import {DraftAutosaveComponent} from '../draft-autosave/draft-autosave.component
     PlaceholderImageComponent,
     SceditorComponent,
     NgClass,
-    DraftAutosaveComponent
+    DraftAutosaveComponent,
+    WordCounterComponent
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
@@ -118,4 +120,5 @@ export class PostEditorComponent implements OnInit, OnChanges {
   }
 
   protected readonly Number = Number;
+  protected readonly SceditorComponent = SceditorComponent;
 }
