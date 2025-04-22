@@ -4,6 +4,7 @@ import {DecimalPipe, NgClass, NgIf} from "@angular/common";
 import {DraftService} from "../../services/draft/draft.service";
 import {SCEditorModule} from 'sceditor-angular';
 import {of} from 'rxjs';
+import * as console from "node:console";
 
 @Component({
   selector: 'app-draft-autosave',
@@ -30,6 +31,7 @@ export class DraftAutosaveComponent implements OnChanges {
   @Input('sceditorId') sceditorId: string = '';
   @Input('episodeId') episodeId: number = 0;
   @Input('characterId') characterId: number = 0;
+  @Input() editorOpened: Boolean = false;
 
   constructor(private draftService: DraftService) {
   }
@@ -64,6 +66,10 @@ export class DraftAutosaveComponent implements OnChanges {
   }
 
   save(auto=true) {
+    if(auto && !this.editorOpened) {
+      this.stopAutosave();
+      return of(0);
+    }
     const value = SCEditorModule.getValue(this.sceditorId)
     if (value.length) {
       this.empty = false
