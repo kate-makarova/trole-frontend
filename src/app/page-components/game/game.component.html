@@ -71,5 +71,6 @@
     </div>
 </ng-container>
 <ng-template #loading>
-  Loading...
+    <app-http-errors *ngIf="(errorCode | async) !== 0" [code]="errorCode"></app-http-errors>
+    <ng-container *ngIf="(errorCode | async) == 0">Loading...</ng-container>
   </ng-template>

@@ -11,6 +11,7 @@ import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.comp
 import {TopButton} from '../../entities/TopButton';
 import {PlaceholderImageComponent} from '../../components/placeholder-image/placeholder-image.component';
 import {SessionService} from "../../services/session/session.service";
+import {HttpErrorsComponent} from "../../components/http-errors/http-errors.component";
 
 @Component({
   selector: 'app-game',
@@ -21,7 +22,8 @@ import {SessionService} from "../../services/session/session.service";
     NgForOf,
     RouterLink,
     TopButtonsComponent,
-    PlaceholderImageComponent
+    PlaceholderImageComponent,
+    HttpErrorsComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
@@ -32,6 +34,8 @@ export class GameComponent implements OnInit {
   topButtons: TopButton[] = []
   leaveAlert: boolean = false;
 
+  errorCode: Observable<number>;
+
   constructor(
               private gameService: GameService,
               private route: ActivatedRoute,
@@ -39,7 +43,7 @@ export class GameComponent implements OnInit {
               private breadcrumbsService: BreadcrumbsService,
               private sessionService: SessionService,
               ) {
-
+    this.errorCode = this.gameService.httpStatus.asObservable();
   }
 
   gameJoin() {

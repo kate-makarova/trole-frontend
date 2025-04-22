@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {catchError, Observable, of, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, Observable, of, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../entities/ApiResponse';
 import {SessionService} from '../session/session.service';
@@ -11,6 +11,7 @@ import {SimpleEntity} from "../../entities/SimpleEntity";
   providedIn: 'root'
 })
 export class APIService {
+  httpStatus: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient,
               protected sessionService: SessionService,
@@ -42,6 +43,7 @@ export class APIService {
     return this.http.get<ApiResponse>(apiHost+endpoint, {params: p, headers: h})
       .pipe(switchMap((resp: ApiResponse) => {
         const data = resp["data"];
+        this.httpStatus.next(resp["code"]);
 
             for (const key in data) {
               const value = data[key];
@@ -54,7 +56,8 @@ export class APIService {
       }),
         catchError((error) => {
           // Handle error if any request fails
-          console.error(error);
+          console.log(error);
+          this.httpStatus.next(error.status);
           switch(error.status) {
             case 401:
               this.router.navigateByUrl('/login');
