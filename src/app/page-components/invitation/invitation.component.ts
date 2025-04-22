@@ -1,13 +1,12 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RegisterFormComponent} from "../../components/register-form/register-form.component";
-import {Observable, of, shareReplay, Subscription} from "rxjs";
+import {Observable, of, shareReplay} from "rxjs";
 import {Invitation} from "../../entities/Invitation";
 import {InvitationService} from "../../services/invitation/invitation.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AsyncPipe, NgIf} from "@angular/common";
-import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-invitation',
@@ -29,7 +28,7 @@ export class InvitationComponent implements OnInit {
 
     constructor(private invitationService: InvitationService,
                 private route: ActivatedRoute,
-                private userService: UserService
+                private router: Router
                 ) {
         this.key = this.route.snapshot.paramMap.get('key');
     }
@@ -51,4 +50,10 @@ export class InvitationComponent implements OnInit {
             this.invitation = of(data);
         })
     }
+
+  redirectHome($event: boolean) {
+    if($event) {
+      this.router.navigateByUrl('/home');
+    }
+  }
 }
