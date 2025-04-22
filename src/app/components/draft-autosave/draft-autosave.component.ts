@@ -4,7 +4,6 @@ import {DecimalPipe, NgClass, NgIf} from "@angular/common";
 import {DraftService} from "../../services/draft/draft.service";
 import {SCEditorModule} from 'sceditor-angular';
 import {of} from 'rxjs';
-import * as console from "node:console";
 
 @Component({
   selector: 'app-draft-autosave',
