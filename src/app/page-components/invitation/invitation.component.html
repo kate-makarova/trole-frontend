@@ -11,5 +11,5 @@
 </div>
 
 <ng-container *ngIf="(canRegister|async)">
-<app-register-form *ngIf="key" [invitation_key]="key"></app-register-form>
+<app-register-form *ngIf="key" [invitation_key]="key" (redirect)="redirectHome($event)"></app-register-form>
 </ng-container>

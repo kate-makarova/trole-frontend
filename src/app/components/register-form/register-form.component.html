@@ -1,24 +1,28 @@
 <div class="row">
-    <div *ngIf="alertMessage" class="alert-box" [innerHTML]="alertMessage"></div>
+    <div *ngIf="alertMessage" class="alert-box">
+     {{ alertMessage }}
+    </div>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <fieldset>
       <h3>Register</h3>
       <div class="form-field">
-          <input *ngIf="page == 'invite'" type="hidden" name="invitation_key" [value]="invitation_key" />
         <label>User name:</label>
         <input name="username" formControlName="username"  type="text">
       </div>
       <div class="form-field">
+        <span *ngIf="registerForm.hasError('email', 'email') && registerForm.get('email')?.touched">This is not a valid email</span>
         <label for="email">Email: </label>
         <input id="email" type="text" formControlName="email">
       </div>
       <div class="form-field">
+        <span *ngIf="registerForm.hasError('passwordTooShort') && registerForm.get('password')?.touched">Your password is too short</span>
         <label for="password">Password: </label>
-        <input id="password" type="text" formControlName="password">
+        <input id="password" type="password" formControlName="password">
       </div>
       <div class="form-field">
+        <span *ngIf="registerForm.hasError('passwordsDoNotMatch') && registerForm.get('repeat_password')?.touched">Passwords do not match</span>
         <label for="repeat_password">Repeat password: </label>
-        <input id="repeat_password" type="text" formControlName="repeat_password">
+        <input id="repeat_password" type="password" formControlName="repeat_password">
       </div>
 
 
