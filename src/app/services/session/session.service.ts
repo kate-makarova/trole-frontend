@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, of, Subject, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {SimpleUser} from "../../entities/SimpleUser";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class SessionService {
   private refreshToken: string = '';
   public initialized: Subject<boolean> = new Subject<boolean>();
 
-   constructor(private http: HttpClient) {
+   constructor(private http: HttpClient, private router: Router,) {
      this.initialized.next(false);
   }
 
@@ -33,7 +34,10 @@ export class SessionService {
     this.initialized.next(true);
   }
 
-  updateSession(user: User, accessToken: string, refreshToken: string) {
+  updateSession(
+      user: User,
+      accessToken: string,
+      refreshToken: string) {
     this.user = user;
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
@@ -146,5 +150,13 @@ export class SessionService {
         return of(false);
       })
     )
+  }
+
+  logout() {
+     localStorage.removeItem('session');
+     this.user = null;
+     this.refreshToken = '';
+     this.accessToken = '';
+     this.router.navigateByUrl('/')
   }
 }
