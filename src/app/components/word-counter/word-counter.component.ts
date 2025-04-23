@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SCEditorModule} from "sceditor-angular";
 
 
@@ -8,7 +8,7 @@ import {SCEditorModule} from "sceditor-angular";
   templateUrl: './word-counter.component.html',
   styleUrl: './word-counter.component.css'
 })
-export class WordCounterComponent {
+export class WordCounterComponent implements OnInit {
 
 
   ngOnInit() {

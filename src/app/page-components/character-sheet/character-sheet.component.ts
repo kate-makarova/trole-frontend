@@ -5,12 +5,9 @@ import {Observable, of, shareReplay} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {BreadcrumbsService} from '../../services/breadcrubs/breadcrumbs.service';
 import {Title} from '@angular/platform-browser';
-import {SessionService} from '../../services/session/session.service';
 import {CharacterSheetService} from '../../services/character-sheet/character-sheet.service';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {TopButtonsComponent} from '../../components/top-buttons/top-buttons.component';
-import {CharacterService} from "../../services/character/character.service";
-import {Character} from "../../entities/Character";
 import {TopButton} from "../../entities/TopButton";
 
 @Component({
@@ -34,8 +31,7 @@ export class CharacterSheetComponent implements OnInit {
   constructor( private characterSheetService: CharacterSheetService,
                private route: ActivatedRoute,
                private breadcrumbService: BreadcrumbsService,
-               private titleService: Title,
-               private sessionService: SessionService) {
+               private titleService: Title) {
     this.characterId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
@@ -51,6 +47,7 @@ export class CharacterSheetComponent implements OnInit {
       const avatar = characterSheet.fields.filter(field => field.field_name == 'avatar')[0]['value']
       this.avatar$ = of(avatar)
 
+      this.topButtons = []
       if(characterSheet.can_moderate) {
         this.topButtons.push({
           path: '/character-moderate/'+this.characterId,
@@ -62,9 +59,9 @@ export class CharacterSheetComponent implements OnInit {
       }
       if(characterSheet.can_edit) {
         this.topButtons.push(        {
-          path: '/character-edit/'+this.characterId,
+          path: '/character-edit/'+characterSheet.game_id + '/' + this.characterId,
           name: 'Edit',
-          class: 'button primary disabled',
+          class: 'button primary',
           id: 'top-button-character-edit',
           click: null
         })

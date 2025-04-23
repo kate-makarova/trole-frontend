@@ -24,7 +24,6 @@ import {WordCounterComponent} from "../word-counter/word-counter.component";
     SceditorComponent,
     NgClass,
     DraftAutosaveComponent,
-    WordCounterComponent
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'

@@ -1,5 +1,8 @@
 <div class="row column">
-  <h4 style="margin: 0;" class="text-center">Create New Character</h4>
+  <h4 style="margin: 0;" class="text-center">
+    <ng-container *ngIf="mode == 'create'">Create New Character</ng-container>
+    <ng-container *ngIf="mode == 'update'">Edit Character {{ (characterName$ | async) }}</ng-container>
+  </h4>
 </div>
 
 <div class="row">
@@ -26,7 +29,10 @@
 
     </div>
 
-        <button class="button success" type="submit">Create</button>
+        <button class="button success" type="submit">
+          <ng-container *ngIf="mode == 'create'">Create</ng-container>
+          <ng-container *ngIf="mode == 'update'">Update</ng-container>
+        </button>
     </form>
 
 

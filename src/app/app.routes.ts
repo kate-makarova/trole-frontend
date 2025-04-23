@@ -78,6 +78,11 @@ export const routes: Routes = [
     component: CharacterFormComponent,
   },
   {
+    path: 'character-edit/:id/:character_id',
+    title: 'Edit Character',
+    component: CharacterFormComponent,
+  },
+  {
     path: 'character-moderate/:id',
     title: 'Moderate Character',
     component: CharacterModerateFormComponent,
