@@ -9,7 +9,10 @@
     <div class="large-6 columns">
         <h5>
             <a routerLink="/game/{{ game.id }}">{{ game.name }}</a>
-            <span class="badge success">R</span>
+            <span class="badge success" [ngClass]="{
+            warning: game.rating.name === 'R',
+            alert: game.rating.name === 'NC-17',
+            }" style="margin-left: 10px;">{{ game.rating.name }}</span>
         </h5>
         <p>
       <span>

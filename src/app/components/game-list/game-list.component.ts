@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Game} from '../../entities/Game';
 import {Observable} from 'rxjs';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
 
@@ -12,7 +12,8 @@ import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.
     NgForOf,
     RouterLink,
     NgIf,
-    PlaceholderImageComponent
+    PlaceholderImageComponent,
+    NgClass
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.css'
