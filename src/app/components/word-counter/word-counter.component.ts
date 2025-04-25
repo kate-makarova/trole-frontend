@@ -23,14 +23,10 @@ export class WordCounterComponent implements OnInit {
       if(!initialized) {return}
 
       SCEditorModule.setOnKeyUp('postEditor', (e: any) => {
-        console.log(e)
         const t: string = SCEditorModule.getValue('postEditor');
-        console.log(t)
         this.character_counter$ = of(t.length + 1);
-     //   if(e.code == 'Space') {
           const word_count: number = this.calculateWorlds(t);
           this.word_counter$ = of(word_count + 1);
-       // }
       })
     })
   }
