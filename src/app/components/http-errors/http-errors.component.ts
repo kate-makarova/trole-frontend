@@ -18,7 +18,6 @@ export class HttpErrorsComponent implements OnInit {
 
     ngOnInit() {
         this.code.subscribe((code) => {
-            console.log(code)
             if(code !== 0) {
                 this.show = true;
             }

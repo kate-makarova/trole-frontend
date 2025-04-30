@@ -2,7 +2,7 @@ import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, Simpl
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
@@ -24,6 +24,7 @@ import {WordCounterComponent} from "../word-counter/word-counter.component";
     SceditorComponent,
     NgClass,
     DraftAutosaveComponent,
+    WordCounterComponent,
   ],
   templateUrl: './post-editor.component.html',
   styleUrl: './post-editor.component.css'
@@ -48,6 +49,7 @@ export class PostEditorComponent implements OnInit, OnChanges {
   @Output() postUpdated: EventEmitter<boolean> = new EventEmitter();
   postId: number|null = null;
   postContent: Observable<string|null> = of(null)
+  sceditor_initialized: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private postService: PostService,
               protected themeService: ThemeService,
@@ -75,14 +77,6 @@ export class PostEditorComponent implements OnInit, OnChanges {
     this.characters?.subscribe((data: Character[]) => {
       if(data !== null && data.length == 1) {
         this.postForm.controls.character.setValue(data[0].id)
-      }
-    })
-    this.themeService.themeName.subscribe((theme:string ) => {
-      this.editorMode = theme.substring(6)
-      if(this.editorMode == 'dark') {
-        SCEditorModule.setCSS('postEditor', 'body{background: #000; color: #fff;} p{color: #fff;}')
-      } else {
-        SCEditorModule.setCSS('postEditor', 'body{color: #111;} p{color: #111;}')
       }
     })
   }
@@ -118,6 +112,20 @@ export class PostEditorComponent implements OnInit, OnChanges {
     }
   }
 
+  onSceditorInitialized($event: boolean) {
+    if($event) {
+      this.themeService.themeName.subscribe((theme: string) => {
+        this.editorMode = theme.substring(6)
+        if (this.editorMode == 'dark') {
+          SCEditorModule.setCSS('postEditor', 'body{background: #000; color: #fff;} p{color: #fff;}')
+        } else {
+          SCEditorModule.setCSS('postEditor', 'body{color: #111;} p{color: #111;}')
+        }
+      })
+      console.log('Initialized');
+      this.sceditor_initialized.next(true);
+    }
+  }
+
   protected readonly Number = Number;
-  protected readonly SceditorComponent = SceditorComponent;
 }

@@ -30,4 +30,7 @@ export class AppHeaderComponent {
     });
   }
 
+    logOut($event: MouseEvent) {
+        this.sessionService.logout();
+    }
 }
