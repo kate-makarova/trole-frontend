@@ -25,7 +25,7 @@ import {
   CharacterModerateFormComponent
 } from "./page-components/character-moderate-form/character-moderate-form.component";
 import {InvitationComponent} from "./page-components/invitation/invitation.component";
-import {SendInvitationComponent} from "./page-components/send-invitation/send-invitation.component";
+import {SendInvitationComponent} from "./page-components/friends/send-invitation/send-invitation.component";
 export const routes: Routes = [
   {
     path: '',
@@ -159,7 +159,7 @@ export const routes: Routes = [
     component: InvitationComponent,
   },
   {
-    path: 'send-invitation',
+    path: 'friends/send-invitation',
     component: SendInvitationComponent,
   }
 ];
