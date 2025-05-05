@@ -42,13 +42,6 @@ export class ChatService extends APIService {
     return data
   }
 
-  stopChats() {
-    for (let [index, subscription] of this.chatSubscriptions.entries()) {
-      subscription.kill()
-      this.chatSubscriptions.splice(index, 1)
-    }
-  }
-
   create(formData: any): Observable<number> {
     return this.postData('chat/create', formData);
   }

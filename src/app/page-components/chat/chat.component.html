@@ -1,14 +1,14 @@
 <div class="row column">
-    <ng-container *ngIf="chat$ | async as chat; else header">
-  <h4 style="margin: 0;" class="text-center">{{ chat?.title }}</h4>
+    <ng-container *ngIf="activeSubscription; else header">
+  <h4 style="margin: 0;" class="text-center">{{ activeSubscription.chat.title }}</h4>
     <div style="text-align: center">
-        <span *ngFor="let p of chat?.users">
+        <span *ngFor="let p of activeSubscription.chat.users">
             {{p.name}}
         </span>
     </div>
     </ng-container>
 </div>
-<ng-container *ngIf="init | async; else loading">
+<ng-container *ngIf="chatsLoaded$ | async; else loading">
 <div class="row" style="display: flex;">
 
     <div id="left-panel" class="large-3">
@@ -16,32 +16,14 @@
             <button class="button hollow success" (click)="startChatFormOpen()">Start chat</button>
         </div>
         <ul class="menu icons vertical">
-            <li *ngFor="let chat of chats$"><a routerLink="/chat/{{chat.id}}"><span>{{chat.title}}</span></a>
+            <li *ngFor="let chat of (chatList$| async)"><a routerLink="/chat/{{chat.id}}"><span>{{chat.title}}</span></a>
 <!--            <span class="badge" *ngIf="(chat?.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>-->
             </li>
         </ul>
     </div>
 <div class="column large-9">
   <div>
-      <ng-container *ngIf="oldMessages$ | async as messages; else loading">
-          @for ( message of messages; track $index) {
-
-              <div class="media-object">
-                  <div class="media-object-section">
-                      <a href="#">
-                          <div class="">
-                              <h5>{{ message.user?.name }}</h5>
-                              <img width="80px" src="{{message.user?.avatar}}"/>
-                          </div>
-                      </a>
-                  </div>
-                  <div class="media-object-section" style="white-space: pre-line" [innerHTML]="message.text">
-                  </div>
-              </div>
-          }
-      </ng-container>
-
-      <ng-container *ngIf="messages$ | async as messages; else loading">
+      <ng-container *ngIf="activeSubscription?.messages$ | async as messages; else loading">
   @for ( message of messages; track $index) {
 
       <div class="media-object">

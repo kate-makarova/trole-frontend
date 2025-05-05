@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
+import {ChatMessage} from "../../entities/ChatMessage";
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,7 @@ import { Subject } from 'rxjs';
 export class SocketService<T> {
   private socket: WebSocket | undefined;
   private messageSubject: Subject<any> = new Subject<any>();
+  private openData: Subject<any> = new Subject<any>();
 
   constructor() {}
 
@@ -18,6 +20,10 @@ export class SocketService<T> {
     this.socket.onopen = (event) => {
       console.log('WebSocket is connected:', event);
     };
+
+    this.socket.onopen = (event) => {
+      this.openData.next(event);
+    }
 
     this.socket.onmessage = (event: MessageEvent<string>) => {
       // Push the incoming message into the observable stream
@@ -34,7 +40,7 @@ export class SocketService<T> {
   }
 
   // Send a message to the WebSocket server
-  sendMessage(message: object): void {
+  sendMessage(message: ChatMessage): void {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify(message));
       console.log('Message sent:', message);
@@ -51,6 +57,18 @@ export class SocketService<T> {
           // Assuming the data comes as a string, try to parse it
           const parsedData: T = JSON.parse(data);
           observer.next(parsedData);
+        } catch (error) {
+          observer.error('Failed to parse WebSocket message: ' + error);
+        }
+      });
+    });
+  }
+
+  onOpen<T>(): Observable<T> {
+    return new Observable<T>((observer) => {
+      this.openData.asObservable().subscribe((data) => {
+        try {
+          observer.next(data);
         } catch (error) {
           observer.error('Failed to parse WebSocket message: ' + error);
         }

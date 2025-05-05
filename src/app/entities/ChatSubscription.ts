@@ -11,7 +11,6 @@ export class ChatSubscription {
     chat: ChatRoom;
     protected messagesSubjects: BehaviorSubject<ChatMessage[]>;
     messages$: Observable<ChatMessage[]>;
-    socket: SocketService<ChatMessage>;
     protected unread: BehaviorSubject<number>;
     unread$:Observable<number>
 
@@ -21,38 +20,15 @@ export class ChatSubscription {
         this.id = chat.id;
         this.chat = chat;
         this.messagesSubjects = new BehaviorSubject<ChatMessage[]>([])
-        this.socket = new SocketService<ChatMessage>()
-        this.socket.connect('http://127.0.0.1:8001/ws/chat/'+chat.id+'/?token='+this.sessionService.getToken())
-      //  this.socket.connect('https://api.trole.online/ws/chat/'+chat.id+'/?token='+this.sessionService.getToken())
         this.unread = new BehaviorSubject(this.chat.unread)
         this.unread$ = this.unread.asObservable()
-        this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
-            let messages = this.messagesSubjects.getValue()
-            if (data.type !== 'heartbeat') {
-                messages.push(data)
-                this.messagesSubjects.next(messages)
-                this.unread.next(this.unread.getValue() + 1)
-            }
-        })
         this.messages$ = this.messagesSubjects.asObservable()
     }
 
-    sendMessage(user: SimpleUser, message: string, type = 'chat_message') {
-        console.log({
-            text: message,
-            user: user,
-            time: new Date().toString(),
-            type: type
-        })
-        this.socket.sendMessage({
-            text: message,
-            user: user,
-            time: new Date().toString(),
-            type: type
-        });
-    }
-
-    kill() {
-        this.socket.closeConnection()
+    addMessage(message: ChatMessage) {
+        let messages = this.messagesSubjects.getValue()
+        messages.push(message)
+        this.messagesSubjects.next(messages)
+        this.unread.next(this.unread.getValue() + 1)
     }
 }

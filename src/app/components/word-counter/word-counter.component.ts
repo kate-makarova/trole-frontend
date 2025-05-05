@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SceditorComponent, SCEditorModule} from "sceditor-angular";
+import {SCEditorModule} from "sceditor-angular";
 import {Observable, of} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 

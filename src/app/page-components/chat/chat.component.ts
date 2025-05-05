@@ -15,6 +15,7 @@ import {SimpleEntity} from "../../entities/SimpleEntity";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {SessionInitComponent} from "../../components/session-init/session-init.component";
 import {ChatFormComponent} from "../../components/chat-form/chat-form.component";
+import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
 
 @Component({
   selector: 'app-chat',
@@ -30,58 +31,53 @@ import {ChatFormComponent} from "../../components/chat-form/chat-form.component"
   styleUrl: './chat.component.css'
 })
 export class ChatComponent extends SessionInitComponent implements OnInit, OnDestroy {
-  chatId: number;
-  chat$: Observable<ChatRoom|null> = of(null);
-  oldMessages$: Observable<ChatMessage[]> = of([])
-  messages$: Observable<ChatMessage[]> = of([])
-  chats$: Array<ChatSubscriptionSimple> = []
+  chatId: number|null;
   newMessage: string = ''
-  init: Observable<boolean> = of(false)
   createNewChatOpen: boolean = false
+  chatsLoaded$: Observable<boolean> = of(false)
+  socketConnectionEstablished$: Observable<boolean> = of(false)
+  chatList$: Observable<ChatSubscriptionSimple[]> = of([])
+  activeSubscription: ChatSubscription|null = null
+
 
   constructor(sessionService: SessionService,
-              protected chatService: ChatService,
+              protected singleSocketChatService: SingleSocketChatService,
               private route: ActivatedRoute) {
     super(sessionService);
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
-  }
-
-  override ngOnInit() {
-    super.ngOnInit();
-    this.oldMessages$ = this.chatService.getMessages(this.chatId)
-    this.chat$ = this.chatService.getChat(this.chatId)
+    this.chatsLoaded$ = this.singleSocketChatService.chatsLoaded.asObservable()
+    this.socketConnectionEstablished$ = this.singleSocketChatService.connectionEstablished.asObservable()
+    this.chatList$ = this.singleSocketChatService.chatList.asObservable()
   }
 
   onSessionInit() {
     if(this.sessionService.getUser() === null) {return}
 
-    this.init = this.chatService.init.asObservable()
-
-    this.init.subscribe((state: boolean) => {
-      if (!state) {return}
-      const subscription: ChatSubscription|undefined = this.chatService.getChatSubscription(this.chatId)
-      if(subscription == undefined) {return}
-      this.messages$ = subscription.messages$
-      this.chats$ = this.chatService.getChats()
+    this.chatsLoaded$.subscribe((loaded: boolean) => {
+      if(!loaded) {return}
+      this.singleSocketChatService.connect()
     })
 
-    // @ts-ignore
-    this.chatService.initiateChats()
+    this.socketConnectionEstablished$.subscribe((connected: boolean) => {
+      if (!connected) {return}
+      console.log(this.singleSocketChatService.chatList.getValue())
+      if(this.chatId) {
+        this.singleSocketChatService.switchActiveSubscription(this.chatId)
+        this.activeSubscription = this.singleSocketChatService.activeSubscription
+      }
+    })
+
+    this.singleSocketChatService.loadPrivateChats()
   }
 
   sendMessage(text: string) {
     const user = this.sessionService.getSimpleUser()
     if (user == null) {return}
-    try {
-      this.chatService.getChatSubscription(this.chatId)?.sendMessage(user, text)
-      this.newMessage = ''
-    } catch(e) {
-
-    }
+    //todo
   }
 
   ngOnDestroy() {
-    this.chatService.stopChats()
+    this.singleSocketChatService.kill()
   }
 
   startChatFormOpen() {
