@@ -42,7 +42,11 @@ export class SocketService<T> {
   // Send a message to the WebSocket server
   sendMessage(message: ChatMessage): void {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify(message));
+      const obj = {
+        action: 'sendmessage',
+        message: message
+      }
+      this.socket.send(JSON.stringify(obj));
       console.log('Message sent:', message);
     } else {
       console.error('WebSocket is not open. Cannot send message.');
@@ -55,8 +59,8 @@ export class SocketService<T> {
       this.messageSubject.asObservable().subscribe((data) => {
         try {
           // Assuming the data comes as a string, try to parse it
-          const parsedData: T = JSON.parse(data);
-          observer.next(parsedData);
+          const parsedData: any = JSON.parse(data);
+          observer.next(parsedData.message as T);
         } catch (error) {
           observer.error('Failed to parse WebSocket message: ' + error);
         }

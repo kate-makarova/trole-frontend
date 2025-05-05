@@ -27,6 +27,7 @@ export class SingleSocketChatService {
     })
 
     this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
+      console.log(data)
       if (data.type == 'user_message') {
         const s = this.subscriptions.find((elem: ChatSubscription) => {
           return elem.chat.id == data.chatId
@@ -85,7 +86,8 @@ export class SingleSocketChatService {
   }
 
   connect() {
-    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
+    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+Math.floor(Math.random() * 11))
+   // this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
   }
 
   kill() {
