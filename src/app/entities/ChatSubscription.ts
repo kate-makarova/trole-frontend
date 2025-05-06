@@ -1,23 +1,15 @@
 import {ChatRoom} from "./ChatRoom";
 import {BehaviorSubject, Observable} from "rxjs";
-import {SocketService} from "../services/socket/socket.service";
 import {ChatMessage} from "./ChatMessage";
-import {User} from "./User";
-import {SimpleUser} from "./SimpleUser";
-import {SessionService} from "../services/session/session.service";
 
 export class ChatSubscription {
-    id: number;
     chat: ChatRoom;
     protected messagesSubjects: BehaviorSubject<ChatMessage[]>;
     messages$: Observable<ChatMessage[]>;
     protected unread: BehaviorSubject<number>;
     unread$:Observable<number>
 
-    constructor(private sessionService: SessionService,
-        chat: ChatRoom
-                ) {
-        this.id = chat.id;
+    constructor(chat: ChatRoom) {
         this.chat = chat;
         this.messagesSubjects = new BehaviorSubject<ChatMessage[]>([])
         this.unread = new BehaviorSubject(this.chat.unread)
@@ -30,5 +22,11 @@ export class ChatSubscription {
         messages.push(message)
         this.messagesSubjects.next(messages)
         this.unread.next(this.unread.getValue() + 1)
+    }
+
+    addMessagesToBeginning(newMessages: ChatMessage[]) {
+        let messages = this.messagesSubjects.getValue()
+        messages = newMessages.concat(messages)
+        this.messagesSubjects.next(messages)
     }
 }

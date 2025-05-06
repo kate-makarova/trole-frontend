@@ -1,17 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, of, Subscription} from 'rxjs';
-import {SocketService} from '../../services/socket/socket.service';
+import {Observable, of} from 'rxjs';
 import {FormsModule} from '@angular/forms';
-import {User} from '../../entities/User';
-import {Store} from '@ngrx/store';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {SessionService} from '../../services/session/session.service';
-import {ChatMessage} from '../../entities/ChatMessage';
 import {ChatSubscription} from "../../entities/ChatSubscription";
-import {ChatService} from "../../services/chat/chat.service";
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {ChatRoom} from "../../entities/ChatRoom";
-import {SimpleEntity} from "../../entities/SimpleEntity";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {SessionInitComponent} from "../../components/session-init/session-init.component";
 import {ChatFormComponent} from "../../components/chat-form/chat-form.component";
@@ -55,16 +48,17 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
 
     this.chatsLoaded$.subscribe((loaded: boolean) => {
       if(!loaded) {return}
+      if(this.chatId) {
+        this.singleSocketChatService.switchActiveSubscription(this.chatId)
+        this.activeSubscription = this.singleSocketChatService.activeSubscription
+      }
+      this.singleSocketChatService.loadPreviousMessages()
       this.singleSocketChatService.connect()
     })
 
     this.socketConnectionEstablished$.subscribe((connected: boolean) => {
       if (!connected) {return}
       console.log(this.singleSocketChatService.chatList.getValue())
-      if(this.chatId) {
-        this.singleSocketChatService.switchActiveSubscription(this.chatId)
-        this.activeSubscription = this.singleSocketChatService.activeSubscription
-      }
     })
 
     this.singleSocketChatService.loadPrivateChats()

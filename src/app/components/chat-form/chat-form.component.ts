@@ -4,8 +4,7 @@ import {NgForOf} from "@angular/common";
 import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SimpleEntity} from "../../entities/SimpleEntity";
 import {APIService} from "../../services/apiservice/apiservice.service";
-import {ChatService} from "../../services/chat/chat.service";
-import {Router} from "@angular/router";
+import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
 
 @Component({
   selector: 'app-chat-form',
@@ -27,8 +26,7 @@ export class ChatFormComponent {
     @Output('submit') submitEmitter: EventEmitter<boolean> = new EventEmitter();
 
     constructor(private apiService: APIService,
-                private chatService: ChatService,
-                private router: Router) {
+                private singleSocketChatService: SingleSocketChatService) {
     }
 
     get users() {
@@ -56,10 +54,9 @@ export class ChatFormComponent {
     }
 
     onSubmit() {
-        this.chatService.create(this.form.value).subscribe(data => {
-           console.log('added')
-            this.submitEmitter.emit(true)
-        })
+        // this.singleSocketChatService.create(this.form.value).subscribe(data => {
+        //     this.submitEmitter.emit(true)
+        // })
     }
 
     cancel() {

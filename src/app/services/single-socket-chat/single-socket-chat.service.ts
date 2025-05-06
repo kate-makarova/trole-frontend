@@ -5,13 +5,16 @@ import {SessionService} from "../session/session.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
 import {BehaviorSubject} from "rxjs";
 import {SimpleUser} from "../../entities/SimpleUser";
-import {ChatRoom} from "../../entities/ChatRoom";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
+import {APIService} from "../apiservice/apiservice.service";
+import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
+import {ChatRoom} from "../../entities/ChatRoom";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SingleSocketChatService {
+export class SingleSocketChatService extends APIService {
   socket: SocketService<ChatMessage>;
   private subscriptions: ChatSubscription[] = []
   chatsLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false)
@@ -19,7 +22,8 @@ export class SingleSocketChatService {
   activeSubscription: ChatSubscription | null = null
   chatList: BehaviorSubject<ChatSubscriptionSimple[]> = new BehaviorSubject<ChatSubscriptionSimple[]>([])
 
-  constructor(private sessionService: SessionService) {
+  constructor(http: HttpClient, sessionService: SessionService, router: Router) {
+    super(http, sessionService, router);
     this.socket = new SocketService<ChatMessage>()
 
     this.socket.onOpen().subscribe((data: any) => {
@@ -72,17 +76,34 @@ export class SingleSocketChatService {
     this.activeSubscription.addMessage(message)
   }
 
-  loadPrivateChats() {
-    const chats = [
-        new ChatRoom(1, 2, 'Test 1', [], 0),
-        new ChatRoom(2, 2, 'Test 2', [], 0)
-    ]
+  // loadPrivateChats() {
+  //   const chats = [
+  //       new ChatRoom(1, 2, 'Test 1', [], 0),
+  //       new ChatRoom(2, 2, 'Test 2', [], 0)
+  //   ]
+  //
+  //     for (let chat of chats) {
+  //       this.subscriptions.push(new ChatSubscription(this.sessionService, chat))
+  //     }
+  //     this.updateChatList()
+  //   this.chatsLoaded.next(true)
+  // }
 
-      for (let chat of chats) {
-        this.subscriptions.push(new ChatSubscription(this.sessionService, chat))
+  loadPrivateChats() {
+    return this.getData<ChatRoom[]>('active-chats').subscribe((data: ChatRoom[]) => {
+      for(let chat of data) {
+        this.subscriptions.push(new ChatSubscription(chat))
       }
       this.updateChatList()
-    this.chatsLoaded.next(true)
+      this.chatsLoaded.next(true)
+    })
+  }
+
+  loadPreviousMessages(offset: number = 0, limit: number = 20) {
+    if(!this.activeSubscription) {return}
+    this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id).subscribe((data: ChatMessage[]) => {
+      this.activeSubscription?.addMessagesToBeginning(data)
+    })
   }
 
   connect() {
