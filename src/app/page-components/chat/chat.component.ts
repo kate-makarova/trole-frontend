@@ -68,6 +68,7 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
     const user = this.sessionService.getSimpleUser()
     if (user == null) {return}
     this.singleSocketChatService.sendMessage(user, text)
+    this.newMessage = ''
   }
 
   ngOnDestroy() {
