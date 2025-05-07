@@ -8,6 +8,7 @@ export class ChatSubscription {
     messages$: Observable<ChatMessage[]>;
     protected unread: BehaviorSubject<number>;
     unread$:Observable<number>
+    historyLoaded: boolean = false;
 
     constructor(chat: ChatRoom) {
         this.chat = chat;

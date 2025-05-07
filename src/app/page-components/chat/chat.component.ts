@@ -47,7 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       if(this.chatId) {
         this.singleSocketChatService.switchActiveSubscription(this.chatId)
       }
-      this.singleSocketChatService.loadPreviousMessages()
+      this.singleSocketChatService.loadHistory()
       this.singleSocketChatService.connect()
     }))
 
@@ -90,5 +90,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   switchChat(id: number) {
     this.chatId = id;
     this.singleSocketChatService.switchActiveSubscription(id)
+    this.singleSocketChatService.loadHistory()
   }
 }
