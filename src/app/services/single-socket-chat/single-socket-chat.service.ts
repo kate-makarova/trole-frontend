@@ -65,6 +65,15 @@ export class SingleSocketChatService extends APIService {
         }
       }
 
+      if(data.type == 'users_currently_online') {
+        const s = this.subscriptions.find((elem: ChatSubscription) => {
+          return elem.chat.id == data.chatId
+        })
+        if(s) {
+          s.addUsersOnline(JSON.parse(data.text))
+        }
+      }
+
 
     })
   }

@@ -3,8 +3,8 @@
     <div class="row column">
         <ng-container *ngIf="singleSocketChatService.activeSubscription; else header">
             <h4 style="margin: 0;" class="text-center">{{ singleSocketChatService.activeSubscription.chat.title }}</h4>
-            <div style="text-align: center">
-        <span *ngFor="let p of singleSocketChatService.activeSubscription.chat.users">
+            <div style="text-align: center">Online:
+        <span class="user-online" *ngFor="let p of (singleSocketChatService.activeSubscription.activeUsers$ | async) ">
           {{ p.name }}
         </span>
             </div>

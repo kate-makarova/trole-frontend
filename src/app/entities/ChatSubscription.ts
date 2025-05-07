@@ -32,6 +32,11 @@ export class ChatSubscription {
         this.activeUsers.next(users)
     }
 
+    addUsersOnline(users: SimpleUser[]) {
+        const usersOnline = [...this.activeUsers.getValue(), ...users];
+        this.activeUsers.next(usersOnline)
+    }
+
     removeUserOnline(user: SimpleUser) {
         const users = this.activeUsers.getValue().filter(u => u.id !== user.id);
         this.activeUsers.next(users)

@@ -63,3 +63,11 @@ html, body {
     min-height: 60px;
     margin-bottom: 0.5rem;
 }
+
+.user-online::after {
+    content: ','
+}
+
+.user-online:last-child::after {
+    content: ''
+}
