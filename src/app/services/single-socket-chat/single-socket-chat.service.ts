@@ -30,10 +30,14 @@ export class SingleSocketChatService extends APIService {
 
     this.socket.onOpen().subscribe((data: any) => {
       this.connectionEstablished.next(true)
+      const user = this.sessionService.getUser();
+      if (user != null) {
+        this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'user_online')
+        this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'get_users_online')
+      }
     })
 
     this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
-      console.log(data)
       if (data.type == 'user_message') {
         const s = this.subscriptions.find((elem: ChatSubscription) => {
           return elem.chat.id == data.chatId
@@ -42,6 +46,26 @@ export class SingleSocketChatService extends APIService {
           s.addMessage(data)
         }
       }
+
+      if(data.type == 'user_online' && data.user !== null) {
+        const s = this.subscriptions.find((elem: ChatSubscription) => {
+          return elem.chat.id == data.chatId
+        })
+        if (s) {
+          s.addUserOnline(data.user)
+        }
+      }
+
+      if(data.type == 'user_offline' && data.user !== null) {
+        const s = this.subscriptions.find((elem: ChatSubscription) => {
+          return elem.chat.id == data.chatId
+        })
+        if (s) {
+          s.removeUserOnline(data.user)
+        }
+      }
+
+
     })
   }
 
@@ -60,7 +84,7 @@ export class SingleSocketChatService extends APIService {
     }
   }
 
-  sendMessage(user: SimpleUser, text: string) {
+  sendMessage(user: SimpleUser, text: string, type = 'user_message') {
     if(!this.activeSubscription) {
       return
     }
@@ -68,12 +92,11 @@ export class SingleSocketChatService extends APIService {
     const message = new ChatMessage(
       this.activeSubscription.chat.id,
       null,
-      'user_message',
+      type,
       user,
       text,
       new Date().toString(),
   );
-    console.log(message)
     this.socket.sendMessage(message);
     this.activeSubscription.addMessage(message)
   }
@@ -111,6 +134,10 @@ export class SingleSocketChatService extends APIService {
   }
 
   kill() {
+    const user = this.sessionService.getUser();
+    if (user != null) {
+      this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'user_offline')
+    }
     this.socket.closeConnection()
   }
 

@@ -7,7 +7,6 @@ export class ChatRoom {
   title: string;
   users: SimpleUser[] = [];
   unread: number = 0;
-  messages: ChatMessage[] = [];
 
   constructor(id: number, type: number, title: string, users: SimpleUser[] = [], unread: number = 0) {
     this.id = id;
