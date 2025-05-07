@@ -88,6 +88,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   switchChat(id: number) {
+    this.chatId = id;
     this.singleSocketChatService.switchActiveSubscription(id)
   }
 }
