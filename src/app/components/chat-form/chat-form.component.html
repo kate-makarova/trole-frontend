@@ -7,7 +7,7 @@
                 <input name="name" formControlName="name"  type="text">
             </div>
 
-            <div class="form-field" formArrayName="users">
+            <div class="form-field" formArrayName="participants">
                 <h5>Users:</h5>
                 <div *ngFor="let user of users.controls; let i=index">
                     <ng-autocomplete

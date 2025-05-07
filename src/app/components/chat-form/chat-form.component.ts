@@ -20,7 +20,7 @@ export class ChatFormComponent {
     private formBuilder = inject(FormBuilder);
     form = this.formBuilder.group({
         name: ['', Validators.required],
-        users: this.formBuilder.array([]),
+        participants: this.formBuilder.array([]),
     });
     @Output('close') closeEmitter: EventEmitter<boolean> = new EventEmitter();
     @Output('submit') submitEmitter: EventEmitter<boolean> = new EventEmitter();
@@ -30,7 +30,7 @@ export class ChatFormComponent {
     }
 
     get users() {
-        return this.form.get('users') as FormArray;
+        return this.form.get('participants') as FormArray;
     }
 
     addUser() {
