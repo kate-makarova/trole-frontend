@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable, of, shareReplay, Subscription} from 'rxjs';
 import {FormsModule} from '@angular/forms';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {SessionService} from '../../services/session/session.service';
@@ -29,33 +29,38 @@ export class ChatComponent implements OnInit, OnDestroy {
   chatsLoaded$: Observable<boolean> = of(false)
   socketConnectionEstablished$: Observable<boolean> = of(false)
   chatList$: Observable<ChatSubscriptionSimple[]> = of([])
+  private subscriptions = new Subscription();
+
+  count: number = 0
 
 
   constructor(private sessionService: SessionService,
               protected singleSocketChatService: SingleSocketChatService,
               private route: ActivatedRoute) {
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
-    this.chatsLoaded$ = this.singleSocketChatService.chatsLoaded.asObservable()
-    this.socketConnectionEstablished$ = this.singleSocketChatService.connectionEstablished.asObservable()
-    this.chatList$ = this.singleSocketChatService.chatList.asObservable()
+    this.chatsLoaded$ = this.singleSocketChatService.chatsLoaded.asObservable().pipe(shareReplay(1))
+    this.socketConnectionEstablished$ = this.singleSocketChatService.connectionEstablished.asObservable().pipe(shareReplay(1))
+    this.chatList$ = this.singleSocketChatService.chatList.asObservable().pipe(shareReplay(1))
   }
 
   ngOnInit() {
     if(this.sessionService.getUser() === null) {return}
 
-    this.chatsLoaded$.subscribe((loaded: boolean) => {
+    this.subscriptions.add(this.chatsLoaded$.subscribe((loaded: boolean) => {
       if(!loaded) {return}
       if(this.chatId) {
         this.singleSocketChatService.switchActiveSubscription(this.chatId)
       }
-      this.singleSocketChatService.loadInitialMessages()
+      this.count++
+      console.log(this.count)
+      this.singleSocketChatService.loadPreviousMessages()
       this.singleSocketChatService.connect()
-    })
+    }))
 
-    this.socketConnectionEstablished$.subscribe((connected: boolean) => {
+    this.subscriptions.add(this.socketConnectionEstablished$.subscribe((connected: boolean) => {
       if (!connected) {return}
       console.log(this.singleSocketChatService.chatList.getValue())
-    })
+    }))
 
     this.singleSocketChatService.loadPrivateChats()
   }
@@ -69,6 +74,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+    this.singleSocketChatService.activeSubscription?.clearMessages()
     this.singleSocketChatService.kill()
   }
 

@@ -15,6 +15,11 @@ export class SocketService<T> {
 
   // Connect to the WebSocket server
   connect(url: string): void {
+    if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
+      console.log('WebSocket already open or connecting.');
+      return;
+    }
+
     this.socket = new WebSocket(url);
 
     this.socket.onopen = (event) => {
@@ -83,8 +88,11 @@ export class SocketService<T> {
   // Close the WebSocket connection
   closeConnection(): void {
     if (this.socket) {
+      console.log('Closing socket. Ready state:', this.socket.readyState); // 0 = CONNECTING, 1 = OPEN, 2 = CLOSING, 3 = CLOSED
       this.socket.close();
       console.log('WebSocket connection closed.');
+    } else {
+      console.warn('Socket is undefined or null!');
     }
   }
 }

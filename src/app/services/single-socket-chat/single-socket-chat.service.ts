@@ -87,14 +87,6 @@ export class SingleSocketChatService extends APIService {
     })
   }
 
-  loadInitialMessages() {
-    if(!this.activeSubscription) {return}
-    this.activeSubscription.clearMessages()
-    if (!this.activeSubscription.getMessageCount()) {
-      this.loadPreviousMessages()
-    }
-  }
-
   loadPreviousMessages(offset: number = 0, limit: number = 20) {
     if(!this.activeSubscription) {return}
     this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id).subscribe((data: ChatMessage[]) => {
