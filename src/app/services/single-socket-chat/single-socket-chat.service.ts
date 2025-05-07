@@ -65,7 +65,7 @@ export class SingleSocketChatService extends APIService {
           return elem.chat.id == data.chatId
         })
         if(s) {
-          s.addUsersOnline(JSON.parse(data.text))
+          s.setUsersOnline(JSON.parse(data.text))
         }
       }
 
