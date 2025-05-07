@@ -71,3 +71,10 @@ html, body {
 .user-online:last-child::after {
     content: ''
 }
+
+#chat-load-more {
+    display: block;
+    text-align: center;
+    color: #6e6e6e;
+    font-size: 0.8em;
+}

@@ -12,6 +12,8 @@ export class ChatSubscription {
     historyLoaded: boolean = false;
     protected activeUsers: BehaviorSubject<SimpleUser[]> = new BehaviorSubject<SimpleUser[]>([]);
     activeUsers$: Observable<SimpleUser[]> = this.activeUsers.asObservable();
+    currentHistoryPage: number = 0;
+    canBeMore: boolean = true;
 
     constructor(chat: ChatRoom) {
         this.chat = chat;

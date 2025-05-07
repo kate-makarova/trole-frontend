@@ -128,12 +128,18 @@ export class SingleSocketChatService extends APIService {
     if(!this.activeSubscription.historyLoaded) {
       this.loadPreviousMessages()
       this.activeSubscription.historyLoaded = true
+      this.activeSubscription.currentHistoryPage = 1
     }
   }
 
-  loadPreviousMessages(offset: number = 0, limit: number = 20) {
-    if(!this.activeSubscription) {return}
-    this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id).subscribe((data: ChatMessage[]) => {
+  loadPreviousMessages() {
+    if(this.activeSubscription == null) {return}
+    this.activeSubscription.currentHistoryPage++
+    this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id+'/'+this.activeSubscription.currentHistoryPage).subscribe((data: ChatMessage[]) => {
+      if(data.length < 20) {
+        // @ts-ignore
+        this.activeSubscription.canBeMore = false
+      }
       this.activeSubscription?.addMessagesToBeginning(data)
     })
   }

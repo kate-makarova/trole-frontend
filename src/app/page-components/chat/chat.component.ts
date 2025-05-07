@@ -87,4 +87,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.singleSocketChatService.switchActiveSubscription(id)
     this.singleSocketChatService.loadHistory()
   }
+
+  loadMore() {
+    this.singleSocketChatService.loadPreviousMessages()
+  }
 }

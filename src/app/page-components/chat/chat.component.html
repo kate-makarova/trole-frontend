@@ -36,6 +36,7 @@
                 <!-- Scrollable message area -->
                 <div class="chat-messages">
                     <ng-container *ngIf="singleSocketChatService.activeSubscription?.messages$ | async as messages; else loading">
+                        <a id="chat-load-more" *ngIf="singleSocketChatService.activeSubscription?.canBeMore" (click)="loadMore()">Load more</a>
                         @for (message of messages; track $index) {
                             <div class="media-object">
                                 <div class="media-object-section">
