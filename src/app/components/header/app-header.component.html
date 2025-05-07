@@ -21,7 +21,12 @@
                     <a routerLink="/friends/send-invitation">Friends</a>
                   </li>
                     <li>
-                        <a routerLink="/chat/1">Chat</a>
+                        <ng-container *ngIf="(last_opened_chat$ | async) === false">
+                            <a class="inactive">Chat</a>
+                        </ng-container>
+                        <ng-container *ngIf="(last_opened_chat$ | async) !== false">
+                        <a routerLink="/chat/{{ last_opened_chat$ | async }}">Chat</a>
+                        </ng-container>
                     </li>
                     <li>
                         <a routerLink="/user-settings">Settings</a>

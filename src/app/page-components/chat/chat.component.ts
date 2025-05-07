@@ -3,7 +3,6 @@ import {Observable, of, shareReplay, Subscription} from 'rxjs';
 import {FormsModule} from '@angular/forms';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {SessionService} from '../../services/session/session.service';
-import {ChatSubscription} from "../../entities/ChatSubscription";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {ChatFormComponent} from "../../components/chat-form/chat-form.component";
@@ -31,13 +30,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   chatList$: Observable<ChatSubscriptionSimple[]> = of([])
   private subscriptions = new Subscription();
 
-  count: number = 0
-
-
   constructor(private sessionService: SessionService,
               protected singleSocketChatService: SingleSocketChatService,
               private route: ActivatedRoute) {
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log(this.chatId)
     this.chatsLoaded$ = this.singleSocketChatService.chatsLoaded.asObservable().pipe(shareReplay(1))
     this.socketConnectionEstablished$ = this.singleSocketChatService.connectionEstablished.asObservable().pipe(shareReplay(1))
     this.chatList$ = this.singleSocketChatService.chatList.asObservable().pipe(shareReplay(1))
@@ -51,8 +48,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       if(this.chatId) {
         this.singleSocketChatService.switchActiveSubscription(this.chatId)
       }
-      this.count++
-      console.log(this.count)
       this.singleSocketChatService.loadPreviousMessages()
       this.singleSocketChatService.connect()
     }))

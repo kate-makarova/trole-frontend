@@ -3,7 +3,7 @@ import {SocketService} from "../socket/socket.service";
 import {ChatMessage} from "../../entities/ChatMessage";
 import {SessionService} from "../session/session.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {SimpleUser} from "../../entities/SimpleUser";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {APIService} from "../apiservice/apiservice.service";
@@ -21,6 +21,8 @@ export class SingleSocketChatService extends APIService {
   connectionEstablished: BehaviorSubject<boolean> = new BehaviorSubject(false)
   activeSubscription: ChatSubscription | null = null
   chatList: BehaviorSubject<ChatSubscriptionSimple[]> = new BehaviorSubject<ChatSubscriptionSimple[]>([])
+  lastOpenedChat: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null)
+
 
   constructor(http: HttpClient, sessionService: SessionService, router: Router) {
     super(http, sessionService, router);
@@ -96,11 +98,17 @@ export class SingleSocketChatService extends APIService {
 
   connect() {
     if(!this.sessionService.getUser()) {return}
-    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getUser()?.id)
+    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getUser()?.id+'&chatIds='+this.subscriptions.map((elem: ChatSubscription) => {return elem.chat.id}).join(','))
    // this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
   }
 
   kill() {
     this.socket.closeConnection()
+  }
+
+  getLastOpenedChat(): void {
+    this.getData<number>('last-open-chat').subscribe((data: number) => {
+      this.lastOpenedChat.next(data)
+    })
   }
 }
