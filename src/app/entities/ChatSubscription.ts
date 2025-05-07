@@ -5,7 +5,7 @@ import {SimpleUser} from "./SimpleUser";
 
 export class ChatSubscription {
     chat: ChatRoom;
-    protected messagesSubjects: BehaviorSubject<ChatMessage[]>;
+    public messagesSubjects: BehaviorSubject<ChatMessage[]>;
     messages$: Observable<ChatMessage[]>;
     protected unread: BehaviorSubject<number>;
     unread$:Observable<number>

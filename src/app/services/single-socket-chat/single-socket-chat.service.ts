@@ -107,7 +107,9 @@ export class SingleSocketChatService extends APIService {
       new Date().toString(),
   );
     this.socket.sendMessage(message);
-    this.activeSubscription.addMessage(message)
+    if(type == 'user_message') {
+      this.activeSubscription.addMessage(message)
+    }
   }
 
   loadPrivateChats() {

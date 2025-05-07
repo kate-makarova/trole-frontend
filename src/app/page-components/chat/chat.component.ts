@@ -51,11 +51,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.singleSocketChatService.connect()
     }))
 
-    this.subscriptions.add(this.socketConnectionEstablished$.subscribe((connected: boolean) => {
-      if (!connected) {return}
-      console.log(this.singleSocketChatService.chatList.getValue())
-    }))
-
     this.singleSocketChatService.loadPrivateChats()
   }
 
