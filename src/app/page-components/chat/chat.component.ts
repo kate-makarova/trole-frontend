@@ -15,7 +15,6 @@ import {SingleSocketChatService} from "../../services/single-socket-chat/single-
     AsyncPipe,
     NgIf,
     NgForOf,
-    RouterLink,
     ChatFormComponent,
   ],
   templateUrl: './chat.component.html',
@@ -86,5 +85,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   onNewChatCreate() {
     this.createNewChatOpen = false;
+  }
+
+  switchChat(id: number) {
+    this.singleSocketChatService.switchActiveSubscription(id)
   }
 }

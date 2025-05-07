@@ -17,7 +17,7 @@
             </div>
             <ul class="menu icons vertical">
                 <li *ngFor="let chat of (chatList$| async)"><a
-                        routerLink="/chat/{{chat.id}}"><span>{{ chat.title }}</span></a>
+                        (click)="switchChat(chat.id)"><span>{{ chat.title }}</span></a>
                     <!--            <span class="badge" *ngIf="(chat?.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>-->
                 </li>
             </ul>
