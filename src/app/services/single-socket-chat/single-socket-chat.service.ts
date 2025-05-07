@@ -90,7 +90,9 @@ export class SingleSocketChatService extends APIService {
   loadInitialMessages() {
     if(!this.activeSubscription) {return}
     this.activeSubscription.clearMessages()
-    this.loadPreviousMessages()
+    if (!this.activeSubscription.getMessageCount()) {
+      this.loadPreviousMessages()
+    }
   }
 
   loadPreviousMessages(offset: number = 0, limit: number = 20) {

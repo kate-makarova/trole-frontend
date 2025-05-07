@@ -24,12 +24,16 @@ export class ChatSubscription {
     }
 
     addMessagesToBeginning(newMessages: ChatMessage[]) {
-        let messages = this.messagesSubjects.getValue()
-        messages = newMessages.concat(messages)
-        this.messagesSubjects.next(messages)
+        const currentMessages = this.messagesSubjects.getValue();
+        const updatedMessages = [...newMessages, ...currentMessages];
+        this.messagesSubjects.next(updatedMessages);
     }
 
     clearMessages() {
       this.messagesSubjects.next([])
+    }
+
+    getMessageCount() {
+      return this.messagesSubjects.getValue().length
     }
 }
