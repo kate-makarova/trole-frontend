@@ -4420,7 +4420,7 @@ html.is-reveal-open, html.is-reveal-open body {
   z-index: 1006;
   padding: 1rem;
   border: 1px solid #cacaca;
-  background-color: #fefefe;
+  background-color: #272727;
   border-radius: 2px;
   position: fixed;
   top: calc(50% - 50px);
@@ -5646,4 +5646,8 @@ table tbody tr.alert {
 
 .top-bar.black .menu.dropdown .submenu li {
     border-color: #171717
+}
+
+.autocomplete-container .input-container input {
+    background: #1e1e1e;
 }
