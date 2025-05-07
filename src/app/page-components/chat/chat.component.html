@@ -1,46 +1,47 @@
-<div class="row column">
-    <ng-container *ngIf="singleSocketChatService.activeSubscription; else header">
-        <h4 style="margin: 0;" class="text-center">{{ singleSocketChatService.activeSubscription.chat.title }}</h4>
-        <div style="text-align: center">
+<!-- Updated HTML -->
+<div class="chat-container">
+    <div class="row column">
+        <ng-container *ngIf="singleSocketChatService.activeSubscription; else header">
+            <h4 style="margin: 0;" class="text-center">{{ singleSocketChatService.activeSubscription.chat.title }}</h4>
+            <div style="text-align: center">
         <span *ngFor="let p of singleSocketChatService.activeSubscription.chat.users">
-            {{ p.name }}
+          {{ p.name }}
         </span>
-        </div>
-    </ng-container>
-</div>
-<ng-container *ngIf="chatsLoaded$ | async; else loading">
-    <div class="row" style="display: flex;">
-
-        <div id="left-panel" class="large-3">
-            <div id="panel">
-                <button class="button hollow success" (click)="startChatFormOpen()">Start chat</button>
             </div>
-            <ul class="menu icons vertical">
-                <li *ngFor="let chat of (chatList$| async)"><a
-                        (click)="switchChat(chat.id)"><span>{{ chat.title }}</span></a>
-                    <!--            <span class="badge" *ngIf="(chat?.unread$ | async) > 0">{{(chat.unread$ | async)}}</span>-->
-                </li>
-            </ul>
-        </div>
-        <div class="column large-9">
+        </ng-container>
+    </div>
+
+    <ng-container *ngIf="chatsLoaded$ | async; else loading">
+        <div class="chat-body">
+            <!-- Left panel -->
+            <div id="left-panel">
+                <div id="panel">
+                    <button class="button hollow success" (click)="startChatFormOpen()">Start chat</button>
+                </div>
+                <ul class="menu icons vertical">
+                    <li *ngFor="let chat of (chatList$| async)">
+                        <a (click)="switchChat(chat.id)"><span>{{ chat.title }}</span></a>
+                    </li>
+                </ul>
+            </div>
+
             <ng-container *ngIf="chatId == 0">
                 <div class="row column">
                     <h6 style="margin: 0;" class="text-center">Select a chat</h6>
                 </div>
             </ng-container>
+
             <ng-container *ngIf="chatId != 0">
-            <div>
-
-                    <ng-container
-                            *ngIf="singleSocketChatService.activeSubscription?.messages$ | async as messages; else loading">
+            <div class="chat-main">
+                <!-- Scrollable message area -->
+                <div class="chat-messages">
+                    <ng-container *ngIf="singleSocketChatService.activeSubscription?.messages$ | async as messages; else loading">
                         @for (message of messages; track $index) {
-
                             <div class="media-object">
                                 <div class="media-object-section">
                                     <a href="#">
                                         <div class="">
                                             <h5>{{ message.user?.name }}</h5>
-                                            <!--              <img width="80px" src="{{message.user?.avatar}}"/>-->
                                         </div>
                                     </a>
                                 </div>
@@ -49,30 +50,31 @@
                                 </div>
                             </div>
                         }
-                </ng-container>
-            </div>
-
-            <div>
-                <textarea [(ngModel)]="newMessage" placeholder="Enter your message"></textarea>
-                <button (click)="sendMessage(newMessage)">Send</button>
-                <div>
+                    </ng-container>
                 </div>
-            </div>
-            </ng-container>
+
+                <!-- Fixed input area -->
+                <div class="chat-input">
+                    <div class="input-row">
+                        <textarea [(ngModel)]="newMessage" placeholder="Enter your message"></textarea>
+                        <button class="button primary" (click)="sendMessage(newMessage)">Send</button>
+                    </div>
+                </div>
         </div>
-    </div>
+            </ng-container>
+            </div>
 
-
-    <div id="create-new-chat"
-         *ngIf="createNewChatOpen"
-         (close)="onNewChatClose()"
-         (submit)="onNewChatCreate()"
-         style="top: 50px!important"
-         class="reveal" data-reveal>
-        <app-chat-form></app-chat-form>
-    </div>
-
-</ng-container>
+        <!-- Chat creation modal -->
+        <div id="create-new-chat"
+             *ngIf="createNewChatOpen"
+             (close)="onNewChatClose()"
+             (submit)="onNewChatCreate()"
+             style="top: 50px!important"
+             class="reveal" data-reveal>
+            <app-chat-form></app-chat-form>
+        </div>
+    </ng-container>
+</div>
 
 <ng-template #loading>
     Loading...
