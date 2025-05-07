@@ -3,7 +3,7 @@ import {SocketService} from "../socket/socket.service";
 import {ChatMessage} from "../../entities/ChatMessage";
 import {SessionService} from "../session/session.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {SimpleUser} from "../../entities/SimpleUser";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {APIService} from "../apiservice/apiservice.service";
@@ -164,6 +164,14 @@ export class SingleSocketChatService extends APIService {
   getLastOpenedChat(): void {
     this.getData<number>('last-open-chat').subscribe((data: number) => {
       this.lastOpenedChat.next(data)
+    })
+  }
+
+  create(data: any): void {
+    this.postData('private-chat/create', data).subscribe((result) => {
+      if (result) {
+        this.loadPrivateChats()
+      }
     })
   }
 }

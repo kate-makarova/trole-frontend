@@ -3,8 +3,8 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {NgForOf} from "@angular/common";
 import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SimpleEntity} from "../../entities/SimpleEntity";
-import {APIService} from "../../services/apiservice/apiservice.service";
 import {UserService} from "../../services/user/user.service";
+import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
 
 @Component({
   selector: 'app-chat-form',
@@ -25,7 +25,7 @@ export class ChatFormComponent {
     @Output('close') closeEmitter: EventEmitter<boolean> = new EventEmitter();
     @Output('submit') submitEmitter: EventEmitter<boolean> = new EventEmitter();
 
-    constructor(private apiService: APIService,
+    constructor(private singleSocketChatService: SingleSocketChatService,
                 private userService: UserService) {
     }
 
@@ -54,9 +54,7 @@ export class ChatFormComponent {
     }
 
     onSubmit() {
-        // this.singleSocketChatService.create(this.form.value).subscribe(data => {
-        //     this.submitEmitter.emit(true)
-        // })
+        this.singleSocketChatService.create(this.form.value)
     }
 
     cancel() {
