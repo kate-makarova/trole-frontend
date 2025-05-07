@@ -30,11 +30,6 @@ export class SingleSocketChatService extends APIService {
 
     this.socket.onOpen().subscribe((data: any) => {
       this.connectionEstablished.next(true)
-      const user = this.sessionService.getUser();
-      if (user != null) {
-        this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'user_online')
-        this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'get_users_online')
-      }
     })
 
     this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
@@ -90,6 +85,11 @@ export class SingleSocketChatService extends APIService {
     const s = this.subscriptions.find((elem: ChatSubscription) => {return elem.chat.id == chatId})
     if (s) {
       this.activeSubscription = s
+      const user = this.sessionService.getUser();
+      if (user != null) {
+        this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'user_online')
+        this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'get_users_online')
+      }
     }
   }
 
