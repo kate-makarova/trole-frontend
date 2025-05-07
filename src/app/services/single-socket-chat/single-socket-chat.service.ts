@@ -129,7 +129,10 @@ export class SingleSocketChatService extends APIService {
 
   connect() {
     if(!this.sessionService.getUser()) {return}
-    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getUser()?.id+'&chatIds='+this.subscriptions.map((elem: ChatSubscription) => {return elem.chat.id}).join(','))
+    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='
+        +this.sessionService.getUser()?.id
+        +'&userName='+this.sessionService.getUser()?.username
+        +'&chatIds='+this.subscriptions.map((elem: ChatSubscription) => {return elem.chat.id}).join(','))
    // this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
   }
 
