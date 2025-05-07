@@ -6,7 +6,6 @@ import {SessionService} from '../../services/session/session.service';
 import {ChatSubscription} from "../../entities/ChatSubscription";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
-import {SessionInitComponent} from "../../components/session-init/session-init.component";
 import {ChatFormComponent} from "../../components/chat-form/chat-form.component";
 import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
 
@@ -23,36 +22,33 @@ import {SingleSocketChatService} from "../../services/single-socket-chat/single-
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent extends SessionInitComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy {
   chatId: number|null;
   newMessage: string = ''
   createNewChatOpen: boolean = false
   chatsLoaded$: Observable<boolean> = of(false)
   socketConnectionEstablished$: Observable<boolean> = of(false)
   chatList$: Observable<ChatSubscriptionSimple[]> = of([])
-  activeSubscription: ChatSubscription|null = null
 
 
-  constructor(sessionService: SessionService,
+  constructor(private sessionService: SessionService,
               protected singleSocketChatService: SingleSocketChatService,
               private route: ActivatedRoute) {
-    super(sessionService);
     this.chatId = Number(this.route.snapshot.paramMap.get('id'));
     this.chatsLoaded$ = this.singleSocketChatService.chatsLoaded.asObservable()
     this.socketConnectionEstablished$ = this.singleSocketChatService.connectionEstablished.asObservable()
     this.chatList$ = this.singleSocketChatService.chatList.asObservable()
   }
 
-  onSessionInit() {
+  ngOnInit() {
     if(this.sessionService.getUser() === null) {return}
 
     this.chatsLoaded$.subscribe((loaded: boolean) => {
       if(!loaded) {return}
       if(this.chatId) {
         this.singleSocketChatService.switchActiveSubscription(this.chatId)
-        this.activeSubscription = this.singleSocketChatService.activeSubscription
       }
-      this.singleSocketChatService.loadPreviousMessages()
+      this.singleSocketChatService.loadInitialMessages()
       this.singleSocketChatService.connect()
     })
 
@@ -70,6 +66,7 @@ export class ChatComponent extends SessionInitComponent implements OnInit, OnDes
     this.singleSocketChatService.sendMessage(user, text)
     this.newMessage = ''
   }
+
 
   ngOnDestroy() {
     this.singleSocketChatService.kill()

@@ -18,8 +18,7 @@ export class ChatSubscription {
     }
 
     addMessage(message: ChatMessage) {
-        let messages = this.messagesSubjects.getValue()
-        messages.push(message)
+        const messages = [...this.messagesSubjects.getValue(), message];
         this.messagesSubjects.next(messages)
         this.unread.next(this.unread.getValue() + 1)
     }
@@ -28,5 +27,9 @@ export class ChatSubscription {
         let messages = this.messagesSubjects.getValue()
         messages = newMessages.concat(messages)
         this.messagesSubjects.next(messages)
+    }
+
+    clearMessages() {
+      this.messagesSubjects.next([])
     }
 }

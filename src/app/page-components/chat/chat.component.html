@@ -1,8 +1,8 @@
 <div class="row column">
-    <ng-container *ngIf="activeSubscription; else header">
-  <h4 style="margin: 0;" class="text-center">{{ activeSubscription.chat.title }}</h4>
+    <ng-container *ngIf="singleSocketChatService.activeSubscription; else header">
+  <h4 style="margin: 0;" class="text-center">{{ singleSocketChatService.activeSubscription.chat.title }}</h4>
     <div style="text-align: center">
-        <span *ngFor="let p of activeSubscription.chat.users">
+        <span *ngFor="let p of singleSocketChatService.activeSubscription.chat.users">
             {{p.name}}
         </span>
     </div>
@@ -23,7 +23,7 @@
     </div>
 <div class="column large-9">
   <div>
-      <ng-container *ngIf="activeSubscription?.messages$ | async as messages; else loading">
+      <ng-container *ngIf="singleSocketChatService.activeSubscription?.messages$ | async as messages; else loading">
   @for ( message of messages; track $index) {
 
       <div class="media-object">

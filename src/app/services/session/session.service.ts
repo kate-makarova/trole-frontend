@@ -15,8 +15,7 @@ export class SessionService {
   private refreshToken: string = '';
   public initialized: Subject<boolean> = new Subject<boolean>();
 
-   constructor(private http: HttpClient, private router: Router,) {
-     this.initialized.next(false);
+   constructor(private http: HttpClient, private router: Router) {
   }
 
   async init() {
@@ -31,7 +30,6 @@ export class SessionService {
           this.user = data.user;
         }
     }
-    this.initialized.next(true);
   }
 
   updateSession(

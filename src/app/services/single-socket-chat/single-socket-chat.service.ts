@@ -76,20 +76,8 @@ export class SingleSocketChatService extends APIService {
     this.activeSubscription.addMessage(message)
   }
 
-  // loadPrivateChats() {
-  //   const chats = [
-  //       new ChatRoom(1, 2, 'Test 1', [], 0),
-  //       new ChatRoom(2, 2, 'Test 2', [], 0)
-  //   ]
-  //
-  //     for (let chat of chats) {
-  //       this.subscriptions.push(new ChatSubscription(this.sessionService, chat))
-  //     }
-  //     this.updateChatList()
-  //   this.chatsLoaded.next(true)
-  // }
-
   loadPrivateChats() {
+    this.subscriptions = []
     return this.getData<ChatRoom[]>('active-chats').subscribe((data: ChatRoom[]) => {
       for(let chat of data) {
         this.subscriptions.push(new ChatSubscription(chat))
@@ -97,6 +85,12 @@ export class SingleSocketChatService extends APIService {
       this.updateChatList()
       this.chatsLoaded.next(true)
     })
+  }
+
+  loadInitialMessages() {
+    if(!this.activeSubscription) {return}
+    this.activeSubscription.clearMessages()
+    this.loadPreviousMessages()
   }
 
   loadPreviousMessages(offset: number = 0, limit: number = 20) {
@@ -107,7 +101,8 @@ export class SingleSocketChatService extends APIService {
   }
 
   connect() {
-    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+Math.floor(Math.random() * 11))
+    if(!this.sessionService.getUser()) {return}
+    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getUser()?.id)
    // this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
   }
 

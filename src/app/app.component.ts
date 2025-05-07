@@ -17,29 +17,24 @@ import {Theme} from "./services/theme/Theme";
 export class AppComponent {
   title = 'trole-frontend';
 
-  constructor(private translate: TranslateService,
-              private themeService: ThemeService,
-              private sessionService: SessionService) {
-    this.translate.addLangs(['ru', 'en']);
-    this.translate.setDefaultLang('en');
+  constructor(translate: TranslateService, themeService: ThemeService, sessionService: SessionService) {
+    translate.addLangs(['ru', 'en']);
+    translate.setDefaultLang('en');
 
-    this.sessionService.init().then(() => {
+    const user: User | null = sessionService.getUser();
 
-      const user: User | null = this.sessionService.getUser();
+    let locale = 'en'
+    let theme: string = Theme.getDefault().themeCSSID
 
-      let locale = 'en'
-      let theme: string = Theme.getDefault().themeCSSID
+    if (user != null && user.language != null) {
+      locale = user.language
+    }
 
-      if (user != null && user.language != null) {
-        locale = user.language
-      }
+    if (user != null && user.theme != null) {
+      theme = user.theme
+    }
 
-      if (user != null && user.theme != null) {
-        theme = user.theme
-      }
-
-      this.translate.use(locale);
-      this.themeService.setTheme(theme)
-    })
+    translate.use(locale);
+    themeService.setTheme(theme)
   }
 }
