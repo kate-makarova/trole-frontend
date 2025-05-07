@@ -4,7 +4,7 @@ import {NgForOf} from "@angular/common";
 import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SimpleEntity} from "../../entities/SimpleEntity";
 import {APIService} from "../../services/apiservice/apiservice.service";
-import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-chat-form',
@@ -26,7 +26,7 @@ export class ChatFormComponent {
     @Output('submit') submitEmitter: EventEmitter<boolean> = new EventEmitter();
 
     constructor(private apiService: APIService,
-                private singleSocketChatService: SingleSocketChatService) {
+                private userService: UserService) {
     }
 
     get users() {
@@ -48,7 +48,7 @@ export class ChatFormComponent {
 
     onChangeUserSearch(val: string) {
         if (val.length < 3) return;
-        this.apiService.autocomplete('User', val).subscribe(data => {
+        this.userService.userAutocomplete(val).subscribe(data => {
             this.dataUser = data;
         })
     }

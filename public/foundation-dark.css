@@ -5649,5 +5649,14 @@ table tbody tr.alert {
 }
 
 .autocomplete-container .input-container input {
-    background: #1e1e1e;
+    background: #1e1e1e!important;
+    color: #fefefe!important;
+}
+
+.autocomplete-container .suggestions-container {
+    background: #1e1e1e!important;
+}
+
+.autocomplete-container .suggestions-container a {
+    color: #fff!important;
 }

@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import {Observable, of, Subscription, switchMap} from 'rxjs';
 import {User} from '../../entities/User';
 import {TokenResponse} from "../../entities/TokenResponse";
+import {SimpleEntity} from "../../entities/SimpleEntity";
+import {SimpleUser} from "../../entities/SimpleUser";
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +45,9 @@ export class UserService extends APIService {
           return of('Unknown error')
         }));
   }
+
+    userAutocomplete(term: string): Observable<SimpleUser[]> {
+        return this.getData<SimpleUser[]>('user-autocomplete/'+term)
+    }
 
 }
