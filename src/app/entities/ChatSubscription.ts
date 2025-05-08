@@ -23,6 +23,10 @@ export class ChatSubscription {
         this.messages$ = this.messagesSubjects.asObservable()
     }
 
+    incrementUnread() {
+        this.unread.next(this.unread.getValue() + 1)
+    }
+
     addMessage(message: ChatMessage) {
         const messages = [...this.messagesSubjects.getValue(), message];
         this.messagesSubjects.next(messages)

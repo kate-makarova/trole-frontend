@@ -39,6 +39,9 @@ export class SingleSocketChatService extends APIService {
         })
         if (s) {
           s.addMessage(data)
+          if(s !== this.activeSubscription) {
+            s.incrementUnread()
+          }
         }
       }
 

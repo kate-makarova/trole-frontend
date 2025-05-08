@@ -21,6 +21,7 @@
                 <ul class="menu icons vertical">
                     <li *ngFor="let chat of (chatList$| async)">
                         <a (click)="switchChat(chat.id)"><span>{{ chat.title }}</span></a>
+                        <span class="label secondary" *ngIf="(chat.unread$ | async)">{{(chat.unread$ | async)}}</span>
                     </li>
                 </ul>
             </div>
