@@ -3,7 +3,7 @@ import {Observable, of, shareReplay, Subscription} from 'rxjs';
 import {FormsModule} from '@angular/forms';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {SessionService} from '../../services/session/session.service';
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {ChatFormComponent} from "../../components/chat-form/chat-form.component";
 import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
@@ -66,6 +66,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
     this.singleSocketChatService.activeSubscription?.clearMessages()
     this.singleSocketChatService.kill()
+    this.singleSocketChatService.updateLastOpenedChat()
   }
 
   startChatFormOpen() {

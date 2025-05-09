@@ -85,6 +85,9 @@ export class SingleSocketChatService extends APIService {
   }
 
   switchActiveSubscription(chatId: number) {
+    if(this.activeSubscription) {
+      this.postData('last-read-message-date/update', {"chat_type": 1, "chat_id": this.activeSubscription.chat.id, "last_read_message_date": new Date().toString()}).subscribe((result) => {})
+    }
     const s = this.subscriptions.find((elem: ChatSubscription) => {return elem.chat.id == chatId})
     if (s) {
       this.activeSubscription = s
@@ -94,6 +97,14 @@ export class SingleSocketChatService extends APIService {
         this.sendMessage(new SimpleUser(user.id, user.username, ''), '', 'get_users_online')
       }
     }
+  }
+
+  updateLastOpenedChat() {
+    if(!this.activeSubscription) {
+      return
+    }
+    const chatId = this.activeSubscription?.chat.id;
+    this.postData('last-open-chat/update', {"chat_id": chatId}).subscribe((result) => {})
   }
 
   sendMessage(user: SimpleUser, text: string, type = 'user_message') {
