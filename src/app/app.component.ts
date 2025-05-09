@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {AppHeaderComponent} from './components/header/app-header.component';
 import {AppFooterComponent} from './components/footer/app-footer.component';
@@ -8,33 +8,52 @@ import {ThemeService} from "./services/theme/theme.service";
 import {SessionService} from "./services/session/session.service";
 import {User} from "./entities/User";
 import {Theme} from "./services/theme/Theme";
+import {SingleSocketChatService} from "./services/single-socket-chat/single-socket-chat.service";
+import {Observable} from "rxjs";
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, AppHeaderComponent, AppFooterComponent, BreadcrumbsComponent, TranslateModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'trole-frontend';
+  sessionInitialized: Observable<boolean>;
 
-  constructor(translate: TranslateService, themeService: ThemeService, sessionService: SessionService) {
-    translate.addLangs(['ru', 'en']);
-    translate.setDefaultLang('en');
+  constructor(private translate: TranslateService,
+              private themeService: ThemeService,
+              private sessionService: SessionService,
+              private chatService: SingleSocketChatService) {
+    this.sessionInitialized = sessionService.initialized.asObservable();
+  }
 
-    const user: User | null = sessionService.getUser();
+  ngOnInit() {
+    this.translate.addLangs(['ru', 'en']);
+    this.translate.setDefaultLang('en');
 
-    let locale = 'en'
-    let theme: string = Theme.getDefault().themeCSSID
+    this.sessionInitialized.subscribe(initialized => {
+      if (!initialized) {
+        return
+      }
+      const user: User | null = this.sessionService.getUser();
 
-    if (user != null && user.language != null) {
-      locale = user.language
-    }
+      let locale = 'en'
+      let theme: string = Theme.getDefault().themeCSSID
 
-    if (user != null && user.theme != null) {
-      theme = user.theme
-    }
+      if (user != null && user.language != null) {
+        locale = user.language
+      }
 
-    translate.use(locale);
-    themeService.setTheme(theme)
+      if (user != null && user.theme != null) {
+        theme = user.theme
+      }
+
+      this.translate.use(locale);
+      this.themeService.setTheme(theme)
+
+      if(user !== null) {
+        this.chatService.connect();
+      }
+    })
   }
 }

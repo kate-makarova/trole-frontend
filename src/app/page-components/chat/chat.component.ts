@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.singleSocketChatService.switchActiveSubscription(this.chatId)
       }
       this.singleSocketChatService.loadHistory()
-      this.singleSocketChatService.connect()
+   //   this.singleSocketChatService.connect()
     }))
 
     this.singleSocketChatService.loadPrivateChats()
@@ -65,7 +65,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
     this.singleSocketChatService.activeSubscription?.clearMessages()
-    this.singleSocketChatService.kill()
+  //  this.singleSocketChatService.kill()
     this.singleSocketChatService.updateLastOpenedChat()
   }
 
