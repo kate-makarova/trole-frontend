@@ -19,6 +19,8 @@ export class AppHeaderComponent implements OnInit {
   path: string = '';
   param: number = 0;
   last_opened_chat$: Observable<number|null|false> = of(false);
+  unread$: Observable<number> = of(0);
+
 
   constructor(public sessionService: SessionService,
               private router: Router,
@@ -34,10 +36,11 @@ export class AppHeaderComponent implements OnInit {
         }
     });
     this.last_opened_chat$ = this.chatService.lastOpenedChat.asObservable().pipe(shareReplay(1));
+    this.unread$ = this.chatService.globalUnread.asObservable().pipe(shareReplay(1));
   }
 
   ngOnInit() {
-    this.chatService.getLastOpenedChat()
+    this.chatService.loadHeaderChatData()
   }
 
     logOut($event: MouseEvent) {

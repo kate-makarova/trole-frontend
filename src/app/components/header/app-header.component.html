@@ -26,6 +26,7 @@
                         </ng-container>
                         <ng-container *ngIf="(last_opened_chat$ | async) !== false">
                         <a routerLink="/chat/{{ last_opened_chat$ | async }}">Chat</a>
+                            <span class="label secondary" *ngIf="(unread$ | async)">{{(unread$ | async)}}</span>
                         </ng-container>
                     </li>
                     <li>

@@ -22,6 +22,8 @@ export class SingleSocketChatService extends APIService {
   activeSubscription: ChatSubscription | null = null
   chatList: BehaviorSubject<ChatSubscriptionSimple[]> = new BehaviorSubject<ChatSubscriptionSimple[]>([])
   lastOpenedChat: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null)
+  open: boolean = false
+  globalUnread: BehaviorSubject<number> = new BehaviorSubject(0)
 
 
   constructor(http: HttpClient, sessionService: SessionService, router: Router) {
@@ -33,6 +35,11 @@ export class SingleSocketChatService extends APIService {
     })
 
     this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
+      if(!open) {
+        this.globalUnread.next(this.globalUnread.value + 1)
+        return
+      }
+
       if (data.type == 'user_message') {
         const s = this.subscriptions.find((elem: ChatSubscription) => {
           return elem.chat.id == data.chatId
@@ -167,6 +174,12 @@ export class SingleSocketChatService extends APIService {
    // this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
   }
 
+  getGlobalUnread(): void {
+    this.getData<number>('total-private-unread').subscribe((data: number) => {
+      this.globalUnread.next(data)
+    })
+  }
+
   kill() {
     const user = this.sessionService.getUser();
     if (user != null) {
@@ -178,6 +191,13 @@ export class SingleSocketChatService extends APIService {
   getLastOpenedChat(): void {
     this.getData<number>('last-open-chat').subscribe((data: number) => {
       this.lastOpenedChat.next(data)
+    })
+  }
+
+  loadHeaderChatData(): void {
+    this.getData<any>('header-chat-data').subscribe((data: any) => {
+      this.globalUnread.next(data.unread)
+      this.lastOpenedChat.next(data.last_chat)
     })
   }
 
