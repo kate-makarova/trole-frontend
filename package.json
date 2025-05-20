@@ -5,8 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "start_dev": "ng serve  --configuration development",
+    "start_test": "ng serve  --configuration testing",
     "build": "ng build",
+    "build_test": "ng build --configuration testing",
     "watch": "ng build --watch --configuration development",
+    "watch_test": "ng build --watch --configuration testing",
     "test": "ng test",
     "update_editor": "npm update sceditor-angular"
   },

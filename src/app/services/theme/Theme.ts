@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+
 export class Theme
 {
     public cssFile: string = '';
@@ -10,14 +12,14 @@ export class Theme
 
     public static getDefault(): Theme {
         return new Theme('style-default',
-            'https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css',
+            environment.assets.css.foundation,
         )
     }
 
     public static getAll(): Theme[] {
         return  [
             {
-                cssFile: 'https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css',
+                cssFile: environment.assets.css.foundation,
                 themeCSSID: 'style-default'
             },
             {

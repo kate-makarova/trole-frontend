@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  apiHost: "http://127.0.0.1:8000/api/",
-  websocketUrl: "ws://127.0.0.1:8001",
+  apiHost: "https://test-api.trole.online/api/",
+  websocketUrl: "wss://test-socket.trole.online",
   assets: {
     css: {
       foundation: "https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css"

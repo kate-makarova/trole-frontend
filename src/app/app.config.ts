@@ -13,6 +13,7 @@ import {HttpClient, provideHttpClient} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {SessionService} from './services/session/session.service';
+import {AssetService} from './services/asset/asset.service';
 
 function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './locale/', '.json');
@@ -20,6 +21,7 @@ function createTranslateLoader(http: HttpClient) {
 
 function initializeApp() {
   const sessionService = inject(SessionService)
+  const assetService = inject(AssetService)
 
   return new Promise((resolve) => {sessionService.init().then(() => {resolve(true)})})
 }

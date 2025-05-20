@@ -10,6 +10,7 @@ import {APIService} from "../apiservice/apiservice.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ChatRoom} from "../../entities/ChatRoom";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -167,11 +168,11 @@ export class SingleSocketChatService extends APIService {
 
   connect() {
     if(!this.sessionService.getUser()) {return}
-    this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='
+    this.socket.connect(environment.websocketUrl + '?token='
         +this.sessionService.getUser()?.id
         +'&userName='+this.sessionService.getUser()?.username
         +'&chatIds='+this.subscriptions.map((elem: ChatSubscription) => {return elem.chat.id}).join(','))
-   // this.socket.connect('wss://d8amop4uwi.execute-api.us-east-1.amazonaws.com/production?token='+this.sessionService.getToken())
+   // this.socket.connect(environment.websocketUrl + '?token='+this.sessionService.getToken())
   }
 
   getGlobalUnread(): void {
