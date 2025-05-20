@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {SocketService} from "../socket/socket.service";
 import {ChatMessage} from "../../entities/ChatMessage";
 import {SessionService} from "../session/session.service";
 import {ChatSubscription} from "../../entities/ChatSubscription";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 import {SimpleUser} from "../../entities/SimpleUser";
 import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
 import {APIService} from "../apiservice/apiservice.service";
@@ -15,7 +16,8 @@ import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class SingleSocketChatService extends APIService {
+export class SingleSocketChatService extends APIService implements OnDestroy {
+  private destroy$ = new Subject<void>();
   socket: SocketService<ChatMessage>;
   private subscriptions: ChatSubscription[] = []
   chatsLoaded: BehaviorSubject<boolean> = new BehaviorSubject(false)
@@ -40,11 +42,15 @@ export class SingleSocketChatService extends APIService {
     super(http, sessionService, router);
     this.socket = new SocketService<ChatMessage>()
 
-    this.socket.onOpen().subscribe((data: any) => {
-      this.connectionEstablished.next(true)
-    })
+    this.socket.onOpen()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.connectionEstablished.next(true)
+      })
 
-    this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
+    this.socket.onMessage<ChatMessage>()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: ChatMessage) => {
       if(!open) {
         this.globalUnread.next((this.globalUnread.value ?? 0) + 1)
         return
@@ -137,13 +143,15 @@ export class SingleSocketChatService extends APIService {
 
   loadPrivateChats() {
     this.subscriptions = []
-    return this.getData<ChatRoom[]>('active-chats').subscribe((data: ChatRoom[]) => {
-      for(let chat of data) {
-        this.subscriptions.push(new ChatSubscription(chat))
-      }
-      this.updateChatList()
-      this.chatsLoaded.next(true)
-    })
+    return this.getData<ChatRoom[]>('active-chats')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: ChatRoom[]) => {
+        for(let chat of data) {
+          this.subscriptions.push(new ChatSubscription(chat))
+        }
+        this.updateChatList()
+        this.chatsLoaded.next(true)
+      })
   }
 
   loadHistory() {
@@ -158,12 +166,14 @@ export class SingleSocketChatService extends APIService {
   loadPreviousMessages() {
     if(this.activeSubscription === null) {return}
     this.activeSubscription.currentHistoryPage++
-    this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id+'/'+this.activeSubscription.currentHistoryPage).subscribe((data: ChatMessage[]) => {
-      if(data.length < 20 && this.activeSubscription) {
-        this.activeSubscription.canBeMore = false
-      }
-      this.activeSubscription?.addMessagesToBeginning(data)
-    })
+    this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id+'/'+this.activeSubscription.currentHistoryPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: ChatMessage[]) => {
+        if(data.length < 20 && this.activeSubscription) {
+          this.activeSubscription.canBeMore = false
+        }
+        this.activeSubscription?.addMessagesToBeginning(data)
+      })
   }
 
   connect() {
@@ -176,7 +186,12 @@ export class SingleSocketChatService extends APIService {
   }
 
   getGlobalUnread(): void {
-    this.getDataAndUpdateSubject<number | null>('total-private-unread', this.globalUnread);
+    // Use getData with takeUntil instead of getDataAndUpdateSubject
+    this.getData<number | null>('total-private-unread')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: number | null) => {
+        this.globalUnread.next(data);
+      });
   }
 
   kill() {
@@ -188,21 +203,39 @@ export class SingleSocketChatService extends APIService {
   }
 
   getLastOpenedChat(): void {
-    this.getDataAndUpdateSubject<number>('last-open-chat', this.lastOpenedChat);
+    // Use getData with takeUntil instead of getDataAndUpdateSubject
+    this.getData<number>('last-open-chat')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: number) => {
+        this.lastOpenedChat.next(data);
+      });
   }
 
   loadHeaderChatData(): void {
-    this.getData<any>('header-chat-data').subscribe((data: any) => {
-      this.globalUnread.next(data.unread)
-      this.lastOpenedChat.next(data.last_chat)
-    })
+    this.getData<any>('header-chat-data')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.globalUnread.next(data.unread)
+        this.lastOpenedChat.next(data.last_chat)
+      })
   }
 
   create(data: any): void {
-    this.postData('private-chat/create', data).subscribe((result) => {
-      if (result) {
-        this.loadPrivateChats()
-      }
-    });
+    this.postData('private-chat/create', data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.loadPrivateChats()
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    // Complete the subject to notify all subscriptions to unsubscribe
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    // Clean up WebSocket connections
+    this.kill();
   }
 }

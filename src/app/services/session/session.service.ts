@@ -52,7 +52,7 @@ export class SessionService {
   }
 
   getSimpleUser(): SimpleUser|null {
-     if (this.user == null) {return null}
+     if (this.user === null) {return null}
      return new SimpleUser(this.user.id, this.user.username, this.user.avatar)
   }
 
@@ -96,7 +96,7 @@ export class SessionService {
   }
 
   async refresh(): Promise<boolean> {
-     if(this.refreshToken == undefined) {
+     if(this.refreshToken === undefined) {
        localStorage.removeItem('session')
        return false;
      }

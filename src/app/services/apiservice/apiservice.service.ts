@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {BehaviorSubject, catchError, Observable, of, Subscription, switchMap} from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {BehaviorSubject, catchError, Observable, of, Subscription, switchMap, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../entities/ApiResponse';
 import {SessionService} from '../session/session.service';
 import {Router} from '@angular/router';
 import {SimpleEntity} from "../../entities/SimpleEntity";
+import {ErrorHandlingService} from '../error-handling/error-handling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class APIService {
 
   constructor(private http: HttpClient,
               protected sessionService: SessionService,
-              private router: Router) {
+              private router: Router,
+              private errorHandlingService: ErrorHandlingService) {
   }
 
   private static isValidDate(value: string): boolean {
@@ -52,17 +54,22 @@ export class APIService {
 
         return of(data);
       }),
-      catchError((error) => {
+      catchError((error: HttpErrorResponse) => {
         // Handle error if any request fails
-        console.log(error);
         this.httpStatus.next(error.status);
+
+        // Use the error handling service to process the error
+        this.errorHandlingService.handleHttpError(error, `fetching data from ${endpoint}`);
+
+        // Handle specific error cases
         switch(error.status) {
           case 401:
             this.router.navigateByUrl('/login');
-            return of(null as unknown as T);
-          default:
-            return of(null as unknown as T);
+            break;
         }
+
+        // Return null for the data stream to continue
+        return of(null as unknown as T);
       })
     )
   }
@@ -88,16 +95,22 @@ export class APIService {
 
               return of(data);
             }),
-            catchError((error) => {
+            catchError((error: HttpErrorResponse) => {
               // Handle error if any request fails
-              console.error(error);
+              this.httpStatus.next(error.status);
+
+              // Use the error handling service to process the error
+              this.errorHandlingService.handleHttpError(error, `posting data to ${endpoint}`);
+
+              // Handle specific error cases
               switch(error.status) {
                 case 401:
                   this.router.navigateByUrl('/login');
-                  return of(null as unknown as T);
-                default:
-                  return of(null as unknown as T);
+                  break;
               }
+
+              // Return null for the data stream to continue
+              return of(null as unknown as T);
             })
         )
   }
