@@ -94,22 +94,14 @@ export class APIService {
 
           return of(data);
         }),
-        catchError((error: HttpErrorResponse) => {
+        catchError((error) => {
           // Handle error if any request fails
-          this.httpStatus.next(error.status);
-
-          // Use the error handling service to process the error
-          this.errorHandlingService.handleHttpError(error, `fetching data from ${endpoint}`);
-
-          // Handle specific error cases
-          switch(error.status) {
-            case 401:
-              this.router.navigateByUrl('/login');
-              break;
+          if (error instanceof HttpErrorResponse) {
+            this.httpStatus.next(error.status);
           }
 
-          // Return null for the data stream to continue
-          return of(null as unknown as T);
+          // Use the enhanced error handling service
+          return this.errorHandlingService.handleObservableError<T>(`fetching data from ${endpoint}`, null as unknown as T)(error);
         })
       )
   }
@@ -138,22 +130,14 @@ export class APIService {
 
               return of(data);
             }),
-            catchError((error: HttpErrorResponse) => {
+            catchError((error) => {
               // Handle error if any request fails
-              this.httpStatus.next(error.status);
-
-              // Use the error handling service to process the error
-              this.errorHandlingService.handleHttpError(error, `posting data to ${endpoint}`);
-
-              // Handle specific error cases
-              switch(error.status) {
-                case 401:
-                  this.router.navigateByUrl('/login');
-                  break;
+              if (error instanceof HttpErrorResponse) {
+                this.httpStatus.next(error.status);
               }
 
-              // Return null for the data stream to continue
-              return of(null as unknown as T);
+              // Use the enhanced error handling service
+              return this.errorHandlingService.handleObservableError<T>(`posting data to ${endpoint}`, null as unknown as T)(error);
             })
         )
   }

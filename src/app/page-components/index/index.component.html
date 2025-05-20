@@ -33,7 +33,7 @@
     <div class="row" *ngFor="let newsArticle of (newsArticles$ | async)">
         <div class="large-2 columns">
             <p>
-                <img [src]="newsArticle.image">
+                <img [src]="newsArticle.image" loading="lazy" alt="News article image">
             </p>
         </div>
         <div class="large-10 columns">
@@ -45,4 +45,3 @@
         </div>
         <hr />
     </div>
-

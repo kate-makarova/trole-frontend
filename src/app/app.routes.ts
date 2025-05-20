@@ -1,31 +1,13 @@
-import {Routes} from '@angular/router';
-import {UserHomeComponent} from './page-components/user-home/user-home.component';
-import {IndexComponent} from './page-components/index/index.component';
-import {EpisodeComponent} from './page-components/episode/episode.component';
-import {GameComponent} from './page-components/game/game.component';
-import {ChatComponent} from './page-components/chat/chat.component';
-import {LoginComponent} from './page-components/login/login.component';
-import {GameFormComponent} from './page-components/game-form/game-form.component';
-import {CharacterListComponent} from './page-components/character-list/character-list.component';
-import {EpisodeFormComponent} from './page-components/episode-form/episode-form.component';
-import {CharacterFormComponent} from './page-components/character-form/character-form.component';
-import {ArticleComponent} from './page-components/article/article.component';
-import {AdminComponent} from './page-components/admin/admin/admin.component';
-import {ArticleFormComponent} from './page-components/article-form/article-form.component';
-import {GamesComponent} from "./page-components/games/games.component";
-import {GameSettingsCharacterSheetComponent} from './page-components/game-settings/character-sheet/game-settings-character-sheet.component';
-import {PageComponent} from "./page-components/page/page.component";
-import {CharacterSheetComponent} from './page-components/character-sheet/character-sheet.component';
-import {UserCreateComponent} from './page-components/admin/user-create/user-create.component';
-import {AdminPageFormComponent} from './page-components/admin/page-form/page-form.component';
-import {UserSettingsComponent} from './page-components/user-settings/user-settings.component';
-import {GameEditComponent} from './page-components/game-settings/game-edit/game-edit.component';
-import {AdminUserListComponent} from './page-components/admin/admin-user-list/admin-user-list.component';
-import {
-  CharacterModerateFormComponent
-} from "./page-components/character-moderate-form/character-moderate-form.component";
-import {InvitationComponent} from "./page-components/invitation/invitation.component";
-import {SendInvitationComponent} from "./page-components/friends/send-invitation/send-invitation.component";
+import { Routes, PreloadAllModules } from '@angular/router';
+import { IndexComponent } from './page-components/index/index.component';
+import { GameComponent } from './page-components/game/game.component';
+import { GamesComponent } from './page-components/games/games.component';
+import { GameFormComponent } from './page-components/game-form/game-form.component';
+import { GameEditComponent } from './page-components/game-settings/game-edit/game-edit.component';
+import { GameSettingsCharacterSheetComponent } from './page-components/game-settings/character-sheet/game-settings-character-sheet.component';
+import { EpisodeComponent } from './page-components/episode/episode.component';
+import { EpisodeFormComponent } from './page-components/episode-form/episode-form.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -33,133 +15,91 @@ export const routes: Routes = [
     component: IndexComponent,
   },
   {
-    path: 'home',
-    title: 'Game Overview',
-    component: UserHomeComponent,
+    path: 'user',
+    loadChildren: () => import('./features/user/user.routes').then(m => m.USER_ROUTES)
   },
+  // Games and Episodes are the main functionality of the site, so they are not lazy-loaded
   {
     path: 'games',
     title: 'All Games',
-    component: GamesComponent,
-  },
-  {
-    path: 'login',
-    title: 'Login',
-    component: LoginComponent,
+    component: GamesComponent
   },
   {
     path: 'game/:id',
     title: 'Episodes',
-    component: GameComponent,
+    component: GameComponent
   },
   {
     path: 'game-create',
     title: 'Create Game',
-    component: GameFormComponent,
+    component: GameFormComponent
   },
   {
     path: 'game-settings/game-edit/:game_id',
     title: 'Game Settings - Edit Game',
-    component: GameEditComponent,
+    component: GameEditComponent
   },
   {
     path: 'game-settings/character-sheet/:game_id',
     title: 'Game Settings - Character Sheet',
-    component: GameSettingsCharacterSheetComponent,
+    component: GameSettingsCharacterSheetComponent
   },
   {
-    path: 'character/:id',
-    title: 'Character Sheet',
-    component: CharacterSheetComponent,
-  },
-  {
-    path: 'character-create/:id',
-    title: 'Create Character',
-    component: CharacterFormComponent,
-  },
-  {
-    path: 'character-edit/:id/:character_id',
-    title: 'Edit Character',
-    component: CharacterFormComponent,
-  },
-  {
-    path: 'character-moderate/:id',
-    title: 'Moderate Character',
-    component: CharacterModerateFormComponent,
-  },
-  {
-    path: 'character-list/:id',
-    title: 'Character List',
-    component: CharacterListComponent,
+    path: 'episode/:id',
+    component: EpisodeComponent
   },
   {
     path: 'episode-create/:id',
     title: 'Create Episode',
-    component: EpisodeFormComponent,
+    component: EpisodeFormComponent
   },
   {
     path: 'episode-edit/:id',
     title: 'Edit Episode',
-    component: EpisodeFormComponent,
+    component: EpisodeFormComponent
   },
   {
-    path: 'episode/:id',
-    component: EpisodeComponent,
+    path: 'character',
+    loadChildren: () => import('./features/characters/characters.routes').then(m => m.CHARACTERS_ROUTES)
   },
   {
-    path: 'chat/:id',
-    component: ChatComponent,
+    path: 'chat',
+    loadChildren: () => import('./features/chat/chat.routes').then(m => m.CHAT_ROUTES)
   },
   {
-    path: 'article/:game_id',
-    component: ArticleComponent,
+    path: 'article',
+    loadChildren: () => import('./features/articles/articles.routes').then(m => m.ARTICLES_ROUTES)
   },
   {
-    path: 'article/:game_id/:id',
-    component: ArticleComponent,
-  },
-  {
-    path: 'article-create/:game_id',
-    component: ArticleFormComponent,
-  },
-  {
-    path: 'article-edit/:game_id/:id',
-    component: ArticleFormComponent,
-  },
-  // {
-  //   path: 'page/:category/:path',
-  //   component: PageComponent,
-  // },
-  {
-    path: 'page/:path',
-    component: PageComponent,
-  },
-  {
-    path: 'user-settings',
-    component: UserSettingsComponent,
+    path: 'page',
+    loadChildren: () => import('./features/page/page.routes').then(m => m.PAGE_ROUTES)
   },
   {
     path: 'admin',
-    component: AdminComponent,
+    loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
   {
-    path: 'admin/user-create',
-    component: UserCreateComponent,
+    path: 'invitation',
+    loadChildren: () => import('./features/invitation/invitation.routes').then(m => m.INVITATION_ROUTES)
   },
   {
-    path: 'admin/page-create',
-    component: AdminPageFormComponent,
+    path: 'friends',
+    loadChildren: () => import('./features/friends/friends.routes').then(m => m.FRIENDS_ROUTES)
+  },
+  // Redirects for backward compatibility
+  {
+    path: 'login',
+    redirectTo: 'user/login',
+    pathMatch: 'full'
   },
   {
-    path: 'admin/user-list',
-    component: AdminUserListComponent,
+    path: 'home',
+    redirectTo: 'user/home',
+    pathMatch: 'full'
   },
   {
-    path: 'invitation/:key',
-    component: InvitationComponent,
-  },
-  {
-    path: 'friends/send-invitation',
-    component: SendInvitationComponent,
+    path: 'user-settings',
+    redirectTo: 'user/settings',
+    pathMatch: 'full'
   }
 ];
