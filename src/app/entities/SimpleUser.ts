@@ -1,4 +1,10 @@
-export class SimpleUser {
+export interface ISimpleUser {
+  id: number;
+  name: string;
+  avatar: string|null;
+}
+
+export class SimpleUser implements ISimpleUser {
   id: number;
   name: string;
   avatar: string|null;

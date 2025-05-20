@@ -1,8 +1,8 @@
-import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {PostService} from '../../services/post/post.service';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject, takeUntil} from 'rxjs';
 import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {Character} from '../../entities/Character';
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';

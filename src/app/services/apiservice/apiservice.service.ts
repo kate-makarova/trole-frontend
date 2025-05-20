@@ -36,37 +36,35 @@ export class APIService {
       }
     }
 
-    type FieldTypes<T> = {
-      [K in keyof T]: T[K];
-    };
+    return this.http.get<ApiResponse<T>>(apiHost+endpoint, {params: p, headers: h})
+      .pipe(switchMap((resp: ApiResponse<T>) => {
+        const data = resp.data;
+        this.httpStatus.next(resp.code);
 
-    return this.http.get<ApiResponse>(apiHost+endpoint, {params: p, headers: h})
-      .pipe(switchMap((resp: ApiResponse) => {
-        const data = resp["data"];
-        this.httpStatus.next(resp["code"]);
-
-            for (const key in data) {
-              const value = data[key];
-                if (typeof value === 'string' && APIService.isValidDate(value)) {
-                  data[key] = new Date(value);
-                }
+        if (data && typeof data === 'object') {
+          for (const key in data) {
+            const value = data[key];
+            if (typeof value === 'string' && APIService.isValidDate(value)) {
+              (data as any)[key] = new Date(value);
             }
-
-      return of(data as T);
-      }),
-        catchError((error) => {
-          // Handle error if any request fails
-          console.log(error);
-          this.httpStatus.next(error.status);
-          switch(error.status) {
-            case 401:
-              this.router.navigateByUrl('/login');
-              return of(null as T);
-            default:
-              return of(null as T);
           }
-        })
-      )
+        }
+
+        return of(data);
+      }),
+      catchError((error) => {
+        // Handle error if any request fails
+        console.log(error);
+        this.httpStatus.next(error.status);
+        switch(error.status) {
+          case 401:
+            this.router.navigateByUrl('/login');
+            return of(null as unknown as T);
+          default:
+            return of(null as unknown as T);
+        }
+      })
+    )
   }
 
   postData<T>(endpoint: string, body: object): Observable<T> {
@@ -75,18 +73,20 @@ export class APIService {
     let h = new HttpHeaders();
     h = h.set('Authorization', 'Bearer '+this.sessionService.getToken())
 
-    return this.http.post<ApiResponse>(apiHost+endpoint, body, {headers: h})
-        .pipe(switchMap((resp: ApiResponse) => {
-              const data = resp["data"];
+    return this.http.post<ApiResponse<T>>(apiHost+endpoint, body, {headers: h})
+        .pipe(switchMap((resp: ApiResponse<T>) => {
+              const data = resp.data;
 
-              for (const key in data) {
-                const value = data[key];
-                if (typeof value === 'string' && APIService.isValidDate(value)) {
-                  data[key] = new Date(value);
+              if (data && typeof data === 'object') {
+                for (const key in data) {
+                  const value = data[key];
+                  if (typeof value === 'string' && APIService.isValidDate(value)) {
+                    (data as any)[key] = new Date(value);
+                  }
                 }
               }
 
-              return of(data as T);
+              return of(data);
             }),
             catchError((error) => {
               // Handle error if any request fails
@@ -94,9 +94,9 @@ export class APIService {
               switch(error.status) {
                 case 401:
                   this.router.navigateByUrl('/login');
-                  return of(0 as T);
+                  return of(null as unknown as T);
                 default:
-                  return of(0 as T);
+                  return of(null as unknown as T);
               }
             })
         )
@@ -123,7 +123,7 @@ export class APIService {
    * @param params Optional query parameters
    * @returns A subscription that can be used to unsubscribe if needed
    */
-  getDataAndUpdateSubject<T>(endpoint: string, subject: BehaviorSubject<number | null>, params: object | null = null): Subscription {
+  getDataAndUpdateSubject<T>(endpoint: string, subject: BehaviorSubject<T | null>, params: object | null = null): Subscription {
     return this.getData<T>(endpoint, params).subscribe((data: T) => {
       subject.next(data);
     });
@@ -136,7 +136,7 @@ export class APIService {
    * @param subject The BehaviorSubject to update with the response data
    * @returns A subscription that can be used to unsubscribe if needed
    */
-  postDataAndUpdateSubject<T>(endpoint: string, body: object, subject: BehaviorSubject<T>): Subscription {
+  postDataAndUpdateSubject<T>(endpoint: string, body: object, subject: BehaviorSubject<T | null>): Subscription {
     return this.postData<T>(endpoint, body).subscribe((data: T) => {
       subject.next(data);
     });

@@ -165,12 +165,12 @@ export class GameFormComponent implements OnInit {
     }
   }
 
-  selectFandomEvent(event: any) {
-    // @ts-ignore
-    let fandoms = this.form.getRawValue().fandoms.filter((f) => f !== null && f !== undefined && f.id !== undefined);
+  selectFandomEvent(event: SimpleEntity) {
+    const formValues = this.form.getRawValue();
+    let fandoms = (formValues.fandoms as (SimpleEntity | null | undefined)[])
+      .filter((f): f is SimpleEntity => f !== null && f !== undefined && f.id !== undefined);
     fandoms.push(event);
-    // @ts-ignore
-    const original = fandoms.filter((f) => f !== null&& f !== undefined && f.id === 1);
+    const original = fandoms.filter((f) => f.id === 1);
     this.fandom_other = original.length > 0;
   }
 

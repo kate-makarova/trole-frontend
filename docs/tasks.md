@@ -34,13 +34,13 @@ This document contains a comprehensive list of actionable improvement tasks for 
    - [x] Extract repeated subscription finding logic in SingleSocketChatService into helper methods
    - [x] Consolidate duplicate API call patterns across services
 
-7. [ ] Fix TypeScript issues
-   - [ ] Remove all @ts-ignore comments and fix underlying issues
-   - [ ] Ensure proper typing for all API responses
-   - [ ] Add proper interfaces for all data structures
+7. [x] Fix TypeScript issues
+   - [x] Remove all @ts-ignore comments and fix underlying issues
+   - [x] Ensure proper typing for all API responses
+   - [x] Add proper interfaces for all data structures
 
 8. [ ] Implement proper RxJS subscription management
-   - [ ] Add proper unsubscribe handling in all components
+   - [x] Add proper unsubscribe handling in all components
    - [ ] Use takeUntil pattern or async pipe where appropriate
    - [ ] Fix potential memory leaks from unmanaged subscriptions
 

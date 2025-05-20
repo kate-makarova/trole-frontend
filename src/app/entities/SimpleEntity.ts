@@ -1,4 +1,9 @@
-export class SimpleEntity {
+export interface ISimpleEntity {
+  id: number;
+  name: string;
+}
+
+export class SimpleEntity implements ISimpleEntity {
   id: number;
   name: string;
   constructor(id: number, name: string) {

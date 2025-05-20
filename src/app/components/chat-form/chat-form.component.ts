@@ -40,10 +40,11 @@ export class ChatFormComponent {
     keywordUser = 'name';
     dataUser: SimpleEntity[] = [];
 
-    selectUserEvent(event: any) {
-        // @ts-ignore
-        let users = this.form.getRawValue().users.filter((f) => f !== null && f !== undefined && f.id !== undefined);
-        users.push(event);
+    selectUserEvent(event: SimpleEntity) {
+        const formValues = this.form.getRawValue();
+        let participants = (formValues.participants as (SimpleEntity | null | undefined)[])
+            .filter((f): f is SimpleEntity => f !== null && f !== undefined && f.id !== undefined);
+        participants.push(event);
     }
 
     onChangeUserSearch(val: string) {

@@ -1,6 +1,15 @@
-import {SimpleUser} from "./SimpleUser";
+import {ISimpleUser, SimpleUser} from "./SimpleUser";
 
-export class ChatMessage {
+export interface IChatMessage {
+  chatId: number;
+  id: number|null;
+  type: string;
+  user: ISimpleUser|null;
+  text: string;
+  time: string|null;
+}
+
+export class ChatMessage implements IChatMessage {
   chatId: number;
   id: number|null;
   type: string;

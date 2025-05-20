@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AsyncPipe, NgIf} from "@angular/common";
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 
 @Component({
     selector: 'app-http-errors',
@@ -11,13 +11,14 @@ import {Observable, of} from "rxjs";
     templateUrl: './http-errors.component.html',
     styleUrl: './http-errors.component.css'
 })
-export class HttpErrorsComponent implements OnInit {
+export class HttpErrorsComponent implements OnInit, OnDestroy {
     @Input('code') code: Observable<number> = of(0);
     message: string = '';
     show: boolean = false;
+    private subscription: Subscription | null = null;
 
     ngOnInit() {
-        this.code.subscribe((code) => {
+        this.subscription = this.code.subscribe((code) => {
             if(code !== 0) {
                 this.show = true;
             }
@@ -32,6 +33,12 @@ export class HttpErrorsComponent implements OnInit {
                     this.message = 'Internal error. Something is broken on our side';
                     break;
             }
-        })
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

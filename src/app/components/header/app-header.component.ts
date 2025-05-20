@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {SessionService} from '../../services/session/session.service';
 import {AsyncPipe, Location, NgIf, NgSwitch, NgSwitchCase} from '@angular/common';
 import {SingleSocketChatService} from "../../services/single-socket-chat/single-socket-chat.service";
-import {Observable, of, shareReplay} from "rxjs";
+import {Observable, of, shareReplay, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -15,11 +15,12 @@ import {Observable, of, shareReplay} from "rxjs";
   templateUrl: './app-header.component.html',
   styleUrl: './app-header.component.css'
 })
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent implements OnInit, OnDestroy {
   path: string = '';
   param: number = 0;
   last_opened_chat$: Observable<number|null|false> = of(false);
   unread$: Observable<number> = of(0);
+  private routerSubscription: Subscription | null = null;
 
 
   constructor(public sessionService: SessionService,
@@ -27,7 +28,7 @@ export class AppHeaderComponent implements OnInit {
               private location: Location,
               private chatService: SingleSocketChatService) {
     this.path = this.location.path().split('/')[1];
-    this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.subscribe(event => {
         this.path = this.location.path().split('/')[1];
         switch (this.path) {
           case 'game':
@@ -40,10 +41,16 @@ export class AppHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatService.loadHeaderChatData()
+    this.chatService.loadHeaderChatData();
   }
 
-    logOut($event: MouseEvent) {
-        this.sessionService.logout();
+  ngOnDestroy() {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
     }
+  }
+
+  logOut($event: MouseEvent) {
+    this.sessionService.logout();
+  }
 }

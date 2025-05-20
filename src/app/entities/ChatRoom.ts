@@ -1,7 +1,15 @@
-import {SimpleUser} from "./SimpleUser";
+import {ISimpleUser, SimpleUser} from "./SimpleUser";
 import {ChatMessage} from "./ChatMessage";
 
-export class ChatRoom {
+export interface IChatRoom {
+  id: number;
+  type: number;
+  title: string;
+  users: ISimpleUser[];
+  unread: number;
+}
+
+export class ChatRoom implements IChatRoom {
   id: number;
   type: number;
   title: string;

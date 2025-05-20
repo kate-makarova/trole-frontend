@@ -1,8 +1,8 @@
-export class ApiResponse {
-  data: any;
-  code: any;
+export class ApiResponse<T = any> {
+  data: T;
+  code: number;
 
-  constructor(data: any, code: any) {
+  constructor(data: T, code: number) {
     this.data = data;
     this.code = code;
   }
