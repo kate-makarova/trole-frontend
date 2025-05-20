@@ -1,17 +1,19 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {SocketService} from "../socket/socket.service";
-import {ChatMessage} from "../../entities/ChatMessage";
-import {SessionService} from "../session/session.service";
-import {ChatSubscription} from "../../entities/ChatSubscription";
-import {BehaviorSubject, Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
-import {SimpleUser} from "../../entities/SimpleUser";
-import {ChatSubscriptionSimple} from "../../entities/ChatSubscriptionSimple";
-import {APIService} from "../apiservice/apiservice.service";
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-import {ChatRoom} from "../../entities/ChatRoom";
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { environment } from '../../../environments/environment';
+import { APIService } from '../apiservice/apiservice.service';
+import { ChatMessage } from '../../entities/ChatMessage';
+import { ChatRoom } from '../../entities/ChatRoom';
+import { ChatSubscription } from '../../entities/ChatSubscription';
+import { ChatSubscriptionSimple } from '../../entities/ChatSubscriptionSimple';
+import { SessionService } from '../session/session.service';
+import { SimpleUser } from '../../entities/SimpleUser';
+import { SocketService } from '../socket/socket.service';
 
 @Injectable({
   providedIn: 'root'

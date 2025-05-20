@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {BehaviorSubject, catchError, Observable, of, Subscription, switchMap, throwError} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {ApiResponse} from '../../entities/ApiResponse';
-import {SessionService} from '../session/session.service';
-import {Router} from '@angular/router';
-import {SimpleEntity} from "../../entities/SimpleEntity";
-import {ErrorHandlingService} from '../error-handling/error-handling.service';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+import { BehaviorSubject, catchError, delay, Observable, of, retry, retryWhen, Subscription, switchMap, throwError, timer } from 'rxjs';
+import { concatMap, mergeMap, tap } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../../entities/ApiResponse';
+import { ErrorHandlingService } from '../error-handling/error-handling.service';
+import { SessionService } from '../session/session.service';
+import { SimpleEntity } from '../../entities/SimpleEntity';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +17,44 @@ import {ErrorHandlingService} from '../error-handling/error-handling.service';
 export class APIService {
   httpStatus: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
+  // Configuration for retry logic
+  private readonly maxRetries = 3;
+  private readonly initialRetryDelay = 1000; // 1 second
+
   constructor(private http: HttpClient,
               protected sessionService: SessionService,
               private router: Router,
               private errorHandlingService: ErrorHandlingService) {
+  }
+
+  /**
+   * Creates a retry strategy with exponential backoff for network operations
+   * @param maxRetries Maximum number of retry attempts
+   * @param initialDelay Initial delay in milliseconds
+   * @returns An operator that implements the retry strategy
+   */
+  private createRetryStrategy(maxRetries: number = this.maxRetries, initialDelay: number = this.initialRetryDelay) {
+    return retryWhen<any>(errors => 
+      errors.pipe(
+        mergeMap((error, index) => {
+          // Only retry for network errors or server errors (5xx)
+          const isNetworkError = error.status === 0;
+          const isServerError = error.status >= 500 && error.status < 600;
+
+          if (index >= maxRetries || (!isNetworkError && !isServerError)) {
+            return throwError(() => error);
+          }
+
+          // Calculate exponential backoff delay
+          const retryAttempt = index + 1;
+          const delay = initialDelay * Math.pow(2, retryAttempt);
+
+          console.log(`Retry attempt ${retryAttempt} for ${error.url} after ${delay}ms`);
+
+          return timer(delay);
+        })
+      )
+    );
   }
 
   private static isValidDate(value: string): boolean {
@@ -39,39 +76,42 @@ export class APIService {
     }
 
     return this.http.get<ApiResponse<T>>(apiHost+endpoint, {params: p, headers: h})
-      .pipe(switchMap((resp: ApiResponse<T>) => {
-        const data = resp.data;
-        this.httpStatus.next(resp.code);
+      .pipe(
+        // Apply retry strategy for network operations
+        this.createRetryStrategy(),
+        switchMap((resp: ApiResponse<T>) => {
+          const data = resp.data;
+          this.httpStatus.next(resp.code);
 
-        if (data && typeof data === 'object') {
-          for (const key in data) {
-            const value = data[key];
-            if (typeof value === 'string' && APIService.isValidDate(value)) {
-              (data as any)[key] = new Date(value);
+          if (data && typeof data === 'object') {
+            for (const key in data) {
+              const value = data[key];
+              if (typeof value === 'string' && APIService.isValidDate(value)) {
+                (data as any)[key] = new Date(value);
+              }
             }
           }
-        }
 
-        return of(data);
-      }),
-      catchError((error: HttpErrorResponse) => {
-        // Handle error if any request fails
-        this.httpStatus.next(error.status);
+          return of(data);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          // Handle error if any request fails
+          this.httpStatus.next(error.status);
 
-        // Use the error handling service to process the error
-        this.errorHandlingService.handleHttpError(error, `fetching data from ${endpoint}`);
+          // Use the error handling service to process the error
+          this.errorHandlingService.handleHttpError(error, `fetching data from ${endpoint}`);
 
-        // Handle specific error cases
-        switch(error.status) {
-          case 401:
-            this.router.navigateByUrl('/login');
-            break;
-        }
+          // Handle specific error cases
+          switch(error.status) {
+            case 401:
+              this.router.navigateByUrl('/login');
+              break;
+          }
 
-        // Return null for the data stream to continue
-        return of(null as unknown as T);
-      })
-    )
+          // Return null for the data stream to continue
+          return of(null as unknown as T);
+        })
+      )
   }
 
   postData<T>(endpoint: string, body: object): Observable<T> {
@@ -81,7 +121,10 @@ export class APIService {
     h = h.set('Authorization', 'Bearer '+this.sessionService.getToken())
 
     return this.http.post<ApiResponse<T>>(apiHost+endpoint, body, {headers: h})
-        .pipe(switchMap((resp: ApiResponse<T>) => {
+        .pipe(
+            // Apply retry strategy for network operations
+            this.createRetryStrategy(),
+            switchMap((resp: ApiResponse<T>) => {
               const data = resp.data;
 
               if (data && typeof data === 'object') {
