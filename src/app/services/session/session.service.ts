@@ -56,13 +56,14 @@ export class SessionService {
      return new SimpleUser(this.user.id, this.user.username, this.user.avatar)
   }
 
-  updateUser(patch: object): boolean {
-     if(this.user == null) {
+  updateUser(patch: Partial<User>): boolean {
+     if(this.user === null) {
        return false;
      }
     for (const property in patch) {
-      // @ts-ignore
-      this.user[property] = patch[property]
+      if (Object.prototype.hasOwnProperty.call(patch, property) && property in this.user) {
+        (this.user as any)[property] = patch[property];
+      }
     }
     localStorage.setItem("session", JSON.stringify({
       "user": this.user,

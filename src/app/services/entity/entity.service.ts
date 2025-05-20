@@ -5,10 +5,17 @@ import {HttpClient} from "@angular/common/http";
 import {SessionService} from "../session/session.service";
 import {Router} from "@angular/router";
 
+/**
+ * Interface defining the minimum structure required for entities
+ */
+export interface EntityWithId {
+  id: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
-export abstract class EntityService<T> extends APIService {
+export abstract class EntityService<T extends EntityWithId> extends APIService {
   protected entityListSubject: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
   public entityList$: Observable<T[]> = this.entityListSubject.asObservable();
   protected entitySubject: BehaviorSubject<T|null> = new BehaviorSubject<T|null>(null);
@@ -47,8 +54,7 @@ export abstract class EntityService<T> extends APIService {
   updateListItem(newItem: T, index: number): void {
     let val = this.entityListSubject.value;
     val.map((v) => {
-      // @ts-ignore
-      if (v.id == newItem.id) {
+      if (v.id === newItem.id) {
         return newItem;
       } else {
         return v;

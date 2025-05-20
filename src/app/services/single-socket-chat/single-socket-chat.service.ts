@@ -26,6 +26,15 @@ export class SingleSocketChatService extends APIService {
   open: boolean = false
   globalUnread: BehaviorSubject<number> = new BehaviorSubject(0)
 
+  /**
+   * Finds a subscription by chat ID
+   * @param chatId The ID of the chat to find
+   * @returns The found subscription or undefined if not found
+   */
+  private findSubscriptionByChatId(chatId: number): ChatSubscription | undefined {
+    return this.subscriptions.find((elem: ChatSubscription) => elem.chat.id === chatId);
+  }
+
 
   constructor(http: HttpClient, sessionService: SessionService, router: Router) {
     super(http, sessionService, router);
@@ -42,9 +51,7 @@ export class SingleSocketChatService extends APIService {
       }
 
       if (data.type == 'user_message') {
-        const s = this.subscriptions.find((elem: ChatSubscription) => {
-          return elem.chat.id == data.chatId
-        })
+        const s = this.findSubscriptionByChatId(data.chatId);
         if (s) {
           s.addMessage(data)
           if(s !== this.activeSubscription) {
@@ -54,27 +61,21 @@ export class SingleSocketChatService extends APIService {
       }
 
       if(data.type == 'user_online' && data.user !== null) {
-        const s = this.subscriptions.find((elem: ChatSubscription) => {
-          return elem.chat.id == data.chatId
-        })
+        const s = this.findSubscriptionByChatId(data.chatId);
         if (s) {
           s.addUserOnline(data.user)
         }
       }
 
       if(data.type == 'user_offline' && data.user !== null) {
-        const s = this.subscriptions.find((elem: ChatSubscription) => {
-          return elem.chat.id == data.chatId
-        })
+        const s = this.findSubscriptionByChatId(data.chatId);
         if (s) {
           s.removeUserOnline(data.user)
         }
       }
 
       if(data.type == 'users_currently_online') {
-        const s = this.subscriptions.find((elem: ChatSubscription) => {
-          return elem.chat.id == data.chatId
-        })
+        const s = this.findSubscriptionByChatId(data.chatId);
         if(s) {
           s.setUsersOnline(JSON.parse(data.text))
         }
@@ -94,9 +95,9 @@ export class SingleSocketChatService extends APIService {
 
   switchActiveSubscription(chatId: number) {
     if(this.activeSubscription) {
-      this.postData('last-read-message-date/update', {"chat_type": 1, "chat_id": this.activeSubscription.chat.id, "last_read_message_date": new Date().toString()}).subscribe((result) => {})
+      this.postDataFireAndForget('last-read-message-date/update', {"chat_type": 1, "chat_id": this.activeSubscription.chat.id, "last_read_message_date": new Date().toString()});
     }
-    const s = this.subscriptions.find((elem: ChatSubscription) => {return elem.chat.id == chatId})
+    const s = this.findSubscriptionByChatId(chatId);
     if (s) {
       this.activeSubscription = s
       const user = this.sessionService.getUser();
@@ -112,7 +113,7 @@ export class SingleSocketChatService extends APIService {
       return
     }
     const chatId = this.activeSubscription?.chat.id;
-    this.postData('last-open-chat/update', {"chat_id": chatId}).subscribe((result) => {})
+    this.postDataFireAndForget('last-open-chat/update', {"chat_id": chatId});
   }
 
   sendMessage(user: SimpleUser, text: string, type = 'user_message') {
@@ -155,11 +156,10 @@ export class SingleSocketChatService extends APIService {
   }
 
   loadPreviousMessages() {
-    if(this.activeSubscription == null) {return}
+    if(this.activeSubscription === null) {return}
     this.activeSubscription.currentHistoryPage++
     this.getData<ChatMessage[]>('private-chat-messages/'+this.activeSubscription.chat.id+'/'+this.activeSubscription.currentHistoryPage).subscribe((data: ChatMessage[]) => {
-      if(data.length < 20) {
-        // @ts-ignore
+      if(data.length < 20 && this.activeSubscription) {
         this.activeSubscription.canBeMore = false
       }
       this.activeSubscription?.addMessagesToBeginning(data)
@@ -176,9 +176,7 @@ export class SingleSocketChatService extends APIService {
   }
 
   getGlobalUnread(): void {
-    this.getData<number>('total-private-unread').subscribe((data: number) => {
-      this.globalUnread.next(data)
-    })
+    this.getDataAndUpdateSubject<number>('total-private-unread', this.globalUnread);
   }
 
   kill() {
@@ -190,9 +188,7 @@ export class SingleSocketChatService extends APIService {
   }
 
   getLastOpenedChat(): void {
-    this.getData<number>('last-open-chat').subscribe((data: number) => {
-      this.lastOpenedChat.next(data)
-    })
+    this.getDataAndUpdateSubject<number>('last-open-chat', this.lastOpenedChat);
   }
 
   loadHeaderChatData(): void {
@@ -207,6 +203,6 @@ export class SingleSocketChatService extends APIService {
       if (result) {
         this.loadPrivateChats()
       }
-    })
+    });
   }
 }

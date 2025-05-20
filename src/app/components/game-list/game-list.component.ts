@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Game} from '../../entities/Game';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AsyncPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.component';
@@ -19,8 +19,7 @@ import {PlaceholderImageComponent} from '../placeholder-image/placeholder-image.
   styleUrl: './game-list.component.css'
 })
 export class GameListComponent {
-  // @ts-ignore
-  @Input('games') games: Observable<Game[]> = []
+  @Input('games') games: Observable<Game[]> = of([])
 
   constructor() {
   }

@@ -30,9 +30,9 @@ This document contains a comprehensive list of actionable improvement tasks for 
 
 ## Code Quality Improvements
 
-6. [ ] Refactor services with code duplication
-   - [ ] Extract repeated subscription finding logic in SingleSocketChatService into helper methods
-   - [ ] Consolidate duplicate API call patterns across services
+6. [x] Refactor services with code duplication
+   - [x] Extract repeated subscription finding logic in SingleSocketChatService into helper methods
+   - [x] Consolidate duplicate API call patterns across services
 
 7. [ ] Fix TypeScript issues
    - [ ] Remove all @ts-ignore comments and fix underlying issues

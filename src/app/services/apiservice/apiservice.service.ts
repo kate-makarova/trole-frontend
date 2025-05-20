@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {BehaviorSubject, catchError, Observable, of, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, Observable, of, Subscription, switchMap} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../entities/ApiResponse';
 import {SessionService} from '../session/session.service';
@@ -104,5 +104,41 @@ export class APIService {
 
   autocomplete(entity: string, term: string): Observable<SimpleEntity[]> {
     return this.getData<SimpleEntity[]>('autocomplete/'+entity+'/'+term)
+  }
+
+  /**
+   * Performs a fire-and-forget POST request (no handling of the response)
+   * @param endpoint The API endpoint to call
+   * @param body The request body
+   * @returns A subscription that can be used to unsubscribe if needed
+   */
+  postDataFireAndForget(endpoint: string, body: object): Subscription {
+    return this.postData(endpoint, body).subscribe(() => {});
+  }
+
+  /**
+   * Updates a BehaviorSubject with the result of a GET request
+   * @param endpoint The API endpoint to call
+   * @param subject The BehaviorSubject to update with the response data
+   * @param params Optional query parameters
+   * @returns A subscription that can be used to unsubscribe if needed
+   */
+  getDataAndUpdateSubject<T>(endpoint: string, subject: BehaviorSubject<T>, params: object|null = null): Subscription {
+    return this.getData<T>(endpoint, params).subscribe((data: T) => {
+      subject.next(data);
+    });
+  }
+
+  /**
+   * Updates a BehaviorSubject with the result of a POST request
+   * @param endpoint The API endpoint to call
+   * @param body The request body
+   * @param subject The BehaviorSubject to update with the response data
+   * @returns A subscription that can be used to unsubscribe if needed
+   */
+  postDataAndUpdateSubject<T>(endpoint: string, body: object, subject: BehaviorSubject<T>): Subscription {
+    return this.postData<T>(endpoint, body).subscribe((data: T) => {
+      subject.next(data);
+    });
   }
 }
