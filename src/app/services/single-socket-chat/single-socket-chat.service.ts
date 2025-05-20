@@ -10,7 +10,7 @@ import {APIService} from "../apiservice/apiservice.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ChatRoom} from "../../entities/ChatRoom";
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class SingleSocketChatService extends APIService {
   chatList: BehaviorSubject<ChatSubscriptionSimple[]> = new BehaviorSubject<ChatSubscriptionSimple[]>([])
   lastOpenedChat: BehaviorSubject<number|null> = new BehaviorSubject<number|null>(null)
   open: boolean = false
-  globalUnread: BehaviorSubject<number> = new BehaviorSubject(0)
+  globalUnread: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(0)
 
   /**
    * Finds a subscription by chat ID
@@ -46,7 +46,7 @@ export class SingleSocketChatService extends APIService {
 
     this.socket.onMessage<ChatMessage>().subscribe((data: ChatMessage) => {
       if(!open) {
-        this.globalUnread.next(this.globalUnread.value + 1)
+        this.globalUnread.next((this.globalUnread.value ?? 0) + 1)
         return
       }
 
@@ -176,7 +176,7 @@ export class SingleSocketChatService extends APIService {
   }
 
   getGlobalUnread(): void {
-    this.getDataAndUpdateSubject<number>('total-private-unread', this.globalUnread);
+    this.getDataAndUpdateSubject<number | null>('total-private-unread', this.globalUnread);
   }
 
   kill() {

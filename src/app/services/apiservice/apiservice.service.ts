@@ -123,7 +123,7 @@ export class APIService {
    * @param params Optional query parameters
    * @returns A subscription that can be used to unsubscribe if needed
    */
-  getDataAndUpdateSubject<T>(endpoint: string, subject: BehaviorSubject<T>, params: object|null = null): Subscription {
+  getDataAndUpdateSubject<T>(endpoint: string, subject: BehaviorSubject<number | null>, params: object | null = null): Subscription {
     return this.getData<T>(endpoint, params).subscribe((data: T) => {
       subject.next(data);
     });
